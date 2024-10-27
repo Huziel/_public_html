@@ -1,0 +1,1040 @@
+<nav
+  class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+>
+  <!-- Sidebar Toggle (Topbar) -->
+  <div class="input-group">
+    <?php 
+    if($type == 3){
+      ?>
+    <div class="input-group-append">
+      <a href="pedidos" class="btn btn-light">
+        <i class="fas fa-arrow-left"></i>
+        <?=$tittle?>
+      </a>
+    </div>
+    <?php
+    }else{
+      if($type == 1){
+        ?>
+    <div class="input-group-append">
+      <a href="home" class="btn btn-light">
+        <i class="fas fa-arrow-left"></i>
+        <?=$tittle?>
+      </a>
+    </div>
+    <?php
+      }else{
+        ?>
+    <div class="input-group-append">
+      <a href="https://rutadelaseda.xyz/" class="btn btn-light">
+        <i class="fas fa-arrow-left"></i>
+        <?=$tittle?>
+      </a>
+    </div>
+    <?php
+      }
+    }
+    ?>
+  </div>
+
+  <!-- Topbar Search -->
+  <form
+    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+  ></form>
+
+  <!-- Topbar Navbar -->
+  <ul class="navbar-nav ml-auto">
+    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+    <li class="nav-item dropdown no-arrow d-sm-none">
+      <a
+        class="nav-link dropdown-toggle"
+        onclick="traerUbiDisplay()"
+        id="searchDropdown"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fas fa-info"></i>
+      </a>
+      <!-- Dropdown - Messages -->
+      <div
+        class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+        aria-labelledby="searchDropdown"
+      >
+        <form class="form-inline mr-auto w-100 navbar-search">
+          <div class="input-group">
+            <div class="input-group-append">
+              <h1 class="h6"><?=$tittle?></h1>
+            </div>
+          </div>
+        </form>
+      </div>
+    </li>
+
+    <!-- Nav Item - Alerts -->
+
+    <!-- Nav Item - Messages -->
+
+    <div class="topbar-divider d-none d-sm-block"></div>
+
+    <!-- Nav Item - User Information -->
+    <li class="nav-item dropdown no-arrow">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        id="userDropdown"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+          ><?=$user?></span
+        >
+        <i class="far fa-user"></i>
+      </a>
+      <!-- Dropdown - User Information -->
+      <div
+        class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="userDropdown"
+      >
+        <a class="dropdown-item" href="/controllers/sessiondestroy.php">
+          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+          Salir
+        </a>
+        <?php
+        if($type == 1 || $type == 3){
+        ?>
+        <a
+          class="dropdown-item"
+          href=""
+          data-toggle="modal"
+          data-target="#modelId"
+        >
+          <i class="fas fa-wallet fa-sm fa-fw mr-2 text-gray-400"></i>
+          Monedero
+        </a>
+        <?php } ?>
+        <a class="dropdown-item" href="borrarCuenta">
+          <i class="fas fa-user-times fa-sm fa-fw mr-2 text-gray-400"></i>
+          Borrar Cuenta
+        </a>
+        <?php
+        if($type == 1){
+        ?>
+        <a
+          class="dropdown-item"
+          href=""
+          onclick="traertabladeProd()"
+          data-toggle="modal"
+          data-target="#modalCuponera"
+        >
+          <i class="fas fa-vote-yea fa-sm fa-fw mr-2 text-gray-400"></i>
+          Sistema de cupones
+        </a>
+        <?php } ?>
+        <a
+          class="dropdown-item"
+          href="porfile"
+         
+        >
+          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+          Perfil de repartidor
+        </a>
+        <a
+          class="dropdown-item"
+          href="pedidos"
+          
+        >
+          <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+          Pedidos repartidor
+        </a>
+        <a
+          class="dropdown-item"
+          href="tiendas"
+          
+        >
+          <i class="fas fa-link fa-sm fa-fw mr-2 text-gray-400"></i>
+          Vinculación repartidor
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalCuponera"
+  tabindex="-1"
+  aria-labelledby="modalCuponeraLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCuponeraLabel">Sistema de cupones</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-around">
+          <button
+            type="button"
+            class="btn btn-primary botonesPrincipales"
+            onclick="mostrarFormularios()"
+          >
+            Nuevo cupón
+          </button>
+          <!--  <button type="button" class="btn btn-primary botonesPrincipales">
+            Nuevo descuento
+          </button> -->
+        </div>
+        <div
+          class="row justify-content-start nomostrar animate__animated animate__fadeIn"
+        >
+          <div class="form-group col-12 col-md-6">
+            <label for="">Nombre del cupón</label>
+            <input
+              type="text"
+              class="form-control"
+              name=""
+              id="nombreCupon"
+              aria-describedby="helpId"
+              placeholder="Nombre del cupón"
+            />
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="">Tipo de cupón</label>
+            <select
+              class="form-control"
+              name=""
+              onchange="mostrarFormularioCup()"
+              id="tipoCupon"
+            >
+              <option value="1">Descuento general</option>
+              <option value="2">Productos especificos</option>
+              <option value="3">Por total($) agregado al carrito</option>
+            </select>
+          </div>
+          <div class="form-group col-12 col-md-6 valorCupon">
+            <label for="">Por valor de compra</label>
+            <input
+              type="number"
+              class="form-control"
+              name=""
+              id="valorCupon"
+              aria-describedby="helpId"
+              placeholder="Por valor de compra"
+            />
+            <small id="helpId" class="form-text text-muted"
+              >El valor de compra que el usuario debe hacer para aplicar el
+              cupón</small
+            >
+          </div>
+
+          <div class="form-group col-12 col-md-6 porcentCupon">
+            <label for="">% de descuento</label>
+            <input
+              type="number"
+              class="form-control"
+              name=""
+              id="porcentCupon"
+              onchange="validarPorcent(1)"
+              aria-describedby="helpId"
+              placeholder="% de descuento a aplicar"
+            />
+            <small id="helpId" class="form-text text-muted"
+              >Que porcentaje de descuento se va aplicar en general</small
+            >
+          </div>
+          <div class="form-group col-12 col-md-6 descuentoValorCupon">
+            <label for="">Descuento por valor($)</label>
+            <input
+              type="number"
+              class="form-control"
+              name=""
+              id="descuentoValorCupon"
+              onchange="validarPorcent(2)"
+              aria-describedby="helpId"
+              placeholder="Descuento por valor($)"
+            />
+            <small id="helpId" class="form-text text-muted"></small>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="">Usos</label>
+            <input
+              type="number"
+              class="form-control"
+              name=""
+              id="usosCupon"
+              aria-describedby="helpId"
+              placeholder="Usos del cupón"
+            />
+            <small id="helpId" class="form-text text-muted"
+              >Cuantos usos se le puede dar al cupón</small
+            >
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="">Fecha de incio</label>
+            <input
+              type="date"
+              class="form-control"
+              name=""
+              id="fechaInicioCupon"
+              aria-describedby="helpId"
+              placeholder=""
+            />
+            <small id="helpId" class="form-text text-muted"
+              >Fecha de inicio del cupón</small
+            >
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="">Fecha de expiración</label>
+            <input
+              type="date"
+              class="form-control"
+              name=""
+              id="fechaexpiraCupon"
+              aria-describedby="helpId"
+              placeholder=""
+            />
+            <small id="helpId" class="form-text text-muted"
+              >Fecha de expiración del cupón</small
+            >
+          </div>
+
+          <hr class="hr col-12" />
+        </div>
+        <div
+          class="container row justify-content-center tablaCabrona animate__animated animate__fadeIn"
+        >
+          <div class="table-responsive col-12 mb-3">
+            <table
+              id="tablaCabrona"
+              class="table table-sm"
+              style="width: 100%; font-size: 12px"
+            >
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th></th>
+                  <th>Descuento</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+        <div class="container row justify-content-center nomostrar">
+          <button
+            type="button"
+            onclick="mostrarTablaCupons()"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-long-arrow-alt-left"></i><br />Regresar
+          </button>
+          <button
+            type="button"
+            onclick="agregarCupon()"
+            class="btn btn-primary ml-3"
+          >
+            <i class="far fa-plus-square"></i><br />Guardar cupón
+          </button>
+        </div>
+        <hr class="hr col-12" />
+        <div
+          class="container row justify-content-center tabalcupones animate__animated animate__fadeIn"
+        >
+          <div class="table-responsive col-12 mb-3">
+            <table
+              id="tablaCupones"
+              class="table table-sm"
+              style="width: 100%; font-size: 12px"
+            >
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Codigo del cupón</th>
+                  <th>Usos</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de expiración</th>
+                  <th>Porcentaje de descuento</th>
+                  <th>Descuento por valor</th>
+                  <th>Descuento por valor de compra</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="modelId"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mi saldo</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mt-3"></div>
+        <center>
+          <div id="cantIn"></div>
+          <hr class="hr" />
+        </center>
+        <div class="mt-2 mb-3">
+          <h5>Agregar saldo</h5>
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend2">$</span>
+          </div>
+          <input
+            type="number"
+            class="form-control"
+            id="montoInput"
+            placeholder="100.00"
+          />
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend2">MXN.</span>
+          </div>
+        </div>
+        <br />
+
+        <button
+          type="button"
+          onclick="initPayPalButton()"
+          name="paypal-button"
+          id="paypal-button"
+          class="btn btn-primary btn-lg btn-block"
+        >
+          Pagar con PayPal <i class="fab fa-paypal"></i>
+        </button>
+        <br />
+
+        <div id="smart-button-container">
+          <div style="text-align: center">
+            <div id="paypal-button-container"></div>
+          </div>
+        </div>
+        <br />
+        <center>
+          <a
+            name=""
+            id=""
+            class="btn btn-info mb-3"
+            href="https://api.whatsapp.com/send?phone=+5578507299&text=Me%20gustar%C3%ADa%20retirar%20mi%20dinero%20soy%20el%20usuario%20<?=$user?>"
+            role="button"
+            >¿Deseas retirar tu dinero? Envíanos un mensaje</a
+          >
+          <br />
+          <a
+            name=""
+            id=""
+            class="btn btn-primary mb-3"
+            href="https://api.whatsapp.com/send?phone=+5578507299&text=Me%20gustar%C3%ADa%20añadirme%20saldo,%20soy%20el%20usuario%20<?=$user?>"
+            role="button"
+            >¿Deseas añadirte saldo? Envíanos un mensaje</a
+          >
+        </center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AQZpHIKxDMGNG3fY1qx0P8B7PXphgjVRjNO5j8PTCv_KyGDSDXS6_VJHcV9mAmA3-x5LDro8gjpwp2Dh&currency=MXN"
+  data-sdk-integration-source="button-factory"
+></script>
+<script>
+  function getMoney() {
+    $.ajax({
+      type: "POST",
+      url: "/controllers/getMoney.php",
+      data: "data",
+      dataType: "html",
+      success: function (response) {
+        var nuevacant = parseFloat(response).toFixed(2);
+        var responses = `<h3>$${nuevacant} MXN</h3>`;
+        $("#cantIn").html(responses);
+      },
+    });
+  }
+  function traerUbiDisplay() {
+    $("#datosUbiApp").show();
+  }
+  $(document).ready(function () {
+    $(".nomostrar").hide();
+    $(".valorCupon").hide();
+    $(".porcentCupon").show();
+    $(".descuentoValorCupon").show();
+    $("#usosCupon").show();
+    $("#fechaInicioCupon").show();
+    $("#fechaexpiraCupon").show();
+    $(".tablaCabrona").hide();
+    getMoney();
+  });
+  var user = "<?=$user?>";
+  notification(user);
+  setInterval(function () {
+    notification(user);
+  }, 30000); // Por ejemplo, cada 5 segundos
+  function initPayPalButton() {
+    // Tu identificador de cliente de PayPal
+    const clientId =
+      "ARxbd3aApykEcLLWo0Pqs9kJMnuPPkVDod8XquyQdTayPjYJwneTseTNal62YgwaWNVqjlvDFS8o8OUH";
+    const montoInput = $("#montoInput").val();
+    if (montoInput == null || montoInput <= 0) {
+      Swal.fire("Dato inválido");
+    } else {
+      $("#paypal-button").prop("disabled", true);
+
+      // Inicializar el botón de PayPal
+      paypal
+        .Buttons({
+          style: {
+            shape: "rect",
+            color: "gold",
+            layout: "horizontal",
+            label: "paypal",
+          },
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: "Pago de prueba",
+                  amount: {
+                    currency_code: "MXN",
+                    value: convertirAFormatoPayPal(montoInput),
+                  },
+                },
+              ],
+            });
+          },
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (orderData) {
+              console.log("Capture result", orderData);
+              const element = document.getElementById(
+                "paypal-button-container"
+              );
+              element.innerHTML = "<h3>¡Gracias por su compra!</h3>";
+              proccessPaid(montoInput);
+            });
+          },
+          onError: function (err) {
+            console.error("Error al inicializar botón de PayPal:", err);
+          },
+        })
+        .render("#paypal-button-container");
+    }
+  }
+
+  function convertirAFormatoPayPal(valor) {
+    // Convertir el valor a un formato compatible con PayPal
+    // Por ejemplo, puedes usar toFixed() para fijar la cantidad de decimales
+    return parseFloat(valor).toFixed(2);
+  }
+
+  function proccessPaid(value) {
+    $.ajax({
+      type: "POST",
+      url: "/controllers/addMoney.php",
+      data: { value: value },
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        getMoney();
+      },
+    });
+  }
+  function traertabladeProd() {
+    traerCupons();
+    var table = $("#tablaCabrona").DataTable();
+    table.destroy();
+    $.ajax({
+      type: "POST",
+      url: "/controllers/universalCuponController.php",
+      data: { type: "traerListaProd" },
+      dataType: "json",
+      success: function (response) {
+        window.table = $("#tablaCabrona").DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+          },
+          data: response.data,
+          columns: [
+            { data: "2" },
+            {
+              data: "1",
+              render: function (data) {
+                return `$${parseFloat(data).toFixed(2)}`;
+              },
+            },
+            {
+              data: "3",
+              render: function (data) {
+                return (
+                  '<img src="' +
+                  data +
+                  '" alt="Image" width="50px" style="border-radius:12px">'
+                );
+              },
+            },
+            {
+              data: null,
+              render: function (data, type, row) {
+                return ` <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text" style="font-size: 10px;">%</div>
+        </div>
+        <input type="text" class="form-control  form-control-sm" onchange="argergarDatoArray(${row[0]},${row[1]})" id="inputDescTables${row[0]}" placeholder="Descuento">
+      </div>`;
+              },
+            },
+          ],
+          rowId: "0",
+        });
+      },
+    });
+  }
+  let array = [];
+  function argergarDatoArray(datas, otrovalor) {
+    // Obtener el índice de la fila con el ID especificado
+    let rowIndex = window.table.row(`#${datas}`).index();
+
+    // Verificar si se encontró la fila
+    if (rowIndex !== undefined) {
+      // Obtener el valor actual de la celda en la columna de "Valor" (columna 1)
+      let currentValue = otrovalor;
+
+      // Obtener el valor del descuento ingresado
+      let discountValue = parseFloat(
+        document.getElementById(`inputDescTables${datas}`).value
+      );
+
+      if (!isNaN(discountValue) && discountValue >= 0 && discountValue <= 100) {
+        // Calcular el nuevo valor aplicando el descuento
+        let newValue = currentValue - currentValue * (discountValue / 100);
+
+        // Actualizar la celda con el nuevo valor
+        window.table.cell(rowIndex, 1).data(newValue.toFixed(2)).draw();
+        var porcentDes = $("#inputDescTables" + datas).val();
+        const item = {
+          id: datas,
+          value: porcentDes,
+        };
+        array.push(item);
+        /* console.log(array); */
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Por favor, ingresa un valor de descuento válido (0-100).",
+          icon: "error",
+        });
+      }
+    } else {
+      /* console.log(`No se encontró ninguna fila con ID ${datas}`); */
+    }
+  }
+  function validarPorcent(data) {
+    var porcentCupon = $("#porcentCupon").val();
+    var descuentoValorCupon = $("#descuentoValorCupon").val();
+    if (data === 1) {
+      $("#descuentoValorCupon").val(0);
+    } else if (data === 2) {
+      $("#porcentCupon").val(0);
+    }
+  }
+  function agregarCupon() {
+    var nombreCupon = $("#nombreCupon").val();
+    var tipoCupon = $("#tipoCupon").val();
+    var valorCupon = $(".valorCupon").val();
+    var porcentCupon = $("#porcentCupon").val();
+    var descuentoValorCupon = $("#descuentoValorCupon").val();
+    var usosCupon = $("#usosCupon").val();
+    var fechaInicioCupon = $("#fechaInicioCupon").val();
+    var fechaexpiraCupon = $("#fechaexpiraCupon").val();
+
+    if (nombreCupon) {
+      switch (tipoCupon) {
+        case "1":
+          let dataToSend = {
+            nombreCupon: nombreCupon,
+            tipoCupon: tipoCupon,
+            valorCupon: valorCupon,
+            porcentCupon: porcentCupon,
+            descuentoValorCupon: descuentoValorCupon,
+            usosCupon: usosCupon,
+            fechaInicioCupon: fechaInicioCupon,
+            fechaexpiraCupon: fechaexpiraCupon,
+            array: array, // Aquí se incluye el array de descuentos
+          };
+          if (
+            porcentCupon ||
+            descuentoValorCupon ||
+            usosCupon ||
+            fechaInicioCupon ||
+            fechaexpiraCupon
+          ) {
+            var isValid = /^[a-zA-Z0-9]*$/.test(nombreCupon);
+
+            if (isValid) {
+              if (usosCupon > 0) {
+                // Convertir el valor a número entero
+                var numValue = parseInt(porcentCupon, 10);
+
+                // Validar que el valor esté entre 0 y 100
+                if (!isNaN(numValue)) {
+                  if (numValue < 0) {
+                    numValue = 0;
+                  } else if (numValue > 100) {
+                    numValue = 100;
+                  }
+
+                  $("#porcentCupon").val(numValue); // Actualizar el valor del input
+                  if (fechaInicioCupon < fechaexpiraCupon) {
+                    agregarCuponsito(dataToSend);
+                  } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: "Las fechas no son validas.",
+                      icon: "error",
+                    });
+                  }
+                } else if (descuentoValorCupon > 0) {
+                  if (fechaInicioCupon < fechaexpiraCupon) {
+                    agregarCuponsito(dataToSend);
+                  } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: "Las fechas no son validas.",
+                      icon: "error",
+                    });
+                  }
+                } else {
+                  Swal.fire({
+                    title: "Error",
+                    text: "Valores invalidos.",
+                    icon: "error",
+                  });
+                }
+              } else {
+                Swal.fire({
+                  title: "Error",
+                  text: "El número de usos debe ser mayor a 0.",
+                  icon: "error",
+                });
+              }
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Solo se permiten letras y números, sin espacios.",
+                icon: "error",
+              });
+            }
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Por favor, ingresa valores válidos al formulario de cupones.",
+              icon: "error",
+            });
+          }
+          break;
+        case "2":
+          let dataToSend2 = {
+            nombreCupon: nombreCupon,
+            tipoCupon: tipoCupon,
+            descuentoValorCupon: descuentoValorCupon,
+            usosCupon: usosCupon,
+            fechaInicioCupon: fechaInicioCupon,
+            fechaexpiraCupon: fechaexpiraCupon,
+            array: array, // Aquí se incluye el array de descuentos
+          };
+          if (usosCupon || fechaInicioCupon || fechaexpiraCupon) {
+            var isValid = /^[a-zA-Z0-9]*$/.test(nombreCupon);
+
+            if (isValid) {
+              if (usosCupon > 0) {
+                if (array.length > 0) {
+                  if (fechaInicioCupon < fechaexpiraCupon) {
+                    agregarCuponsito(dataToSend2);
+                  } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: "Las fechas no son validas.",
+                      icon: "error",
+                    });
+                  }
+                } else {
+                  Swal.fire({
+                    title: "Error",
+                    text: "No hay productos seleccionados.",
+                    icon: "error",
+                  });
+                }
+              } else {
+                Swal.fire({
+                  title: "Error",
+                  text: "El número de usos debe ser mayor a 0.",
+                  icon: "error",
+                });
+              }
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Solo se permiten letras y números, sin espacios.",
+                icon: "error",
+              });
+            }
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Por favor, ingresa valores válidos al formulario de cupones.",
+              icon: "error",
+            });
+          }
+          break;
+        case "3":
+          var verdaderoValorCupon = $("#valorCupon").val();
+          let dataToSend3 = {
+            nombreCupon: nombreCupon,
+            tipoCupon: tipoCupon,
+            valorCupon: verdaderoValorCupon,
+            porcentCupon: porcentCupon,
+            descuentoValorCupon: descuentoValorCupon,
+            usosCupon: usosCupon,
+            fechaInicioCupon: fechaInicioCupon,
+            fechaexpiraCupon: fechaexpiraCupon,
+            array: array, // Aquí se incluye el array de descuentos
+          };
+          if (
+            verdaderoValorCupon ||
+            porcentCupon ||
+            descuentoValorCupon ||
+            usosCupon ||
+            fechaInicioCupon ||
+            fechaexpiraCupon
+          ) {
+            var isValid = /^[a-zA-Z0-9]*$/.test(nombreCupon);
+
+            if (isValid) {
+              if (verdaderoValorCupon > 0) {
+                if (usosCupon > 0) {
+                  // Convertir el valor a número entero
+                  var numValue = parseInt(porcentCupon, 10);
+
+                  // Validar que el valor esté entre 0 y 100
+                  if (!isNaN(numValue)) {
+                    if (numValue < 0) {
+                      numValue = 0;
+                    } else if (numValue > 100) {
+                      numValue = 100;
+                    }
+
+                    $("#porcentCupon").val(numValue); // Actualizar el valor del input
+                    if (fechaInicioCupon < fechaexpiraCupon) {
+                      agregarCuponsito(dataToSend3);
+                    } else {
+                      Swal.fire({
+                        title: "Error",
+                        text: "Las fechas no son validas.",
+                        icon: "error",
+                      });
+                    }
+                  } else if (descuentoValorCupon > 0) {
+                    if (fechaInicioCupon < fechaexpiraCupon) {
+                      agregarCuponsito(dataToSend3);
+                    } else {
+                      Swal.fire({
+                        title: "Error",
+                        text: "Las fechas no son validas.",
+                        icon: "error",
+                      });
+                    }
+                  } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: "Valores invalidos.",
+                      icon: "error",
+                    });
+                  }
+                } else {
+                  Swal.fire({
+                    title: "Error",
+                    text: "El número de usos debe ser mayor a 0.",
+                    icon: "error",
+                  });
+                }
+              } else {
+                Swal.fire({
+                  title: "Error",
+                  text: "El valor de la compra debe se mayor a 0.",
+                  icon: "error",
+                });
+              }
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Solo se permiten letras y números, sin espacios.",
+                icon: "error",
+              });
+            }
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Por favor, ingresa valores válidos al formulario de cupones.",
+              icon: "error",
+            });
+          }
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "Por favor, ingresa un nombre valido.",
+        icon: "error",
+      });
+    }
+    function agregarCuponsito(dataToSend) {
+      $.ajax({
+        type: "POST",
+        url: "/controllers/universalCuponController.php",
+        dataType: "json",
+        data: {
+          jsonData: JSON.stringify(dataToSend), // Convertir el objeto JSON a cadena JSON
+          type: "agregarCupon", // Otro parámetro POST adicional
+        },
+        success: function (response) {
+          if (response.data == 1) {
+            mostrarTablaCupons();
+            traerCupons();
+            Swal.fire({
+              title: "!Perfecto!",
+              text: "Cupón agregado con éxito.",
+              icon: "success",
+            });
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "No se pudo agregar el cupón.",
+              icon: "error",
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error al enviar datos:", error);
+        },
+      });
+    }
+  }
+  function mostrarFormularioCup() {
+    var tipocupon = $("#tipoCupon").val();
+    switch (tipocupon) {
+      case "1":
+        $(".valorCupon").hide();
+        $(".porcentCupon").show();
+        $(".descuentoValorCupon").show();
+        $("#usosCupon").show();
+        $("#fechaInicioCupon").show();
+        $("#fechaexpiraCupon").show();
+        $(".tablaCabrona").hide();
+
+        break;
+      case "2":
+        $(".valorCupon").hide();
+        $(".porcentCupon").hide();
+        $(".descuentoValorCupon").hide();
+        $("#usosCupon").show();
+        $("#fechaInicioCupon").show();
+        $("#fechaexpiraCupon").show();
+        $(".tablaCabrona").show();
+        break;
+      case "3":
+        $(".valorCupon").show();
+        $(".porcentCupon").show();
+        $(".descuentoValorCupon").show();
+        $("#usosCupon").show();
+        $("#fechaInicioCupon").show();
+        $("#fechaexpiraCupon").show();
+        $(".tablaCabrona").hide();
+        break;
+
+      default:
+        break;
+    }
+  }
+  function traerCupons() {
+    var table = $("#tablaCupones").DataTable();
+    table.destroy();
+    $.ajax({
+      type: "POST",
+      url: "/controllers/universalCuponController.php",
+      data: { type: "vercupones" },
+      dataType: "json",
+      success: function (response) {
+        window.table = $("#tablaCupones").DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+          },
+          data: response.values,
+          columns: [
+            { data: "2" },
+            { data: "3" },
+            { data: "4" },
+            { data: "5" },
+            { data: "10" },
+            { data: "6" },
+            { data: "7" },
+            { data: "8" },
+            { data: "9" },
+          ],
+        });
+      },
+    });
+  }
+  function mostrarFormularios() {
+    $(".nomostrar").show();
+    $(".tabalcupones").hide();
+  }
+  function mostrarTablaCupons() {
+    $(".tabalcupones").show();
+    $(".nomostrar").hide();
+  }
+</script>

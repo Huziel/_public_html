@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>RutaDeLaSeda | Recuperar contraseña</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./app/themp/images/gotaverde.png"
+    />
+    <!-- Custom fonts for this template-->
+    <link
+      href="./dashboard/views/vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template-->
+    <link href="./dashboard/views/css/sb-admin-2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.2/sketchy/bootstrap.min.css" integrity="sha512-8HIl1gmLSbt7dBuv4WKQQJCHKvOaW/BgHZcbQoj5wI0ZPmK9XBeolj8sZtFRd88rpuaoLjJemuj9GkPd4se7Iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+
+  <body class="bg-gradient-dark">
+    <div class="container">
+      <!-- Outer Row -->
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+          <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+              <!-- Nested Row within Card Body -->
+              <div class="row">
+                <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                <div class="col-lg-6">
+                  <div class="p-5">
+                    <div class="text-center">
+                      <h1 class="h4 text-gray-900 mb-4">
+                        ¡Recuperar contraseña!
+                      </h1>
+                      <p class="mb-4">
+                        Lo entendemos, suceden cosas. ¡Simplemente ingrese su
+                        dirección de correo electrónico a continuación y le
+                        enviaremos un codigo para restablecer su contraseña!
+                      </p>
+                    </div>
+                    <form class="user">
+                      <div class="form-group">
+                        <input
+                          type="email"
+                          required
+                          name="mailRecuperaIn"
+                          class="form-control form-control-user"
+                          id="mailRecuperaIn"
+                          aria-describedby="emailHelp"
+                          placeholder="Por favor introduzca su correo"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          required
+                          name="codeRe"
+                          class="form-control form-control-user"
+                          id="codeRe"
+                          placeholder="Codigo de verificación"
+                        />
+                      </div>
+
+                      <div class="form-group inputPassword">
+                        <div class="input-group mb-2">
+                          <input
+                            type="password"
+                            class="form-control form-control-user"
+                            id="contra1"
+                            placeholder="Contraseña"
+                          />
+                          <div class="input-group-prepend">
+                            <button
+                              class="btn btn-success btn-block btn-user"
+                              style="
+                                border-top-right-radius: 10rem;
+                                border-bottom-right-radius: 10rem;
+                              "
+                              id="botonMostra"
+                              type="button"
+                            >
+                              Mostrar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group inputPassword">
+                        <div class="input-group mb-2">
+                          <input
+                            type="password"
+                            class="form-control form-control-user"
+                            id="contra2"
+                            placeholder="Contraseña"
+                          />
+                          <div class="input-group-prepend">
+                            <button
+                              class="btn btn-success btn-block btn-user"
+                              style="
+                                border-top-right-radius: 10rem;
+                                border-bottom-right-radius: 10rem;
+                              "
+                              id="botonMostra2"
+                              type="button"
+                            >
+                              Mostrar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onclick="cambiarPass()"
+                        type="button"
+                        class="btn btn-success btn-user btn-block"
+                        id="btnCambiarContra"
+                      >
+                        Cambiar contraseña
+                      </button>
+                      <button
+                        onclick="enviarCorreo()"
+                        type="button"
+                        class="btn btn-success btn-user btn-block"
+                        id="btnRecuperaContra"
+                      >
+                        Recuperar contraseña
+                      </button>
+                      <br />
+                      <button
+                        onclick="validateCode()"
+                        type="button"
+                        class="btn btn-success btn-user btn-block"
+                        id="btnVerificarCodi"
+                      >
+                        Verificar código
+                      </button>
+                      <br />
+                      <div id="contador">
+                        Puede volver a intentar despues de:
+                        <span id="tiempo_restante">60</span> segundos
+                      </div>
+                    </form>
+                    <hr />
+
+                    <!-- <div class="text-center">
+                                        <a class="small" href="forgot-password.html">¿Perdio su contraseña?</a>
+                                    </div> -->
+                    <div class="text-center">
+                      <a class="small" href="login">Iniciar sesión</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./dashboard/views/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="./dashboard/views/vendor/jquery-easing/jquery.easing.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="./dashboard/views/js/sb-admin-2.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#btnCambiarContra").hide();
+        $("#btnVerificarCodi").hide();
+        $("#contador").hide();
+        $(".inputPassword").hide();
+        $("#codeRe").hide();
+        $("#botonMostra").click(function () {
+          var passwordField = $("#contra1");
+          var fieldType = passwordField.attr("type");
+
+          if (fieldType === "password") {
+            passwordField.attr("type", "text");
+            $(this).text("Ocultar");
+          } else {
+            passwordField.attr("type", "password");
+            $(this).text("Mostrar");
+          }
+        });
+        $("#botonMostra2").click(function () {
+          var passwordField = $("#contra2");
+          var fieldType = passwordField.attr("type");
+
+          if (fieldType === "password") {
+            passwordField.attr("type", "text");
+            $(this).text("Ocultar");
+          } else {
+            passwordField.attr("type", "password");
+            $(this).text("Mostrar");
+          }
+        });
+      });
+      function enviarCorreo() {
+        $("#codeRe").hide();
+        $("#btnRecuperaContra").prop("disabled", true);
+        var dato = $("#mailRecuperaIn").val();
+        $.ajax({
+          type: "POST",
+          url: "controllers/generaKeyRecupera.php",
+          data: { dato: dato },
+          dataType: "json",
+          success: function (response) {
+            $("#codeRe").show();
+            $("#btnVerificarCodi").show();
+            var tiempoRestante = 60; // Tiempo en segundos
+            var contador = setInterval(function () {
+              $("#contador").show();
+              tiempoRestante--;
+              $("#tiempo_restante").text(tiempoRestante); // Actualizar el contenido de la etiqueta con el tiempo restante
+              if (tiempoRestante <= 0) {
+                clearInterval(contador); // Detener el contador
+                ejecutarFuncion(); // Ejecutar la función después de que el contador haya terminado
+              }
+            }, 1000); // Ejecutar cada segundo
+            function ejecutarFuncion() {
+              // Aquí puedes poner la función que deseas ejecutar después de que el contador haya terminado
+              $("#btnRecuperaContra").prop("disabled", false);
+              $("#contador").hide();
+            }
+            Swal.fire(response.data, "", "info");
+          },
+        });
+      }
+      function validateCode() {
+        var key = $("#codeRe").val();
+        $.ajax({
+          type: "POST",
+          url: "controllers/verificarCodigoRe.php",
+          data: { data: key },
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            if (response.status == 1) {
+              Swal.fire(response.data, "", "info");
+              $(".inputPassword").show();
+              $("#btnCambiarContra").show();
+              $("#mailRecuperaIn").hide();
+              $("#btnRecuperaContra").hide();
+              $("#btnVerificarCodi").hide();
+              $("#codeRe").hide();
+              $("#contador").hide();
+            } else {
+              Swal.fire("Código invalido", "", "error");
+            }
+          },
+        });
+      }
+      function cambiarPass() {
+        $("#btnRecuperaContra").prop("disabled", true);
+        var key = $("#codeRe").val();
+        var mail = $("#mailRecuperaIn").val();
+        var pass1 = $("#contra1").val();
+        var pass2 = $("#contra2").val();
+        console.log(key);
+        if (pass1 === pass2) {
+          $.ajax({
+            type: "POST",
+            url: "controllers/changePassR.php",
+            data: { correo: mail, key: key, pass: pass2 },
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+              
+              if (response.status == 1) {
+                Swal.fire(response.data, "", "info");
+                function redireccionar() {
+                  // Redireccionar a la página deseada
+                  window.location.href = "login";
+                }
+
+                // Llamar a setTimeout() para ejecutar la función de redirección después de 3 segundos
+                setTimeout(redireccionar, 3000);
+              } else {
+                Swal.fire(response.data, "", "error");
+                $("#btnRecuperaContra").prop("false", true);
+              }
+            },
+          });
+        } else {
+          Swal.fire("Las contraseñas no coinciden", "", "error");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<div id="content">
+  <!-- Topbar -->
+  <?=$nav?>
+  <!-- End of Topbar -->
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+
+    <div class="d-flex align-content-center justify-content-center" flex-wrap">
+      <div class="col-12 col-md-6 mb-5">
+        <div class="card" style="width: 100%">
+          <div class="card-body">
+            <h5 class="card-title"> Aviso de Eliminación de Cuenta y Datos Personales</h5>
+            
+            <p>Estimado usuario,</p>
+            <p>Nos dirigimos a usted para informarle sobre la eliminación de su cuenta y todos los datos asociados a la misma en nuestra aplicación. Este proceso se llevará a cabo de acuerdo con nuestras políticas de privacidad y términos de servicio.</p>
+            <p>La eliminación de su cuenta implica la eliminación permanente de todos los datos personales y generados automáticamente que hayan sido almacenados en nuestra plataforma. Esto incluye, pero no se limita a:</p>
+            <ul>
+              <li>Información personal proporcionada durante el registro, como nombre, dirección de correo electrónico, fecha de nacimiento, entre otros.</li>
+              <li>Datos de actividad dentro de la aplicación, como historial de navegación, interacciones con el contenido, mensajes o comentarios.</li>
+              <li>Datos generados automáticamente, como cookies, registros de uso, información de ubicación (si aplicable), entre otros.</li>
+            </ul>
+            <p>Es importante destacar que una vez que se complete este proceso, no podremos recuperar ni restaurar su cuenta ni ninguno de los datos asociados. Además, no tendrá acceso a los servicios y funciones de nuestra aplicación.</p>
+            <p>Si está seguro de que desea proceder con la eliminación de su cuenta y datos personales, por favor confirme a este formulario dentro de la aplicación.</p>
+            <p>En caso de tener alguna pregunta o requerir asistencia adicional, no dude en contactarnos a través de contacto@rutadelaseda.xyz. Estamos aquí para ayudarlo en cualquier momento.</p>
+            <p>Atentamente,</p>
+            <p>Rutadelaseda.xyz</p>
+          </div>
+          <br>
+          <button type="button" class="btn btn-danger" onclick="borrarCuentitaPedorra()">BORRAR CUENTA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ <script>
+    function borrarCuentitaPedorra() {
+        $.ajax({
+            type: "POST",
+            url: "controllers/borrarDatosUser.php",
+            data: {id:'<?=$user?>'},
+            dataType: "html",
+            success: function (response) {
+                if (response='true') {
+                  location.reload();
+                }else{
+                  console.log('no se pudo');
+                }
+            }
+        });
+    }
+ </script>
+  <!-- /.container-fluid -->
+</div>

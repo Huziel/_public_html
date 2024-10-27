@@ -1,0 +1,27 @@
+.abs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+table thead tr:first-child th:first-child {
+  border-top-left-radius: 5px;
+}
+table thead tr:first-child th:last-child {
+  border-top-right-radius: 5px;
+}
+.overflow {
+  height: 210px;
+  overflow: hidden;
+}
+
+.cristalNav {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+

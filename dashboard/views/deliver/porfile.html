@@ -1,0 +1,605 @@
+<style>
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .profile-image2 {
+    width: 150px; /* ajusta el tamaño según tus necesidades */
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+  }
+  .custom-file-input:lang(es) ~ .custom-file-label::after {
+    content: "Buscar";
+  }
+
+  .custom-file {
+    margin-bottom: 15px;
+  }
+</style>
+<div id="content">
+  <?=$nav?>
+  <div class="container-fluid">
+    <div class="container text-center mt-5">
+      <h5 class="h5 mb-3 mt-3 step1 animate__animated animate__fadeIn">
+        Foto de perfil
+      </h5>
+      <div
+        class="profile-image-container step1 animate__animated animate__fadeIn"
+      >
+        <label for="file-input" class="profile-image">
+          <img
+            src="dashboard/views/img/porfilepicture.png"
+            alt="Imagen de perfil"
+            class="profile-image2"
+            onerror="this.onerror=null;this.src='dashboard/views/img/porfilepicture.png';"
+          />
+        </label>
+        <input
+          type="file"
+          id="file-input"
+          class="input-file"
+          accept="image/*"
+        />
+      </div>
+      <div class="row step1 justify-content-md-center">
+        <div class="col-12 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(2)"
+            name=""
+            id=""
+            class="btn btn-success btn-block"
+          >
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row step2 justify-content-md-center">
+        <div class="col-6 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(1)"
+            name=""
+            id=""
+            class="btn btn-dark btn-block"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="col-6 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(3)"
+            name=""
+            id=""
+            class="btn btn-success btn-block"
+          >
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row step3 justify-content-md-center">
+        <div class="col-6 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(2)"
+            name=""
+            id=""
+            class="btn btn-dark btn-block"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="col-6 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(4)"
+            name=""
+            id=""
+            class="btn btn-success btn-block"
+          >
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row step4 justify-content-md-center">
+        <div class="col-12 col-md-4">
+          <button
+            type="button"
+            onclick="stepsRegister(3)"
+            name=""
+            id=""
+            class="btn btn-dark btn-block"
+          >
+            <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-container stepCard animate__animated animate__fadeIn">
+        <div class="alert alert-danger" id="cuentaValid1" role="alert">
+          Su cuenta aún no ha sido verificada
+        </div>
+        <div class="alert alert-success" id="cuentaValid2" role="alert">
+          Cuenta verificada
+        </div>
+        <h2 class="text-center mb-4 step2 animate__animated animate__fadeIn">
+          Datos personales
+        </h2>
+        <form id="userForm" enctype="multipart/form-data">
+          <!-- Campos personales -->
+          <div class="form-row">
+            <div
+              class="form-group col-md-6 step2 animate__animated animate__fadeIn"
+            >
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                placeholder="Nombre"
+              />
+            </div>
+            <div
+              class="form-group col-md-6 step2 animate__animated animate__fadeIn"
+            >
+              <label for="apellidoPaterno">Apellido Paterno</label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellidoPaterno"
+                name="apellidoPaterno"
+                placeholder="Apellido Paterno"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div
+              class="form-group col-md-6 step2 animate__animated animate__fadeIn"
+            >
+              <label for="apellidoMaterno">Apellido Materno</label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellidoMaterno"
+                name="apellidoMaterno"
+                placeholder="Apellido Materno"
+              />
+            </div>
+            <div
+              class="form-group col-md-6 step2 animate__animated animate__fadeIn"
+            >
+              <label for="fechaNacimiento">Fecha de Nacimiento</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fechaNacimiento"
+                name="fechaNacimiento"
+              />
+            </div>
+          </div>
+
+          <!-- Campos de automóvil -->
+          <h4 class="mt-3 step3 animate__animated animate__fadeIn">
+            Medio de transporte
+          </h4>
+          <hr class="hr step3 animate__animated animate__fadeIn" />
+          <div class="form-row step3 animate__animated animate__fadeIn">
+            <div class="form-group col-md-6">
+              <label for="placas">Placas</label>
+              <input
+                type="text"
+                class="form-control"
+                id="placas"
+                name="placas"
+                placeholder="Placas"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tipo">Tipo</label>
+              <select class="form-control" id="tipo" name="tipo">
+                <option value="1">Moto</option>
+                <option value="2">Bicicleta</option>
+                <option value="3">Automóvil</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row step3 animate__animated animate__fadeIn">
+            <div class="form-group col-md-6">
+              <label for="modelo">Marca y modelo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="modelo"
+                name="modelo"
+                placeholder="Marca y modelo"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="color">Color</label>
+              <select class="form-control" id="color" name="color">
+                <option value="1">Blanco</option>
+                <option value="2">Negro</option>
+                <option value="3">Gris</option>
+                <option value="4">Rojo</option>
+                <option value="5">Azul</option>
+                <option value="6">Verde</option>
+                <option value="7">Amarillo</option>
+                <!-- Agrega más opciones según sea necesario -->
+              </select>
+            </div>
+          </div>
+          <h4 class="mt-3 step4 animate__animated animate__fadeIn">
+            Fotos de identificación
+          </h4>
+          <hr class="hr step4 animate__animated animate__fadeIn" />
+          <div class="form-group step4 animate__animated animate__fadeIn">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="fotoIdentificacion"
+                name="fotoIdentificacion"
+                accept="image/*"
+                onchange="updateFileLabel(this, 'Foto de Identificación')"
+              />
+              <label class="custom-file-label" for="fotoIdentificacion"
+                >Foto de Identificación</label
+              >
+            </div>
+          </div>
+          <div class="form-group step4 animate__animated animate__fadeIn">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="fotoPlacas"
+                name="fotoPlacas"
+                accept="image/*"
+                onchange="updateFileLabel(this, 'Foto de Placas')"
+              />
+              <label class="custom-file-label" for="fotoPlacas"
+                >Foto de Placas</label
+              >
+            </div>
+          </div>
+          <div class="form-group step4 animate__animated animate__fadeIn">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="fotoComprobante"
+                name="fotoComprobante"
+                accept="image/*"
+                onchange="updateFileLabel(this, 'Foto de Comprobante de Domicilio')"
+              />
+              <label class="custom-file-label" for="fotoComprobante"
+                >Foto de Comprobante de Domicilio</label
+              >
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="submitForm()"
+            class="btn btn-primary mb-3 step4 animate__animated animate__fadeIn"
+          >
+            Enviar
+          </button>
+          <div class="progress mb-3" id="progressBar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              role="progressbar"
+              aria-valuenow="75"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              style="width: 100%"
+            ></div>
+          </div>
+        </form>
+        <div class="row step4">
+          <div class="card col-6">
+            <img
+              class="card-img-top"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              id="imverif1"
+              onerror="this.onerror=null;this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <p class="card-title" style="font-size: 12px">
+                Foto de Identificación
+              </p>
+            </div>
+          </div>
+          <div class="card col-6">
+            <img
+              class="card-img-top"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              id="imverif2"
+              onerror="this.onerror=null;this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <p class="card-title" style="font-size: 12px">Foto de Placas</p>
+            </div>
+          </div>
+          <div class="card col-6">
+            <img
+              class="card-img-top"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              id="imverif3"
+              onerror="this.onerror=null;this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <p class="card-title" style="font-size: 12px">
+                Foto de Comprobante de Domicilio
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function stepsRegister(step) {
+    switch (step) {
+      case 1:
+        $(".stepCard").hide();
+        $(".step1").show();
+        $(".step2").hide();
+        $(".step3").hide();
+        $(".step4").hide();
+        break;
+      case 2:
+        $(".stepCard").show();
+        $(".step2").show();
+        $(".step1").hide();
+        $(".step3").hide();
+        $(".step4").hide();
+        break;
+      case 3:
+        $(".stepCard").show();
+        $(".step3").show();
+        $(".step2").hide();
+        $(".step1").hide();
+        $(".step4").hide();
+        break;
+      case 4:
+        $(".stepCard").show();
+        $(".step4").show();
+        $(".step2").hide();
+        $(".step3").hide();
+        $(".step1").hide();
+        break;
+
+      default:
+        $(".stepCard").hide();
+        $(".step1").show();
+        $(".step2").hide();
+        $(".step3").hide();
+        $(".step4").hide();
+        break;
+    }
+  }
+  stepsRegister(1);
+  function updateFileLabel(input, labelText) {
+    var fileName = input.files[0].name;
+    var label = input.nextElementSibling;
+    label.innerText = labelText + ": " + fileName;
+  }
+  function submitForm() {
+    $("#progressBar").show();
+    var formData = new FormData($("#userForm")[0]);
+    formData.append("fotoIdentificacion", $("#fotoIdentificacion")[0].files[0]);
+    formData.append("fotoPlacas", $("#fotoPlacas")[0].files[0]);
+    formData.append("fotoComprobante", $("#fotoComprobante")[0].files[0]);
+
+    $.ajax({
+      url: "./controllers/delivery/uploadInfoUser.php", // Reemplaza 'tu_script_php.php' con el nombre de tu archivo PHP que procesa el formulario
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "html",
+      success: function (response) {
+        $("#progressBar").hide();
+        chargeDats();
+        Swal.fire({
+          text: response,
+          icon: "info",
+        });
+
+        // Puedes realizar acciones adicionales después de la respuesta del servidor
+      },
+      error: function (error) {
+        $("#progressBar").hide();
+        Swal.fire({
+          text: error,
+          icon: "error",
+        });
+      },
+    });
+  }
+  function chargeDats() {
+    $.ajax({
+      type: "POST",
+      url: "./controllers/delivery/cargarPerfil.php",
+      data: "data",
+      dataType: "json",
+      success: function (response) {
+        var userData = response.data[0];
+        $(".profile-image2").attr(
+          "src",
+          "./controllers/delivery/uploads/" + userData.picture
+        );
+        $("#imverif1").attr(
+          "src",
+          "./controllers/delivery/uploads/" + userData.fotoPorfile
+        );
+        $("#imverif2").attr(
+          "src",
+          "./controllers/delivery/uploads/" + userData.fotoID
+        );
+        $("#imverif3").attr(
+          "src",
+          "./controllers/delivery/uploads/" + userData.fotoDomicilio
+        );
+        $("#nombre").val(userData.nombre);
+        $("#apellidoPaterno").val(userData.apellidoPaterno);
+        $("#apellidoMaterno").val(userData.apellidoMaterno);
+        $("#fechaNacimiento").val(userData.fechaNacimiento);
+        $("#placas").val(userData.placas);
+        $("#modelo").val(userData.modelo);
+        if (userData.verificado == 0 || userData.verificado == null) {
+          $("#cuentaValid1").show();
+          $("#cuentaValid2").hide();
+        } else {
+          $("#cuentaValid1").hide();
+          $("#cuentaValid2").show();
+        }
+
+        var tipoA = userData.tipo;
+        var tipoB = tipoA;
+        switch (tipoB) {
+          case 0:
+            tipoB = "Seleccionar opción";
+            break;
+          case 1:
+            tipoB = "Moto";
+            break;
+          case 2:
+            tipoB = "Bicicleta";
+            break;
+          case 3:
+            tipoB = "Automovil";
+            break;
+
+          default:
+            break;
+        }
+        // Seleccionar el elemento select con el id 'tipo'
+        var selectTipo = $("#tipo");
+
+        // Verificar si la opción "Rojo" ya existe en el select
+        var optionTipo = selectTipo.find('option[value="' + tipoA + '"]');
+        if (optionTipo.length === 0) {
+          // Si no existe, crear un nuevo option con el valor y texto "Rojo"
+          optionTipo = $("<option>").val(tipoA).text(tipoB);
+          // Agregar el nuevo option al select
+          selectTipo.append(optionTipo);
+        }
+
+        // Establecer la opción "Rojo" como seleccionada
+        optionTipo.prop("selected", true);
+
+        var tipoC = userData.tipo;
+        var tipoD = tipoC;
+        switch (tipoD) {
+          case 0:
+            tipoD = "Seleccionar opción";
+            break;
+          case 1:
+            tipoD = "Blanco";
+            break;
+          case 2:
+            tipoD = "Negro";
+            break;
+          case 3:
+            tipoD = "Gris";
+            break;
+          case 4:
+            tipoD = "Rojo";
+            break;
+          case 5:
+            tipoD = "Azul";
+            break;
+          case 6:
+            tipoD = "Verde";
+            break;
+          case 7:
+            tipoD = "Amarillo";
+            break;
+
+          default:
+            break;
+        }
+        // Seleccionar el elemento select con el id 'tipo'
+        var selectColor = $("#color");
+
+        // Verificar si la opción "Rojo" ya existe en el select
+        var optionColor = selectColor.find('option[value="' + tipoC + '"]');
+        if (optionColor.length === 0) {
+          // Si no existe, crear un nuevo option con el valor y texto "Rojo"
+          optionColor = $("<option>").val(tipoC).text(tipoD);
+          // Agregar el nuevo option al select
+          selectColor.append(optionColor);
+        }
+
+        // Establecer la opción "Rojo" como seleccionada
+        optionColor.prop("selected", true);
+      },
+    });
+  }
+  chargeDats();
+  $(document).ready(function () {
+    $("#progressBar").hide();
+    $("#file-input").change(function () {
+      var formData = new FormData();
+      formData.append("file", $("#file-input")[0].files[0]);
+
+      $.ajax({
+        url: "./controllers/delivery/subirFotoPorfile.php", // Reemplaza con la URL de tu script de carga en el servidor
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          // Aquí puedes manejar la respuesta del servidor
+          console.log("Imagen cargada con éxito:", data);
+
+          // Actualiza la imagen en la interfaz
+          $(".profile-image2").attr(
+            "src",
+            "./controllers/delivery/uploads/" + data
+          );
+        },
+        error: function (error) {
+          console.log("Error al cargar la imagen:", error);
+        },
+      });
+    });
+  });
+</script>

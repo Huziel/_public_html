@@ -1,0 +1,1350 @@
+<div id="content">
+  <!-- Topbar -->
+  <?=$nav?>
+
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+  <!-- End of Topbar -->
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid justify-content-center">
+    <!-- Page Heading -->
+    <div class="col-12 justify-content-center">
+      <br />
+      <div class="container-fluid">
+        <div class="row">
+          <b>Fecha de vencimiento:</b>
+          <p class="ml-3 text-info" id="fVen"></p>
+        </div>
+        <br />
+        <center>
+          <button
+            type="button"
+            name=""
+            id=""
+            class="btn btn-primary btn-lg btn-block"
+            onclick="cobrarTiempo()"
+          >
+            Renovar cuenta <i class="fas fa-sync-alt"></i>
+          </button>
+        </center>
+      </div>
+      <br />
+      <div class="card justify-content-center">
+        <div class="col-12 text-center">
+          <center>
+            <div class="form-group col-md-4 col-12 mt-2">
+              <h5 for="">
+                <i class="far fa-image mt-3 mb-3"></i> Logotipo del catalogo
+              </h5>
+              <form id="ImgCatA" class="dropzone" sty>
+                <input type="hidden" name="id" id="idInPic" />
+              </form>
+              <center>
+                <p>
+                  Se recomienda una imagen de 100 píxeles de largo y 100 de
+                  alto.
+                </p>
+              </center>
+            </div>
+          </center>
+        </div>
+        <br />
+        <center>
+          <div class="alert alert-success" role="alert">
+            <div id="codeStore"></div>
+            <p>Comparte este código a tus repartidores de confianza.</p>
+          </div>
+          <hr class="hr" />
+        </center>
+        <div class="justify-content-center">
+          <div class="row container-fluid divCastroso">
+            <input type="hidden" id="idIn" />
+            <div class="form-group col-md-6 col-12">
+              <label for="nombreTienda"
+                >Nombre de la Tienda<b class="text-danger">*</b></label
+              >
+              <input
+                type="text"
+                id="nombreTienda"
+                name="nombreTienda"
+                placeholder="Nombre de la tienda"
+                class="form-control extraIn"
+                required
+                oninput="contarCaracteresNomT(this)"
+              />
+              <p>
+                Caracteres ingresados: <span id="contadorNombreT">0</span>.
+                Limite 50 caracteres.
+              </p>
+            </div>
+            <div class="col-md-6 col-12">
+              <label for=""
+                ><i class="fab fa-whatsapp"></i> Numero de whatsapp donde
+                llegará el pedido<b class="text-danger">*</b></label
+              >
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">+52</div>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name=""
+                  id="whats"
+                  aria-describedby="helpId"
+                  placeholder="Numero de whatsapp"
+                  onchange="editPhone(this.value)"
+                />
+              </div>
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <h4>Horario de la tienda<b class="text-danger">*</b></h4>
+            </div>
+            <div class="form-group col-12 col-md-6">
+              <label for="horario">Horario de apertura:</label>
+              <input
+                type="time"
+                id="horarioIn1"
+                name="horario"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="horario">Horario de cierre:</label>
+              <input
+                type="time"
+                id="horarioIn2"
+                name="horario"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group col-12">
+              <label for="">Dias de cierre</label>
+              <select class="form-control" name="" id="diasSemanas" multiple>
+                <option value="lunes">Lunes</option>
+                <option value="martes">Martes</option>
+                <option value="miércoles">Miércoles</option>
+                <option value="jueves">Jueves</option>
+                <option value="viernes">Viernes</option>
+                <option value="sábado">Sábado</option>
+                <option value="domingo">Domingo</option>
+              </select>
+              <br />
+              <button
+                type="button"
+                name=""
+                id=""
+                onclick="guardarHorario()"
+                class="btn btn-primary btn-block mt-3"
+              >
+                Guardar horario
+              </button>
+            </div>
+            <div class="col-12">
+              <hr class="hr" />
+            </div>
+
+            <br />
+            <div class="col-12 col-md-12">
+              <!--   <center>
+              <button type="button" class="btn btn-danger" onclick="boorrarCache()">Borrar acceso</button>
+            </center> -->
+            </div>
+            <!-- <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for=""
+                  ><i class="fab fa-paypal"></i> Clave Api Paypal
+                  (Opcional)</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name=""
+                  id="paypalIn"
+                  aria-describedby="helpId"
+                  placeholder=""
+                  onchange="editPaypal(this.value)"
+                />
+              </div>
+            </div> -->
+            <div class="col-md-12 col-12">
+              <div class="form-group">
+                <label for="">Tipo de tienda</label>
+                <select
+                  class="form-control"
+                  name="selectTipoTienda"
+                  onchange="showTipoTienda()"
+                  id="selectTipoTienda"
+                >
+                  <div id="optionsTipo"></div>
+                </select>
+              </div>
+            </div>
+            <div class="col-12" id="inputApartado">
+              <h4>Sistema de apartado</h4>
+
+              <div class="form-group">
+                <label for="">% Quitar para apartar</label>
+                <input
+                  type="number"
+                  value="0"
+                  class="form-control"
+                  name="valueApartar"
+                  id="valueApartar"
+                  onchange="guardaApartado()"
+                  aria-describedby="helpId"
+                  placeholder=""
+                />
+                <br />
+                <div id="aviso" class="alert alert-info" role="alert">
+                  <strong>Para apartar un producto:</strong> Debes quitar un
+                  porcentaje del total. Por ejemplo, si quieres apartar un
+                  producto al <span id="porcentajeApartado">40%</span>,
+                  necesitas quitar el
+                  <span id="porcentajeRestante">60%</span> del total.
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="inputsRuta"
+              class="col-12 row divCastroso justify-content-center"
+            >
+              <div class="col-12 mt-2 mb-2">
+                <div class="alert alert-info">
+                  <strong>Importante:</strong> Las tarifas de los servicios de
+                  ridesharing como Uber pueden variar en México según la ciudad,
+                  la demanda, el tipo de vehículo y otros factores. Aquí te
+                  proporcionamos una aproximación de las tarifas que podrías
+                  encontrar:
+                  <ul>
+                    <li>Tarifa Base: Puede estar entre $10 MXN y $20 MXN.</li>
+                    <li>
+                      Tarifa por Kilómetro: Puede oscilar entre $4 MXN y $10 MXN
+                      por kilómetro.
+                    </li>
+                    <li>
+                      Tarifa por Minuto: Puede ser entre $1 MXN y $3 MXN por
+                      minuto.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for=""
+                    ><i class="fas fa-motorcycle"></i> Precio base.</label
+                  >
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name=""
+                      value="10"
+                      id="pbe1"
+                      aria-describedby="helpId"
+                      placeholder="10"
+                      onchange="editCostEnv()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for=""
+                    ><i class="fas fa-car"></i> Precio distancia mayor a
+                    10km.</label
+                  >
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name=""
+                      value="4"
+                      id="pdm1"
+                      aria-describedby="helpId"
+                      placeholder="4"
+                      onchange="editCostEnv()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for=""
+                    ><i class="fas fa-truck"></i> Precio distancia mayor a
+                    15km.</label
+                  >
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name=""
+                      id="pdl1"
+                      value="10"
+                      aria-describedby="helpId"
+                      placeholder="10"
+                      onchange="editCostEnv()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for=""
+                    ><i class="fas fa-stopwatch"></i> Costo por tiempo en ruta
+                    (Minutos en ruta).</label
+                  >
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name=""
+                      id="ctpr1"
+                      value="1"
+                      aria-describedby="helpId"
+                      placeholder="1"
+                      onchange="editCostEnv()"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <hr class="hr" />
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <h4>Ubicación<b class="text-danger">*</b></h4>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <form
+                id="address-form"
+                class="form-group"
+                action=""
+                method="get"
+                autocomplete="off"
+              >
+                <label class="full-field col-12">
+                  <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
+                  <label for=""
+                    ><i class="fas fa-map-marker-alt"></i> Dirección de la
+                    tienda</label
+                  >
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <button
+                        type="button"
+                        onclick="habilitarCampoUbi()"
+                        class="btn btn-primary"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </div>
+                    <input
+                      id="ship-address"
+                      name="ship-address"
+                      required
+                      autocomplete="off"
+                      class="form-control"
+                      onchange="setTimeout(editLocation, 1000)"
+                      width="100%"
+                    />
+                  </div>
+                </label>
+              </form>
+            </div>
+            <div class="col-md-6 col-12">
+              <label for="">No encuentras la dirección de la tienda</label>
+              <center>
+                <button
+                  type="button"
+                  onclick="activarUbi()"
+                  id="butonUbiIn"
+                  class="btn btn-primary btn-block mb-3"
+                >
+                  Ubicación del dispositivo
+                </button>
+              </center>
+            </div>
+            <div class="col-md-12 col-12">
+              <div class="form-group">
+                <label for=""
+                  ><i class="fas fa-map"></i> Dirección actual</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name=""
+                  id="direInA"
+                  aria-describedby="helpId"
+                  placeholder=""
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="col-12">
+              <form action="" id="btnMaps" target="_blank">
+                <button type="submit" class="btn btn-success btn-block">
+                  <i class="fas fa-map"></i> Abrir ubicación actual
+                </button>
+              </form>
+            </div>
+            <br />
+            <div class="col-12">
+              <hr class="hr" />
+            </div>
+            <!-- <div class="col-12 mt-3">
+              <div class="form-group">
+                <label for=""
+                  ><i class="fas fa-palette"></i> Escoge tu tema</label
+                >
+                <select class="form-control" name="themesSelect" onchange="changeTheme()" id="themesSelect">
+                <option value="0">Selecciona</option>
+                <option value="0">Original claro</option>
+                <option value="1">Obscuro</option>
+                <option value="2">Antro</option>
+                <option value="3">Pizzeria</option>
+                <option value="6">WebFlyer</option>
+              </select>
+                <br />
+                <p>¡Próximamente!</p>
+              </div>
+            </div> -->
+            <div class="col-12 mt-2 mb-2">
+              <h4>Identidad</h4>
+            </div>
+            <div class="col-12">
+              <label for="">Banner de la tienda</label>
+              <form id="ImgCatB" class="dropzone">
+                <input type="hidden" name="id" id="idInPicB" />
+              </form>
+            </div>
+            <div class="form-group col-12 mt-3">
+              <label for="descrTienda">Descripción de la tienda:</label>
+              <textarea
+                id="descrTienda"
+                name="descrTienda"
+                class="form-control extraIn"
+                rows="4"
+                required
+                oninput="contarCaracteres(this)"
+              ></textarea>
+              <p>
+                Caracteres ingresados: <span id="contadorTextArea">0</span>.
+                Limite 500 caracteres.
+              </p>
+            </div>
+            <div class="form-group col-12 col-md-4">
+              <label for="facebook"
+                ><i class="fab fa-facebook-f"></i> Link de Facebook:</label
+              >
+              <input
+                type="url"
+                id="facebook"
+                name="facebook"
+                class="form-control extraIn"
+                placeholder="Facebook"
+              />
+            </div>
+            <div class="form-group col-12 col-md-4">
+              <label for="instagram"
+                ><i class="fab fa-instagram"></i> Link de Instagram:</label
+              >
+              <input
+                type="url"
+                id="instagram"
+                name="instagram"
+                class="form-control extraIn"
+                placeholder="Instagram"
+              />
+            </div>
+            <!-- <div class="form-group col-12 col-md-4">
+              <label for="youtube"
+                ><i class="fab fa-youtube"></i> Link de YouTube:</label
+              >
+              <input
+                type="url"
+                id="youtube"
+                name="youtube"
+                class="form-control extraIn"
+                placeholder="YouTube"
+              />
+            </div> -->
+            <div class="form-group col-12 col-md-4">
+              <label for="mercadoLibre"
+                ><i class="fas fa-handshake"></i> Link de MercadoLibre:</label
+              >
+              <input
+                type="url"
+                id="mercadoLibre"
+                name="mercadoLibre"
+                class="form-control extraIn"
+                placeholder="MercadoLibre"
+              />
+            </div>
+            <div class="col-12">
+              <hr class="hr" />
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <h4>Datos de transferencia</h4>
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="transferencia1"
+                ><i class="fas fa-credit-card"></i> Número para transferencias
+                1:</label
+              >
+              <input
+                type="number"
+                id="transferencia1"
+                name="transferencia1"
+                class="form-control extraIn"
+                placeholder="Número para transferencias"
+                oninput="contarCardNumber1(this)"
+              />
+              <p>
+                Caracteres ingresados: <span id="contadortransf1">0</span>.
+                Limite 20 caracteres.
+              </p>
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="">Nombre del banco</label>
+              <input
+                type="text"
+                class="form-control extraIn"
+                name="namebancIn1"
+                id="namebancIn1"
+                aria-describedby="helpId"
+                placeholder="Banco"
+              />
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="">Nombre del propietario</label>
+              <input
+                type="text"
+                class="form-control extraIn"
+                name="namePropie1"
+                id="namePropie1"
+                aria-describedby="helpId"
+                placeholder="propietario"
+              />
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="transferencia2"
+                ><i class="fas fa-credit-card"></i> Número para transferencias
+                2:</label
+              >
+              <input
+                type="number"
+                id="transferencia2"
+                name="transferencia2"
+                class="form-control extraIn"
+                placeholder="Número para transferencias"
+                oninput="contarCardNumber2(this)"
+              />
+              <p>
+                Caracteres ingresados: <span id="contadortransf2">0</span>.
+                Limite 20 caracteres.
+              </p>
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="">Nombre del banco</label>
+              <input
+                type="text"
+                class="form-control extraIn"
+                name="namebancIn2"
+                id="namebancIn2"
+                aria-describedby="helpId"
+                placeholder="Banco"
+              />
+            </div>
+            <div class="form-group col-md-6 col-12">
+              <label for="">Nombre del propietario</label>
+              <input
+                type="text"
+                class="form-control extraIn"
+                name="namePropie2"
+                id="namePropie2"
+                aria-describedby="helpId"
+                placeholder="propietario"
+              />
+            </div>
+            <div class="col-12">
+              <hr class="hr" />
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <h4>Extras</h4>
+            </div>
+            <div class="col-12 col-md-12">
+              <center>
+                <div class="card mt-5" id="carContentPDF">
+                  <div
+                    class="embed-responsive embed-responsive-16by9 card-img-top"
+                    style="height: 50vh; border-radius: 16px"
+                    id="frameIfram"
+                  >
+                    <iframe
+                      class="embed-responsive-item"
+                      id="irAtiendaQR"
+                      style="border-radius: 16px"
+                    ></iframe>
+                  </div>
+
+                  <div class="card-body">
+                    <h4 class="card-title mb-3 mt-2" id="nombreTiendaQR">
+                      Escanéame
+                    </h4>
+                    <img
+                      class="card-img-top col-12 col-md-3"
+                      src="https://wallpaper.dog/large/5549638.jpg"
+                      id="qrCtalog"
+                      alt="Card image cap"
+                    />
+
+                    <div class="form-group mt-3" style="display: none">
+                      <label for="">Link de la tienda</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        name="irAtienda"
+                        id="irAtienda"
+                        aria-describedby="helpId"
+                        placeholder=""
+                      />
+                    </div>
+
+                    <!--  <form action="controllers/pdf.controller.php" method="get">
+                    <input type="hidden" id="qrCtalogInput" name="qrd">
+                  <button type="submit" class="btn btn-danger mt-3 btn-block"><i class="fas fa-file-pdf"></i> Generar catalogo pdf</button>
+                  </form> -->
+                  </div>
+                </div>
+                <img id="outputImage" style="display: none; margin-top: 20px" />
+                <a
+                  name=""
+                  id="irAmiTienditaDelChavoDel8"
+                  class="btn btn-primary btn-block mt-3"
+                  href="#"
+                  role="button"
+                  >Ir a mi tenda</a
+                >
+                <button
+                  class="btn btn-primary btn-block"
+                  id="generate-pdf"
+                  style="display: none"
+                >
+                  Generar PDF
+                </button>
+              </center>
+            </div>
+            <div class="col-12 col-md-12">
+              <div class="mt-5">
+                <label for=""
+                  ><i class="fas fa-code"></i> Código para incrustar contenido
+                  de Canva</label
+                >
+                <textarea
+                  class="form-control"
+                  name=""
+                  id="default-editor2"
+                  rows="3"
+                  oninput="modificarLinkYou()"
+                ></textarea>
+              </div>
+              <br />
+              <center>
+                <button
+                  type="button"
+                  name=""
+                  id=""
+                  onclick="setTextA()"
+                  class="btn btn-primary btn-lg btn-block"
+                >
+                  <i class="far fa-sticky-note"></i> Agregar codigo Canva
+                </button>
+              </center>
+            </div>
+            <input type="hidden" id="lat" /><input
+              type="hidden"
+              id="lng"
+            /><input type="hidden" id="adressIn" />
+            <center>
+              <div class="col-12">
+                <hr />
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /.container-fluid -->
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document
+    .getElementById("generate-pdf")
+    .addEventListener("click", function () {
+      var iframe = document.getElementById("irAtiendaQR");
+      var frameIfram = document.getElementById("frameIfram");
+      var linkStore = $("#irAtienda").val();
+
+      iframe.onload = function () {
+        var iframeDocument =
+          iframe.contentDocument || iframe.contentWindow.document;
+
+        // Captura el contenido del iframe
+        html2canvas(iframeDocument.body)
+          .then(function (canvas) {
+            var imgData = canvas.toDataURL("image/png");
+            var imgElement = document.createElement("img");
+            imgElement.src = imgData;
+            imgElement.style.width = "100%";
+            imgElement.style.height = "100%";
+
+            // Reemplazar el iframe con la imagen capturada
+            iframe.parentNode.replaceChild(imgElement, iframe);
+            frameIfram.style.removeProperty("height");
+
+            // Capturar todo el contenido del div carContentPDF
+            html2canvas(document.getElementById("carContentPDF"))
+              .then(function (canvas) {
+                var outputImage = document.getElementById("outputImage");
+                outputImage.src = canvas.toDataURL("image/png");
+
+                // Opción: Generar PDF (si se requiere)
+                const { jsPDF } = window.jspdf;
+                var pdf = new jsPDF();
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // Tamaño de la imagen en porcentaje
+                const widthPercentage = 0.5; // 80% del ancho de la página
+                const heightPercentage = 1.05; // 60% del alto de la página
+
+                const imgWidth = pageWidth * widthPercentage;
+                const imgHeight = pageHeight * heightPercentage;
+
+                pdf.addImage(outputImage, "PNG", 53, -45, imgWidth, imgHeight);
+
+                // Agregar un hipervínculo
+                const linkText = "Visita nuestra tienda";
+                const linkUrl = linkStore; // Reemplaza con la URL de tu enlace
+                const linkX = 80; // Coordenada X del enlace
+                const linkY = 1 + imgHeight - 35; // Coordenada Y del enlace (justo debajo de la imagen)
+
+                pdf.textWithLink(linkText, linkX, linkY, { url: linkUrl });
+                // Convertir el PDF a un archivo Blob
+                const pdfBlob = pdf.output("blob");
+
+                // Llamar a la función para enviar el PDF al servidor
+                guardarPDF(pdfBlob);
+                /* pdf.save("catalogo.pdf"); */
+              })
+              .catch(function (error) {
+                console.error("Error al capturar el contenido:", error);
+              });
+          })
+          .catch(function (error) {
+            console.error("Error al capturar el iframe:", error);
+          });
+      };
+
+      // Si el iframe ya está cargado, ejecutar directamente la función onload
+      if (iframe.contentDocument || iframe.contentWindow.document) {
+        iframe.onload();
+      }
+    });
+  $(document).ready(function () {
+    $("#ship-address").prop("disabled", true);
+    $("#diasSemanas").select2();
+    $("#whats").on("input", function () {
+      var telefono = $(this).val().replace(/\D/g, "");
+      var formatted = "";
+
+      if (telefono.length > 0) {
+        formatted += telefono.substring(0, 2);
+        if (telefono.length > 2) {
+          formatted += "-" + telefono.substring(2, 6);
+        }
+        if (telefono.length > 6) {
+          formatted += "-" + telefono.substring(6, 10);
+        }
+      }
+
+      $(this).val(formatted);
+    });
+    $(".extraIn").change(function () {
+      guardarDats();
+    });
+
+    function limitarTextArea() {
+      // Función para limitar caracteres
+      function limitarCaracteres(elemento, maxCaracteres) {
+        elemento.addEventListener("input", function () {
+          if (elemento.value.length > maxCaracteres) {
+            elemento.value = elemento.value.slice(0, maxCaracteres);
+          }
+        });
+      }
+
+      // Llamar a la función con el textarea y el límite de caracteres
+      var miTextarea = document.getElementById("descrTienda");
+      var maxCaracteres = 499; // Puedes ajustar este valor según lo que necesites
+      limitarCaracteres(miTextarea, maxCaracteres);
+    }
+
+    function limitarNombreTienda() {
+      // Función para limitar caracteres
+      function limitarCaracteres(elemento, maxCaracteres) {
+        elemento.addEventListener("input", function () {
+          if (elemento.value.length > maxCaracteres) {
+            elemento.value = elemento.value.slice(0, maxCaracteres);
+          }
+        });
+      }
+
+      // Llamar a la función con el textarea y el límite de caracteres
+      var miTextarea = document.getElementById("nombreTienda");
+      var maxCaracteres = 49; // Puedes ajustar este valor según lo que necesites
+      limitarCaracteres(miTextarea, maxCaracteres);
+    }
+    function limitarnuberCard1() {
+      // Función para limitar caracteres
+      function limitarCaracteres(elemento, maxCaracteres) {
+        elemento.addEventListener("input", function () {
+          if (elemento.value.length > maxCaracteres) {
+            elemento.value = elemento.value.slice(0, maxCaracteres);
+          }
+        });
+      }
+
+      // Llamar a la función con el textarea y el límite de caracteres
+      var miTextarea = document.getElementById("transferencia1");
+      var maxCaracteres = 19; // Puedes ajustar este valor según lo que necesites
+      limitarCaracteres(miTextarea, maxCaracteres);
+    }
+    function limitarnuberCard2() {
+      // Función para limitar caracteres
+      function limitarCaracteres(elemento, maxCaracteres) {
+        elemento.addEventListener("input", function () {
+          if (elemento.value.length > maxCaracteres) {
+            elemento.value = elemento.value.slice(0, maxCaracteres);
+          }
+        });
+      }
+
+      // Llamar a la función con el textarea y el límite de caracteres
+      var miTextarea = document.getElementById("transferencia2");
+      var maxCaracteres = 19; // Puedes ajustar este valor según lo que necesites
+      limitarCaracteres(miTextarea, maxCaracteres);
+    }
+    limitarnuberCard1();
+    limitarnuberCard2();
+    limitarNombreTienda();
+    limitarTextArea();
+
+    if ($(window).width() < 768) {
+      // Por ejemplo, si es una resolución de celular
+      $(".divCastroso").removeClass("row");
+    } else {
+      $(".divCastroso").addClass("row");
+    }
+    getValuesCat();
+    setTimeout(viewQrLink, 2000);
+
+    $("#inputApartado").hide();
+    $("#inputsRuta").hide();
+
+    document.getElementById("pbe1").addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = 0;
+      }
+    });
+    document.getElementById("pdm1").addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = 0;
+      }
+    });
+
+    document.getElementById("pdl1").addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = 0;
+      }
+    });
+    document.getElementById("ctpr1").addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = 0;
+      }
+    });
+    document
+      .getElementById("valueApartar")
+      .addEventListener("input", function () {
+        if (this.value < 0) {
+          this.value = 0;
+        }
+      });
+  });
+  function guardarPDF(pdfBlob) {
+    // Crear un objeto FormData y agregar el archivo Blob
+    const formData = new FormData();
+    formData.append("pdf", pdfBlob, "catalogo.pdf");
+
+    // Enviar la solicitud AJAX al servidor
+    fetch("controllers/guardarPDFQR.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        console.log("PDF guardado en el servidor:", result);
+      })
+      .catch((error) => {
+        console.error("Error al guardar el PDF:", error);
+      });
+  }
+  function contarCaracteres(textarea) {
+    var contador = document.getElementById("contadorTextArea");
+    contador.textContent = textarea.value.length;
+  }
+  function contarCaracteresNomT(textarea) {
+    var contador = document.getElementById("contadorNombreT");
+    contador.textContent = textarea.value.length;
+  }
+  function contarCardNumber1(textarea) {
+    var contador = document.getElementById("contadortransf1");
+    contador.textContent = textarea.value.length;
+  }
+  function contarCardNumber2(textarea) {
+    var contador = document.getElementById("contadortransf2");
+    contador.textContent = textarea.value.length;
+  }
+  function copyToClipBoard() {
+    var content = document.getElementById("irAtienda");
+
+    content.select();
+    document.execCommand("copy");
+
+    Swal.fire("LINK COPIADO!");
+  }
+  function getValuesCat() {
+    $.ajax({
+      type: "post",
+      url: "controllers/getDatsCat.controller.php",
+      data: { created: "<?=$user?>" },
+      dataType: "json",
+      success: function (response) {
+        traerDatosExtraTienda(response.data["id"]);
+        /* console.log(response); */
+        let arr = response.data["color"].split("|");
+
+        $("#idIn").val(response.data["id"]);
+        $("#idInPic").val(response.data["id"]);
+        $("#idInPicB").val(response.data["id"]);
+        $("#whats").val(response.data["phone"]);
+        $("#direInA").val(response.data["locales"]);
+        $("#paypalIn").val(response.data["paypal"]);
+        $("#pbe1").val(arr[0]);
+        $("#pdm1").val(arr[1]);
+        $("#pdl1").val(arr[2]);
+        $("#ctpr1").val(arr[3]);
+        $("#logoPrinci").attr("src", response.data["logojpg"]);
+        $("#ImgCatA").css({
+          width: "100%",
+          height: "100%",
+          border: "2px dashed #ccc",
+          "background-image": 'url("' + response.data["logojpg"] + '")',
+          "background-size": "cover",
+          "background-position": "center",
+          "border-radius": "16px",
+          "text-align": "center",
+        });
+        $("#fVen").html(response.data["time"]);
+        $("#btnMaps").attr(
+          "action",
+          "https://www.google.com/maps/place/" +
+            response.data["lat"] +
+            "," +
+            response.data["long"]
+        );
+        var codeTienda = `<h2>Código de tienda: ${response.data["id"]}</h2>`;
+        $("#codeStore").html(codeTienda);
+        let precioBase = arr[0];
+        let selectApartado;
+
+        if (precioBase > 0) {
+          selectApartado = `
+        <option value="2">Envios locales</option>
+        <option value="1">Contra entrega / Cotización</option>
+    `;
+        } else {
+          selectApartado = `
+        <option value="1">Contra entrega / Cotización</option>
+        <option value="2">Envios locales</option>
+    `;
+        }
+
+        $("#selectTipoTienda").html(selectApartado);
+        showTipoTienda();
+        traerValueApartar();
+      },
+    });
+  }
+  function editPhone(value) {
+    function quitarGuiones(cadena) {
+      return cadena.replace(/-/g, "");
+    }
+    var numeroConGuiones = value;
+    var numeroSinGuiones = quitarGuiones(numeroConGuiones);
+    var id = $("#idIn").val();
+    $.ajax({
+      type: "post",
+      url: "controllers/editCat.controller.php",
+      data: { id: id, value: numeroSinGuiones, type: "phone" },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        if (response.ok == "false") {
+          Swal.fire({
+            title: response.data,
+
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        } else {
+          Swal.fire({
+            title: "!Teléfono editado!",
+
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+        }
+      },
+    });
+  }
+  function editPaypal(value) {
+    var id = $("#idIn").val();
+    $.ajax({
+      type: "post",
+      url: "controllers/editCat.controller.php",
+      data: { id: id, value: value, type: "paypal" },
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        Swal.fire({
+          title: "!Datos actualizados!",
+
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      },
+    });
+  }
+  function editCostEnv() {
+    var id = $("#idIn").val();
+    var pbe1 = $("#pbe1").val();
+    var pdm1 = $("#pdm1").val();
+    var pdl1 = $("#pdl1").val();
+    var ctpr1 = $("#ctpr1").val();
+    var cadenita = pbe1 + "|" + pdm1 + "|" + pdl1 + "|" + ctpr1;
+    $.ajax({
+      type: "post",
+      url: "controllers/editCat.controller.php",
+      data: { id: id, value: cadenita, type: "color" },
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        Swal.fire({
+          title: "!Datos actualizados!",
+
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      },
+    });
+  }
+  function editLocation() {
+    var id = $("#idIn").val();
+    var lat = $("#lat").val();
+    var long = $("#lng").val();
+    var adress = $("#adressIn").val();
+    $.ajax({
+      type: "post",
+      url: "controllers/editCat.controller.php",
+      data: { id: id, adress: adress, type: "location", lat: lat, lng: long },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        Swal.fire({
+          title: "!Locación actualizada!",
+
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+
+        $.ajax({
+          type: "post",
+          url: "controllers/getDatsCat.controller.php",
+          data: { created: "<?=$user?>" },
+          dataType: "json",
+          success: function (response) {
+            traerDatosExtraTienda(response.data["id"]);
+            $("#idIn").val(response.data["id"]);
+            $("#whats").val(response.data["phone"]);
+            $("#direInA").val(response.data["locales"]);
+            $("#paypalIn").val(response.data["paypal"]);
+            $("#logoPrinci").attr("src", response.data["logojpg"]);
+            $("#fVen").html(response.data["time"]);
+            $("#btnMaps").attr(
+              "action",
+              "https://www.google.com/maps/place/" +
+                response.data["lat"] +
+                "," +
+                response.data["long"]
+            );
+          },
+        });
+      },
+    });
+  }
+  function viewQrLink() {
+    var id = $("#idIn").val();
+    $.ajax({
+      type: "get",
+      url: "controllers/qrCat.controller.php",
+      data: { id: id },
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        $("#qrCtalog").attr("src", response.data);
+        $("#qrCtalogInput").val(response.data);
+        $("#irAtienda").val(response.link);
+        $("#irAtiendaQR").attr("src", response.urlView);
+        $("#irAmiTienditaDelChavoDel8").attr("href", response.link);
+      },
+    });
+  }
+  function setTextA() {
+    var id = $("#idIn").val();
+    /* var value = tinymce.get("default-editor").getContent(); */
+    var value = $("#default-editor2").val();
+
+    console.log(value);
+    $.ajax({
+      type: "post",
+      url: "controllers/editCat.controller.php",
+      data: { id: id, value: value, type: "logo" },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        Swal.fire({
+          title: "!Nota agregada!",
+
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      },
+    });
+  }
+  function boorrarCache() {
+    var id = $("#idIn").val();
+
+    console.log(id);
+    $.ajax({
+      type: "post",
+      url: "controllers/borrarCache.controller.php",
+      data: { id: id },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        Swal.fire({
+          title: "!Acceso eliminado!",
+
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      },
+    });
+  }
+  function changeTheme() {
+    var selectTheme = $("#themesSelect").val();
+    var idTienda = $("#idIn").val();
+    $.ajax({
+      type: "POST",
+      url: "controllers/addTheme.php",
+      data: { idTienda: idTienda, theme: selectTheme },
+      dataType: "html",
+      success: function (response) {
+        var datos = $.parseJSON(response);
+        var mensaje = datos.data;
+        Swal.fire({ text: mensaje, icon: "info" });
+      },
+    });
+  }
+
+  function showTipoTienda() {
+    var tipoTien = $("#selectTipoTienda").val();
+    if (tipoTien == 1) {
+      $("#inputApartado").show();
+      $("#inputsRuta").hide();
+      var pbe1 = $("#pbe1").val(0);
+      var pdm1 = $("#pdm1").val(0);
+      var pdl1 = $("#pdl1").val(0);
+      var ctpr1 = $("#ctpr1").val(0);
+      editCostEnv();
+    } else {
+      $("#inputApartado").hide();
+      $("#inputsRuta").show();
+    }
+  }
+  function guardaApartado() {
+    var id = $("#idIn").val();
+    var value = $("#valueApartar").val();
+    if (value < 0) {
+      Swal.fire({
+        title: "!No se permiten numeros negativos!",
+
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "controllers/apartadoController.php",
+        data: { idTienda: id, value: value },
+        dataType: "json",
+        success: function (response) {
+          /* console.log(response); */
+          Swal.fire({
+            title: "!Datos actualizados!",
+
+            icon: "ok",
+            confirmButtonText: "Ok",
+          });
+        },
+      });
+    }
+  }
+  function traerValueApartar() {
+    var id = $("#idIn").val();
+    $.ajax({
+      type: "POST",
+      url: "controllers/showValueApartados.php",
+      data: { idTienda: id },
+      dataType: "json",
+      success: function (response) {
+        $("#valueApartar").val(response.dato);
+      },
+    });
+  }
+  function guardarHorario() {
+    var id = $("#idIn").val();
+    var horarioIn1 = $("#horarioIn1").val();
+    var horarioIn2 = $("#horarioIn2").val();
+    var horarioIn3 = $("#diasSemanas").val();
+    if (horarioIn1 && horarioIn2 && horarioIn3) {
+      var nuevaVar =
+        "(" + horarioIn1 + "," + horarioIn2 + "," + horarioIn3 + ")";
+      $.ajax({
+        type: "POST",
+        url: "controllers/agregarDatosHorarioTienda.php",
+        data: { idTienda: id, horarioTienda: nuevaVar },
+        dataType: "json",
+        success: function (response) {
+          Swal.fire({
+            title: response.data,
+            icon: "info",
+            confirmButtonText: "Ok",
+          });
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "¡Atención!",
+        text: "Llene todos los campos de horario para continuar",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
+  }
+  function cobrarTiempo() {
+    $(".btn").prop("disabled", true);
+
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "El costo por agregar un mes de funcionalidad tiene un costo de $50.00 MXN.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, quiero pagar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Aquí puedes ejecutar la acción que deseas
+        $.ajax({
+          type: "post",
+          url: "controllers/cobrarTiempo.php",
+          data: { id: 0 },
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            Swal.fire(response.data, "", "info");
+            getValuesCat();
+          },
+        });
+      }
+    });
+  }
+  function habilitarCampoUbi() {
+    $("#ship-address").prop("disabled", false);
+  }
+  function activarUbi() {
+    $("#butonUbiIn").prop("disabled", true);
+    Swal.fire("Ubicación activada", "", "info");
+    $("#permisoTiendUbi").val(1);
+    console.log("idToken=" + "<?=$idToken?>");
+
+    sendLocatio();
+  }
+  function modificarLinkYou() {
+    var iframeCode = $("#default-editor2").val();
+    console.log(iframeCode);
+
+    // Extraer la URL del src
+    var srcMatch = iframeCode.match(/src="([^"]+)"/);
+    if (srcMatch && srcMatch[1].includes("youtube.com/embed/")) {
+      var src = srcMatch[1].split("&")[0] + "&autoplay=1";
+
+      // Reemplazar la URL en el código del iframe
+      var modifiedIframeCode = iframeCode.replace(srcMatch[1], src);
+
+      // Actualizar el valor del textarea
+      $("#default-editor2").val(modifiedIframeCode);
+    } else {
+      console.log(
+        "El link proporcionado no es un enlace de YouTube embebido válido."
+      );
+    }
+  }
+</script>

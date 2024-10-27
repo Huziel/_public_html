@@ -1,0 +1,1013 @@
+<div id="content">
+  <!-- Topbar -->
+  <?=$nav?>
+  <!-- End of Topbar -->
+
+  <style>
+    .btn {
+      font-size: 12px;
+    }
+    .profile-image-container {
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .profile-image2 {
+      width: 150px; /* ajusta el tamaño según tus necesidades */
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .imagenCircular {
+      width: 100px; /* ajusta el tamaño según sea necesario */
+      height: 100px; /* ajusta el tamaño según sea necesario */
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .imagenCircular img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* para evitar que la imagen se deforme */
+    }
+  </style>
+  <!-- Begin Page Content -->
+
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3 mt-3">
+      <a class="navbar-brand" href="#"
+        ><i class="fab fa-wpforms"></i> Historial</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" onclick="traerInicio()"
+              >Inicio <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="traerCompleto()"
+              >Informe completo</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Page Heading -->
+    <div class="row mt-3">
+      <div class="col-12" id="principalTableDiv">
+        <center>
+          <div class="col-md-6 col-12">
+            <button
+              type="button"
+              name=""
+              id=""
+              onclick=""
+              class="btn btn-secondary btn-lg btn-block"
+              data-toggle="modal"
+              data-target="#modalClienteName"
+            >
+              <i class="fas fa-plus"></i> Generar nueva orden de envío
+            </button>
+            <br />
+            <button
+              type="button"
+              name=""
+              id=""
+              onclick="traerDeliveriDats()"
+              class="btn btn-primary btn-lg btn-block"
+              data-toggle="modal"
+              data-target="#modalDelivery"
+            >
+              <i class="fas fa-biking"></i> Mis repartidores
+            </button>
+            <br />
+            <div class="table-responsive">
+              <table class="table" id="pTable">
+                <thead>
+                  <tr>
+                    <th>Orden de compra</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyP"></tbody>
+              </table>
+            </div>
+          </div>
+        </center>
+      </div>
+      <div class="col-12">
+        <button class="btn text-dark" onclick="showGe()" id="returnBTN">
+          Regresar
+          <span class="badge badge-primary"
+            ><i class="fas fa-undo-alt"></i
+          ></span>
+        </button>
+        <div class="table-responsive">
+          <table class="table" id="pTableP">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Imagen</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyPP"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="tableGeneral" class="col-12">
+        <div class="container mt-5">
+          <div class="table-responsive">
+            <table
+              id="tablaDatos"
+              class="table table-striped table-bordered"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>Orden</th>
+                  <th>Teléfono</th>
+
+                  <th>Total Envío</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+
+                  <th>Total Neto</th>
+                  <th>Estatus</th>
+                  <th>Mercado Pago</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /.container-fluid -->
+</div>
+<div class="modal" id="modalDelivery" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Repartidores registrados</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive mt-3">
+          <table id="tablaDeliveri" class="table" style="width: 100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Ap Paterno</th>
+                <th>Ap Materno</th>
+                <th>Placas</th>
+                <th>Bloquear</th>
+                <!-- Añade más columnas según tus necesidades -->
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalClienteName"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nombre del cliente</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="">Cliente</label>
+          <input
+            type="text"
+            class="form-control"
+            name="text"
+            id="nameclientesillo"
+            aria-describedby="helpId"
+            placeholder=""
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="guardarClientesillo();"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  id="miModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Repartidor</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="modalCard"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    showGe();
+    $("#pTableP").hide();
+    $("#returnBTN").hide();
+    $("#tablaDatos").hide();
+  });
+  function guardarClientesillo() {
+    var clientesillo = $("#nameclientesillo").val();
+    $.ajax({
+      type: "POST",
+      url: "controllers/pedidolocalController.php",
+      data: { session: clientesillo },
+      dataType: "html",
+      success: function (response) {
+        window.location.href =
+          "https://rutadelaseda.xyz/@<?=$_SESSION['idStore']?>";
+      },
+    });
+  }
+  function showGe() {
+    $("#pTable").show();
+    $("#tbodyPP").empty();
+    $("#pTableP").hide();
+    $("#returnBTN").hide();
+
+    $.ajax({
+      type: "get",
+      url: "controllers/general.controller.php",
+      data: { created: "<?=$user?>" },
+      dataType: "json",
+      success: function (response) {
+        $("#pTable").DataTable().destroy();
+        $("#pTable tbody").empty();
+
+        // Iterar sobre los datos y construir las tarjetas
+        for (let i = 0; i < response.data.length; i++) {
+          let statusText = getStatusText(
+            response.data[i].status,
+            response.data[i].order
+          );
+
+          let date = new Date(response.data[i].date);
+          date.setDate(date.getDate() + 1);
+          let options = {
+            timeZone: "America/Mexico_City",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          };
+
+          let precio = parseFloat(response.data[i].totEnvio);
+
+          let buttonUbi = "";
+          if (precio !== 0) {
+            buttonUbi = `<a href='https://www.google.com/maps/place/${response.data[i].lat},${response.data[i].long}' class='btn btn-info btn-lg btn-block' target='_blank'><i class='fas fa-map-marker-alt'></i></a>`;
+          }
+
+          let card = `
+                    <center><a href='https://rutadelaseda.xyz/app/themp/smarticket.php?order=${
+                      response.data[i].order
+                    }'><p class='p-3 mb-1 bg-info text-white rounded'>${
+            response.data[i].order
+          }</p></a></center>
+                    <div class="card col-12">
+                        <div class="card-body">
+                            <button type='button' class='btn btn-dark btn-lg btn-block mb-2' target='_blank' onclick='showProducts("${
+                              response.data[i].id
+                            }")'><i class='fas fa-box-open'></i> Ver pedido</button>
+                            <hr class="hr" />
+                            <p class="card-text"><i class="fas fa-user"></i> ${
+                              response.data[i].nombre
+                            }<div class='mb-2'></div>
+                                <i class="fas fa-phone"></i> ${
+                                  response.data[i].tel
+                                }<div class='mb-2'></div>
+                                <i class="fas fa-calendar"></i> ${date.toLocaleDateString(
+                                  "es-MX",
+                                  options
+                                )}
+                                <a href='https://api.whatsapp.com/send?phone=52${
+                                  response.data[i].tel
+                                }' class='btn btn-success btn-lg btn-block mt-2 mb-2' target='_blank'><i class='fab fa-whatsapp'></i></a>
+                                ${buttonUbi}
+                            <hr class="hr" />
+                            </p>
+                            <div class="extrasCard" id="extrasCard${
+                              response.data[i].id
+                            }">
+                            <h6 class="card-subtitle mb-2 text-muted">Gastos extras</h6>
+                            <label for="cargoextrain">Cargo extra</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
+                                <input type="number" min="0" class="form-control" onchange="guardarCargoextra('${
+                                  response.data[i].id
+                                }', '${
+            response.data[i].order
+          }')" id="cargoextrain${
+            response.data[i].id
+          }" placeholder="Indique su cargo extra">
+                            </div>
+                            <div class="form-group">
+                                <label for="cargoDescrInp" class="col-form-label">Tipo de cargo</label>
+                                <input type="text" class="form-control" onchange="guardarCargoextra('${
+                                  response.data[i].id
+                                }', '${
+            response.data[i].order
+          }')" id="cargoDescrInp${
+            response.data[i].id
+          }" placeholder="Describe el por qué del cargo">
+                            </div>
+                            <hr class="hr" />
+                            <h6 class="card-subtitle mb-2 text-muted">Total de compra</h6>
+                            <div class='mb-2'></div>
+                            <p class="card-text">$${response.data[i].suma}</p>
+                            <div class='mb-2'></div>
+                            <h6 class="card-subtitle mb-2 text-muted">Total envío</h6>
+                            <div class='mb-2'></div>
+                            <p class="card-text">$${precio.toFixed(2)}</p>
+                            <div class='mb-2'></div>
+                            <div id="pincheSumaBienPutaCastroza${
+                              response.data[i].id
+                            }"></div>
+                            </div>
+                            <div class="col-12 mb-3 mt-3">
+                              <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block mb-3" onclick="traerGastosExtrasDat('${
+                                response.data[i].order
+                              }', '${response.data[i].suma}', '${
+            response.data[i].id
+          }');" ><i class="fas fa-sync-alt"></i> Traer detalles / liberar pedido</button>
+          
+          
+                            </div>
+                            <div class='mb-2'></div>
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+
+          let modelT = `<tr id='${response.data[i].id}'><td>${card}</td></tr>`;
+          $("#pTable tbody").append(modelT);
+        }
+        $(".extrasCard").hide();
+        // Inicializar DataTable después de agregar todos los elementos
+        $("#pTable").DataTable({
+          ordering: false,
+
+          pagingType: "simple",
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+          },
+        });
+      },
+    });
+  }
+
+  // Función para obtener el texto de estado según el estado dado
+  function getStatusText(status, orderId) {
+    switch (status) {
+      case "2":
+        return `
+                <div class='p-3 mb-2 bg-primary text-white rounded'><center>Sin pagar</center></div><br>
+                <button type='button' class='btn btn-success btn-lg btn-block' target='_blank' onclick='changeStatus(${orderId})'><i class='fas fa-check-double'></i> Confirmar pago</button>`;
+      case "3":
+        return `
+                <div class='p-3 mb-2 bg-success text-white rounded'><center>Pagado</center></div><br>
+                <button type='button' class='btn btn-info btn-lg btn-block'  onclick='emitirOrden(${orderId})'><i class='fas fa-motorcycle'></i> Emitir orden de recolección</button>`;
+      case "4":
+        return `<div class='p-3 mb-2 bg-success text-white rounded'><center>En proceso de aceptación</center></div>`;
+      case "5":
+        return `
+                <div class='p-3 mb-2 bg-success text-white rounded'><center>Pedido aceptado</center></div><br>
+                <button type='button' class='btn btn-info btn-lg btn-block' target='_blank' onclick='entregaPedido(${orderId})'><i class='fas fa-box'></i> Entregar pedido</button><br>
+                <button type='button' class='btn btn-danger btn-lg btn-block' target='_blank' onclick='cancelOrden(${orderId})'><i class='fas fa-window-close'></i> Cancelar pedido</button><br>
+                <button type='button' class='btn btn-dark btn-lg btn-block' target='_blank' onclick='traerDatosRepa(${orderId})'><i class='fas fa-info-circle'></i> Ver detalles del repartidor</button>`;
+      case "6":
+        return `
+                <div class='p-3 mb-2 bg-success text-white rounded'><center>En ruta</center></div><br>
+                <button type='button' class='btn btn-dark btn-lg btn-block' target='_blank' onclick='traerDatosRepa(${orderId})'><i class='fas fa-info-circle'></i> Ver detalles del repartidor</button>`;
+      case "7":
+        return `<div class='p-3 mb-2 bg-success text-white rounded'><center>Entregado</center></div>`;
+      case "8":
+        return `
+                
+                <div id='datito${orderId}'></div>
+                <div class='p-3 mb-2 bg-primary text-white rounded'><center>Sin pagar apartado</center></div><br>
+                <button type='button' class='btn btn-success btn-lg btn-block' target='_blank' onclick='changeStatus2(${orderId})'><i class='fas fa-check-double'></i> Confirmar pago de apartado</button>`;
+      case "9":
+        return `
+                
+                <div id='datito${orderId}'></div>
+                <div class='p-3 mb-2 bg-primary text-white rounded'><center>Apartado pagado</center></div><br>
+                <button type='button' class='btn btn-success btn-lg btn-block' target='_blank' onclick='changeStatus(${orderId})'><i class='fas fa-check-double'></i> Completar pago</button>`;
+      default:
+        return "";
+    }
+  }
+
+  function traerGastosExtras(order, idCars) {
+    $.ajax({
+      type: "POST",
+      url: "controllers/verGastosExtras.php",
+      data: { order: order },
+      dataType: "json",
+      success: function (response) {
+        console.log(idCars);
+        if (response.data && response.data.length > 0) {
+          if (
+            response.data[0].tipoCargo !== null ||
+            response.data[0].precio !== null
+          ) {
+            $("#cargoextrain" + idCars).val(response.data[0].precio);
+            $("#cargoDescrInp" + idCars).val(response.data[0].tipoCargo);
+          }
+        }
+      },
+    });
+  }
+  function traerGastosExtrasDat(order, suma, id) {
+    $("#extrasCard" + id).show();
+    traerGastosExtras(order, id);
+    showApartado(order);
+    $.ajax({
+      type: "POST",
+      url: "controllers/verGastosExtras.php",
+      data: { order: order },
+      dataType: "json",
+      success: function (response) {
+        if (response.data && response.data.length > 0) {
+          if (
+            response.data[0].tipoCargo !== null ||
+            response.data[0].precio !== null
+          ) {
+            var newVal = parseFloat(response.data[0].precio);
+            var nuevaPutaSuma = parseFloat(suma);
+            var juntasLasMierdas = nuevaPutaSuma + newVal;
+            var pinchediv = `
+                      <h6 class="card-subtitle mb-2 text-muted">Total más cargo extra</h6><div class='mb-2'></div>
+                      <p class="card-text">${juntasLasMierdas}</p>`;
+            $("#pincheSumaBienPutaCastroza" + id).html(pinchediv);
+          } else {
+            guardarCargoextra(id, order);
+          }
+        } else {
+          guardarCargoextra(id, order);
+        }
+      },
+      error: function (xhr, status, error) {
+        reject(error);
+      },
+    });
+  }
+  function guardarCargoextra(id, order) {
+    var precio = $("#cargoextrain" + id).val();
+    var tipoCargo = $("#cargoDescrInp" + id).val();
+    if (precio < 0) {
+      precio = 0;
+    }
+    Swal.fire({
+      title: "¿Desea confirmar estos cambios?",
+      confirmButtonText: "Guardar",
+      denyButtonText: `No guardar`,
+      showDenyButton: true,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "POST",
+          url: "controllers/guardarGastosExtras.php",
+          data: { orderP: order, precio: precio, cargo: tipoCargo },
+          dataType: "json",
+          success: function (response) {
+            Swal.fire("Guardado", "", "Ok");
+          },
+        });
+      } else if (result.isDenied) {
+        Swal.fire("Cambios no guardados", "", "info");
+      }
+    });
+  }
+
+  function showApartado(order) {
+    $.ajax({
+      type: "POST",
+      url: "controllers/showApartadosOrder.php",
+      data: { data: order },
+      dataType: "json",
+      success: function (response) {
+        var respuesta = response.dato;
+        var htmls = `<div class='p-3 mb-2 bg-light text-dark rounded'><center>Se hizo un apartado con valor de $${respuesta}</center>`;
+        $("#datito" + order).html(htmls);
+      },
+    });
+  }
+
+  setInterval(showGe, 300000);
+  function showProducts(id) {
+    var table = $("#pTable").DataTable();
+    table.destroy();
+    $("#tbodyP").empty();
+    $("#pTable").hide();
+    $("#pTableP").show();
+    $("#returnBTN").show();
+    $.ajax({
+      type: "get",
+      url: "controllers/generalPp.controller.php",
+      data: { id: id },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        for (i = 0; i < response.data.length; i++) {
+          var modelT =
+            "<tr>" +
+            "<td>" +
+            response.data[i].keyy +
+            " " +
+            response.data[i].var +
+            "</td>" +
+            "<td>$" +
+            response.data[i].price +
+            "</td>" +
+            "<td>" +
+            response.data[i].cant +
+            "</td>" +
+            "<td>" +
+            "<img src='" +
+            response.data[i].link +
+            "' class='img-fluid' width='50px' alt='Responsive image'>" +
+            "</td>" +
+            "</tr>";
+          $("#pTableP tbody").append(modelT);
+        }
+      },
+    });
+  }
+  function changeStatus(id) {
+    var table = $("#pTable").DataTable();
+    table.destroy();
+    $("#tbodyP").empty();
+
+    $.ajax({
+      type: "get",
+      url: "controllers/changeStatusP.controller.php",
+      data: { id: id },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        showGe();
+      },
+    });
+  }
+  function changeStatus2(id) {
+    var table = $("#pTable").DataTable();
+    table.destroy();
+    $("#tbodyP").empty();
+
+    $.ajax({
+      type: "get",
+      url: "controllers/changeStatusP2.controller.php",
+      data: { id: id },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        showGe();
+      },
+    });
+  }
+  function entregaPedido(idP) {
+    var table = $("#pTable").DataTable();
+    table.destroy();
+    $("#tbodyP").empty();
+
+    $.ajax({
+      type: "post",
+      url: "controllers/changeStatusE.controller.php",
+      data: { id: idP },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        showGe();
+      },
+    });
+  }
+  function emitirOrden(idCompra) {
+    $(".btn").prop("disabled", true);
+    $.ajax({
+      type: "post",
+      url: "controllers/emitirOrden.php",
+      data: { id: idCompra },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        response.keys.forEach((key, index) => {
+          enviarNotificac(key);
+        });
+        Swal.fire(response.data, "", "info");
+        showGe();
+      },
+    });
+  }
+  function enviarNotificac(token) {
+    $.ajax({
+      type: "POST",
+      url: "controllers/androidFirebase.php",
+      data: {
+        idToken: token,
+        message: "Hay envios disponibles",
+      },
+      dataType: "html",
+      success: function (response) {
+        console.log(response);
+      },
+    });
+  }
+  function cancelOrden(idCompra) {
+    $(".btn").prop("disabled", true);
+    Swal.fire({
+      title: "¿Desea realizar esta acción?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Código a ejecutar si el usuario hace clic en "Aceptar"
+
+        $.ajax({
+          type: "post",
+          url: "controllers/cancelEnv.php",
+          data: { id: idCompra },
+          dataType: "json",
+          success: function (response) {
+            Swal.fire(response.ok, "", "success");
+            showGe();
+          },
+        });
+      } else {
+        // Código a ejecutar si el usuario hace clic en "Cancelar"
+        Swal.fire("Acción cancelada", "", "info");
+      }
+    });
+  }
+  function traerDatosRepa(idDelv) {
+    $.ajax({
+      type: "post",
+      url: "controllers/traerDatsDeli.php",
+      data: { data: idDelv },
+      dataType: "json",
+      success: function (response) {
+        var fechaActual = new Date();
+
+        // Fecha anterior en formato "2024-01-23 23:10:47"
+        var fechaAnteriorString = response.data[0].time;
+        var fechaAnterior = new Date(fechaAnteriorString.replace(/-/g, "/"));
+
+        // Calcular la diferencia de tiempo en milisegundos
+        var diferenciaTiempo = fechaActual - fechaAnterior;
+
+        // Convertir la diferencia a minutos
+        var minutosDiferencia = Math.floor(diferenciaTiempo / (1000 * 60));
+
+        // Mostrar la diferencia en el formato deseado
+        if (minutosDiferencia >= 60) {
+          var horasDiferencia = Math.floor(minutosDiferencia / 60);
+          var tiempito = horasDiferencia + " Horas.";
+        } else if (minutosDiferencia >= 1) {
+          var tiempito = minutosDiferencia + " Minutos.";
+        } else {
+          var segundosDiferencia = Math.floor(diferenciaTiempo / 1000);
+
+          var tiempito = segundosDiferencia + " Segundos.";
+        }
+
+        var tipo = response.data[0].tipo;
+        var color = response.data[0].color;
+        switch (tipo) {
+          case "1":
+            tipo = "Moto";
+            break;
+          case "2":
+            tipo = "Bicicleta";
+            break;
+          case "3":
+            tipo = "Automovil";
+            break;
+        }
+        switch (color) {
+          case "1":
+            color = "Blanco";
+            break;
+          case "2":
+            color = "Negro";
+            break;
+          case "3":
+            color = "Gris";
+            break;
+          case "4":
+            color = "Rojo";
+            break;
+          case "5":
+            color = "Azul";
+            break;
+          case "6":
+            color = "Verde";
+            break;
+          case "7":
+            color = "Amarillo";
+            break;
+        }
+        console.log(response);
+        $("#miModal").modal("show");
+        var card = `<div class="card text-center">
+    <div class="card-header">
+      Ficha de identificación
+    </div>
+    <div class="card-body">
+      <div class="container text-center">
+        <div class="profile-image-container">
+          <label for="file-input" class="profile-image">
+            <img
+              src="./controllers/delivery/uploads/${response.data[0].picture}"
+              alt="Imagen de perfil"
+              class="profile-image2"
+              onerror="this.onerror=null;this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';"
+            />
+          </label>
+        </div>
+      <h5 class="card-title">${response.data[0].nombreDel} ${response.data[0].apellidoPaterno} ${response.data[0].apellidoMaterno}</h5>
+      <div class="card mb-2">
+    <h5 class="card-header"><i class="fas fa-car"></i></h5>
+    <div class="card-body">
+      <p class="card-text"><b>Placas:</b> ${response.data[0].placas}</p>
+    </div>
+  </div>
+  <div class="card mb-2">
+    <h5 class="card-header"><i class="fas fa-motorcycle"></i></h5>
+    <div class="card-body">
+      <p class="card-text"><b>Tipo:</b> ${tipo}</p>
+    </div>
+  </div>
+  <div class="card mb-2">
+    <h5 class="card-header"><i class="fas fa-gem"></i></h5>
+    <div class="card-body">
+      <p class="card-text"><b>Marca y modelo:</b> ${response.data[0].modelo}</p>
+    </div>
+  </div>
+  <div class="card">
+    <h5 class="card-header"><i class="fas fa-palette"></i></h5>
+    <div class="card-body">
+      <p class="card-text"><b>Color:</b> ${color}</p>
+    </div>
+  </div>
+    </div>
+    <div class="card-footer text-muted mt-3">
+      <center>
+    <div class="mb-2">Última conexión hace: ${tiempito}</div>
+  </center>
+      <a href="https://www.google.com/maps?q=${response.data[0].latitud},${response.data[0].longitud}" name="" id="" class="btn btn-primary" btn-lg btn-block">Ver última ubicación del repartidor</a>
+    </div>
+  </div>`;
+        $("#modalCard").html(card);
+      },
+    });
+  }
+  function traerCompleto() {
+    var table = $("#tablaDatos").DataTable();
+    table.destroy();
+    $("#tablaDatos").show();
+    $("#principalTableDiv").hide();
+    $.ajax({
+      type: "get",
+      url: "controllers/general.controller.php",
+      data: { created: "<?=$user?>" },
+      dataType: "json",
+      success: function (response) {
+        $("#tablaDatos").DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+          },
+          dom: "Bfrtip", // Indica que se utilizarán los botones y la barra de búsqueda
+          buttons: [
+            "copy", // Agrega el botón para exportar a Excel
+          ],
+          data: response.data,
+          columns: [
+            { data: "order" },
+            { data: "tel" },
+
+            { data: "totEnvio" },
+            { data: "nombre" },
+            { data: "date" },
+
+            { data: "suma" },
+            {
+              data: "status",
+              render: function (data) {
+                console.log("status: " + data);
+                switch (data) {
+                  case "2":
+                    return "Sin pagar";
+                  case "3":
+                    return "Pagado, sin emitir orden de recolección";
+                  case "4":
+                    return "En proceso de aceptación";
+                  case "5":
+                    return "Pedido aceptado por un repartidor";
+                  case "6":
+                    return "En ruta";
+                  case "7":
+                    return "Pedido terminado";
+                  case "8":
+                    return "Se hizo un apartado";
+                  case "9":
+                    return "Apartado pagado";
+                  default:
+                    return "Estado desconocido";
+                }
+              },
+            },
+            {
+              data: "estdoMercado",
+              render: function (data) {
+                switch (data) {
+                  case "0":
+                    return "En espera de pago";
+                  case "1":
+                    return "Pagado";
+                  default:
+                    return "Sin metodo de pago";
+                }
+              },
+            },
+          ],
+        });
+      },
+    });
+  }
+  function traerInicio() {
+    $("#tablaDatos").hide();
+    $("#principalTableDiv").show();
+  }
+  function traerDeliveriDats() {
+    var table = $("#tablaDeliveri").DataTable();
+    table.destroy();
+    $.ajax({
+      type: "post",
+      url: "controllers/tarerDatosDeliverTienda.php",
+      data: { created: "<?=$user?>" },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        $("#tablaDeliveri").DataTable({
+          language: {
+            url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+          },
+          data: response.data,
+          columns: [
+            {
+              data: null,
+              render: function (data, type, row) {
+                // Aquí puedes devolver cualquier HTML que desees para esta columna
+                return (
+                  '<div class="imagenCircular"><img src="https://rutadelaseda.xyz/controllers/delivery/uploads/' +
+                  data.picture +
+                  '" alt="Imagen"></div>'
+                );
+              },
+            },
+            { data: "nombre" },
+            { data: "apellidoPaterno" },
+            { data: "apellidoMaterno" },
+            { data: "placas" },
+            {
+              data: null,
+              render: function (data, type, row) {
+                // Aquí puedes devolver cualquier HTML que desees para esta columna
+                if (data.bloqueo == 0) {
+                  return `
+          <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch${data[0]}" onchange="enviarBloqueo(${data[0]})">
+              <label class="custom-control-label" for="customSwitch${data[0]}"></label>
+          </div>`;
+                } else {
+                  return `
+          <div class="custom-control custom-switch">
+              <input type="checkbox" checked class="custom-control-input" id="customSwitch${data[0]}" onchange="enviarBloqueo(${data[0]})">
+              <label class="custom-control-label" for="customSwitch${data[0]}"></label>
+          </div>`;
+                }
+              },
+            },
+            // Añade más columnas según tus necesidades
+          ],
+        });
+      },
+    });
+  }
+  function enviarBloqueo(id) {
+    var status = 0;
+    if ($("#customSwitch" + id).is(":checked")) {
+      status = 1;
+    } else {
+      status = 0;
+    }
+    $.ajax({
+      type: "post",
+      url: "controllers/changuesStatusblock.php",
+      data: { type: status, id: id },
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+      },
+    });
+  }
+</script>

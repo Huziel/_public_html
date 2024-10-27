@@ -1,0 +1,77 @@
+<footer class="bg-body-tertiary text-center fixed-bottom cristalNav">
+  <center>
+    <div class="container row text-primary mt-3 mb-3">
+      <div class="col-4">
+        <center>
+          <a href="pedidos" class="botonF1 text-primary">
+            <i class="fas fa-paper-plane fa-2x"></i
+          ></a>
+        </center>
+      </div>
+      <div class="col-4">
+        <center>
+          <a href="porfile" class="botonF1 text-primary">
+            <i class="fas fa-user fa-2x"></i
+          ></a>
+        </center>
+      </div>
+      <div class="col-4">
+        <center>
+          <a href="tiendas" class="botonF1 text-primary">
+            <i class="fas fa-store fa-2x"></i
+          ></a>
+        </center>
+      </div>
+    </div>
+  </center>
+</footer>
+<!-- <script>
+  function enviarUbicacion() {
+    Android.enviarUbicacion();
+    if (navigator.geolocation) {
+      // La geolocalización está disponible
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var latitud = position.coords.latitude;
+          var longitud = position.coords.longitude;
+
+          // Enviar la ubicación por AJAX
+          $.ajax({
+            url: "./controllers/delivery/getLocation.php",
+            method: "POST",
+            data: { latitud: latitud, longitud: longitud },
+            success: function (response) {
+              console.log("Ubicación enviada con éxito:", response);
+            },
+            error: function (error) {
+              Swal.fire("Error al enviar la ubicación:", error);
+            },
+          });
+        },
+        function (error) {
+          // Manejar errores al obtener la ubicación
+          if (error.code === 1) {
+            // El usuario ha denegado el permiso de geolocalización
+            Swal.fire(
+              "Por favor, active la geolocalización para enviar su ubicación."
+            );
+          } else if (error.code === 2) {
+            // No se pudo obtener la ubicación
+            Swal.fire(
+              "No se pudo obtener su ubicación. Por favor, asegúrese de que la geolocalización esté activada."
+            );
+          }
+        }
+      );
+    } else {
+      // La geolocalización no está disponible en este navegador
+      Swal.fire(
+        "Su navegador no admite la geolocalización. Por favor, use un navegador que lo admita."
+      );
+    }
+  }
+
+  // Configurar el intervalo (por ejemplo, cada 5 segundos)
+  var intervalo = setInterval(enviarUbicacion, 5000);
+</script>
+ -->

@@ -1,0 +1,55 @@
+<?php
+
+function getActiveClass($pageName, $currentName) {
+    return $pageName === $currentName ? 'text-secondary' : '';
+}
+?>
+<footer class="bg-body-tertiary text-center fixed-bottom cristalNav">
+  <center>
+    <div class="container row text-primary mt-3 mb-3">
+      <div class="col-3">
+        <center>
+          <a
+            href="listP"
+            class="botonF1 text-primary <?= getActiveClass('listP', $name) ?>"
+          >
+            <i class="fas fa-boxes fa-2x"></i>
+          </a>
+        </center>
+      </div>
+      <div class="col-3">
+        <center>
+          <a
+            href="general"
+            class="botonF1 text-primary <?= getActiveClass('general', $name) ?>"
+          >
+            <i class="fas fa-clipboard-check fa-2x"></i>
+          </a>
+        </center>
+      </div>
+      <div class="col-3">
+        <center>
+          <a
+            href="puntoVenta"
+            class="botonF1 text-primary <?= getActiveClass('puntoVenta', $name) ?>"
+          >
+            <i class="fas fa-cash-register fa-2x"></i>
+          </a>
+        </center>
+      </div>
+      <div class="col-3">
+        <center>
+          <a
+            href="catalogo"
+            class="botonF1 text-primary <?= getActiveClass('catalogo', $name) ?>"
+          >
+            <i class="fas fa-store fa-2x"></i>
+          </a>
+        </center>
+      </div>
+    </div>
+  </center>
+</footer>
+<script>
+  function cambiarcolores(params) {}
+</script>

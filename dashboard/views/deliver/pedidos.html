@@ -1,0 +1,470 @@
+<style>
+  #map {
+    height: 250px;
+    width: 100%;
+  }
+</style>
+<div id="content">
+  <?=$nav?>
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-center"></div>
+    <div class="container">
+      <div class="card mb-3" id="m1Card">
+        <div class="card-body">
+          <h5 class="card-title">Aún no hay pedidos.</h5>
+        </div>
+      </div>
+      <div class="mb-3" id="m2Card">
+        <h4>Pedidos disponibles</h4>
+      </div>
+      <div class="mb-3" id="m3Card">
+        <h4>Pedido en curso</h4>
+      </div>
+      <div style="border-radius: 20px" id="map"></div>
+      <center>
+        <button id="addMarkerBtn" class="mt-3 mb-3 btn btn-info">
+          Ubicarme <i class="fas fa-map-pin"></i>
+        </button>
+      </center>
+
+      <div id="cardReel" class="card-group"></div>
+    </div>
+  </div>
+</div>
+<script>
+  function activarDropzone() {
+    Dropzone.autoDiscover = false;
+
+    // Inicializar Dropzone después de que el DOM esté cargado
+    myDropzone = new Dropzone("#myDropzone", {
+      url: "./controllers/delivery/cerrarPedido.php",
+      autoProcessQueue: false,
+      addRemoveLinks: true,
+      maxFiles: 1,
+      acceptedFiles: "image/*",
+      init: function () {
+        const dropzoneInstance = this;
+
+        dropzoneInstance.on("sending", function (file, xhr, formData) {
+          formData.append("idOrden", window.cerrarPedidoData.ordenCompra);
+          formData.append("correo", window.cerrarPedidoData.correo);
+          formData.append("Corder", window.cerrarPedidoData.Corder);
+          formData.append(
+            "codigo",
+            $("#BTN" + window.cerrarPedidoData.ordenCompra).val()
+          );
+        });
+
+        dropzoneInstance.on("success", function (file, response) {
+          const jsonData = JSON.parse(response);
+          Swal.fire({
+            title: jsonData.data,
+            icon: "info",
+            confirmButtonText: "Entendido",
+          });
+          if (jsonData.data == "El c\u00f3digo es invalido") {
+          } else {
+            enviarNotificac(
+              window.cerrarPedidoData.token,
+              "Pedido Cerrado: " + window.cerrarPedidoData.Corder
+            );
+            checkPedido();
+          }
+        });
+
+        dropzoneInstance.on("error", function (file, errorMessage) {
+          console.error("Error al cargar la imagen:", errorMessage);
+        });
+      },
+    });
+  }
+
+  function verPedidosDisponible() {
+    $.ajax({
+      type: "POST",
+      url: "./controllers/delivery/verPedidosDisponible.php",
+      data: "data",
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        if (response && response.data) {
+          if (response.data == "Sin datos") {
+            $("#m1Card").show();
+            $("#m2Card").hide();
+            $("#m3Card").hide();
+          } else {
+            $("#m1Card").hide();
+            $("#m3Card").hide();
+            $("#m2Card").show();
+            var contenedor = $("#cardReel");
+            $.each(response.data, function (index, elemento) {
+              var nuevaTarjeta = $(
+                "<div id='cardPedidoDeliveGoo" +
+                  elemento.order +
+                  "' style='display:none'>"
+              ).addClass("card mb-3 animate__animated animate__pulse");
+              var contenidoTarjeta = `
+              <div style="max-height: 100px; overflow: hidden; display: flex; justify-content: center; align-items: center;" class="mt-3">
+    <img class="card-img-top" onerror="this.onerror=null;this.src='https://rutadelaseda.xyz/app/themp/images/ECATALOG.png'" src="${
+      elemento.logojpg
+    }" alt="Card image cap" style="width: auto; height: 100px; border-radius: 100%" />
+</div>
+                <div class="card-body">
+            <h5 class="card-title">No. Orden. ${elemento.order}</h5>
+            <p class="card-text"><h5>Inicio</h5>
+              ${elemento.locales}
+              <br>
+              <hr class="hr">
+              Precio de envio.<br>
+              <i class="fas fa-dollar-sign"></i> ${parseFloat(
+                elemento.totEnvio
+              ).toFixed(2)}
+            </p>
+            <div class='row'>
+              <div class='col-6'>
+                <a href="https://www.google.com/maps/place/${elemento[5]},${
+                elemento[6]
+              }"  class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                <i class="fas fa-search-location"></i><br> Ver destino
+            </a>    
+            </div>    
+            <div class='col-6'>
+                <a href="https://wa.me/+52${
+                  elemento.phone
+                }" class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                <i class="fab fa-whatsapp-square"></i><br> Contacto Tienda
+            </a></div> 
+            <div class='col-12 mt-3'>
+                <a href="https://www.google.com/maps/place/${elemento[35]},${
+                elemento[36]
+              }"  class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                    <i class="fas fa-map-pin"></i><br> Ver ubicación inicial
+            </a></div>   
+            <div class='col-12 mt-3'>
+                <hr class="hr">
+                <button type="button" onclick="aceptarPedi(${
+                  elemento.ordenCompra
+                },${elemento.order},'${elemento.createdby}','${
+                elemento.token
+              }')" class="btn btn-info btn-lg btn-block">
+                 Aceptar pedido
+            </button></div>  
+            </div>
+            
+        </div>
+                `;
+              nuevaTarjeta.html(contenidoTarjeta);
+
+              // Agrega la tarjeta al contenedor
+              contenedor.append(nuevaTarjeta);
+            });
+          }
+        } else {
+          console.error("La respuesta no contiene datos válidos");
+        }
+      },
+    });
+  }
+
+  function aceptarPedi(ordenCompra, Corder, correo, token) {
+    console.log("idToken=" + "<?=$idToken?>");
+    $(".btn").prop("disabled", true);
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/aceptarPedido.php",
+      data: { idOrden: ordenCompra, Corder: Corder, correo: correo },
+      dataType: "json",
+      success: function (response) {
+        Swal.fire({
+          title: response.data,
+          icon: "info", // Puedes usar 'success', 'error', 'warning', 'info', etc.
+          confirmButtonText: "Entendido",
+        });
+        enviarNotificac(token, "Pedido aceptado por un repartidor");
+        checkPedido();
+        location.reload();
+      },
+    });
+  }
+  function enviarNotificac(token, mensaje) {
+    $.ajax({
+      type: "POST",
+      url: "./controllers/androidFirebase.php",
+      data: {
+        idToken: token,
+        message: mensaje,
+      },
+      dataType: "html",
+      success: function (response) {
+        console.log(response);
+      },
+    });
+  }
+  function checkPedido() {
+    $("#cardReel").empty();
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/checkPedido.php",
+      data: "data",
+      dataType: "json",
+      success: function (response) {
+        /* console.log(response); */
+        if (response && response.data) {
+          if (response.data == "Sin datos") {
+            verPedidosDisponible();
+          } else {
+            $("#map").hide();
+            $("#addMarkerBtn").hide();
+            $("#m1Card").hide();
+            $("#m2Card").hide();
+            $("#m3Card").show();
+            var contenedor = $("#cardReel");
+            $.each(response.data, function (index, elemento) {
+              var nuevaTarjeta = $("<div>").addClass("card mb-3");
+              var contenidoTarjeta = `
+              <div style="max-height: 100px; overflow: hidden; display: flex; justify-content: center; align-items: center;" class="mt-3">
+    <img class="card-img-top" onerror="this.onerror=null;this.src='https://rutadelaseda.xyz/app/themp/images/ECATALOG.png'" src="${
+      elemento.logojpg
+    }" alt="Card image cap" style="width: auto; height: 100px; border-radius: 100%" />
+</div>
+                <div class="card-body">
+            <h5 class="card-title">No. Orden. ${elemento.order}</h5>
+            <p class="card-text">
+              ${elemento.locales}
+              <br>
+              <hr class="hr">
+              Precio de envio.<br>
+              <i class="fas fa-dollar-sign"></i> ${parseFloat(
+                elemento.totEnvio
+              ).toFixed(2)}
+            </p>
+            <div class='row'>
+            <div class='col-6'>
+                <a href="https://www.google.com/maps/place/${elemento[5]},${
+                elemento[6]
+              }"  class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                <i class="fas fa-search-location"></i><br> Ver destino
+            </a>    
+            </div>    
+            <div class='col-6'>
+                <a href="https://wa.me/+52${
+                  elemento.phone
+                }" class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                <i class="fab fa-whatsapp-square"></i><br> Contacto Tienda
+            </a></div> 
+            <div class='col-12 mt-3'>
+                <a href="https://www.google.com/maps/place/${elemento[35]},${
+                elemento[36]
+              }"  class="btn btn-light btn-lg btn-block" style="font-size: 12px;">
+                    <i class="fas fa-map-pin"></i><br> Ver ubicación de la tienda
+            </a></div>  
+            <div class='col-12 mt-3'>
+                <hr class="hr">
+                <div class="form-group">
+  <label for="">Codigo de verificación</label>
+  <input type="text"
+    class="form-control" name="" id="BTN${
+      elemento.ordenCompra
+    }" aria-describedby="helpId" placeholder="">
+  <small id="helpId" class="form-text text-muted">Pidele el codigo de verificación al cliente para cerrar esta orden de envio.</small>
+</div>
+<form id="myDropzone" class="dropzone mt-3 mb-3" style="border-radius:20px" action="./controllers/delivery/cerrarPedido.php" enctype="multipart/form-data">
+    <div class="dz-message">Evidencia de entrega <br>Arrastra y suelta una imagen o haz clic para cargarla</div>
+</form>
+                <button type="button" onclick="cerrarPedido(${
+                  elemento.ordenCompra
+                },${elemento.order},'${elemento.createdby}','${
+                elemento.token
+              }')" class="btn btn-info btn-lg btn-block">
+                 Cerrar pedido
+            </button></div> 
+            <div class='col-12 mt-3'>
+                <hr class="hr">
+                <button type="button" onclick="cancelarPedido(${
+                  elemento.ordenCompra
+                },${elemento.order},'${elemento.createdby}','${
+                elemento.token
+              }')" class="btn btn-danger btn-lg btn-block">
+                 Cancelar pedido
+            </button></div>  
+            </div>
+            
+        </div>
+                `;
+              nuevaTarjeta.html(contenidoTarjeta);
+
+              // Agrega la tarjeta al contenedor
+              contenedor.append(nuevaTarjeta);
+            });
+
+            activarDropzone();
+          }
+        } else {
+          console.error("La respuesta no contiene datos válidos");
+        }
+      },
+    });
+  }
+  checkPedido();
+  /* setInterval(checkPedido, 60000); */
+  function cancelarPedido(ordenCompra, Corder, correo, token) {
+    $(".btn").prop("disabled", true);
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/cancelarPedido.php",
+      data: {
+        idOrden: ordenCompra,
+        correo: correo,
+        Corder: Corder,
+      },
+      dataType: "json",
+      success: function (response) {
+        Swal.fire({
+          title: response.data,
+          icon: "info", // Puedes usar 'success', 'error', 'warning', 'info', etc.
+          confirmButtonText: "Entendido",
+        });
+        enviarNotificac(token, "Pedido cancelado: " + Corder);
+        checkPedido();
+        console.log("idToken=" + "0");
+        location.reload();
+      },
+    });
+  }
+
+  // Función cerrarPedido que llama a Dropzone
+  function cerrarPedido(ordenCompra, Corder, correo, token) {
+    // Guardar datos para usar en el evento `sending`
+    window.cerrarPedidoData = { ordenCompra, Corder, correo, token };
+
+    // Deshabilitar botón temporalmente
+    $(".btn").prop("disabled", true);
+
+    // Verificar si hay archivos para cargar
+    if (myDropzone.getQueuedFiles().length > 0) {
+      // Procesar la cola de Dropzone
+      myDropzone.processQueue();
+    } else {
+      Swal.fire("Por favor, carga una imagen antes de enviar.");
+      $(".btn").prop("disabled", false);
+    }
+  }
+
+  let locations = [];
+
+  function traerDatosDelMapa() {
+    $.ajax({
+      type: "POST",
+      url: "./controllers/delivery/verPedidosDisponible.php",
+      data: "data",
+      dataType: "json",
+      success: function (response) {
+        $.each(response.data, function (index, elemento) {
+          locations.push({
+            lat: elemento[5],
+            lng: elemento[6],
+            title: elemento.order,
+          });
+        });
+        if (locations.length > 0) {
+          mapGoogle();
+        } else {
+          console.log("El array está vacío.");
+        }
+      },
+    });
+  }
+  traerDatosDelMapa();
+
+  function mapGoogle() {
+    let map;
+    const firstRow = locations[0];
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 11,
+        center: {
+          lat: parseFloat(firstRow.lat),
+          lng: parseFloat(firstRow.lng),
+        },
+      });
+
+      // Colocar los marcadores en el mapa
+      locations.forEach((location) => {
+        const marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(location.lat),
+            lng: parseFloat(location.lng),
+          },
+          map: map,
+          title: location.title,
+        });
+
+        // Información adicional en un InfoWindow
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<h4>${location.title}</h4>`,
+        });
+
+        // Mostrar InfoWindow y activar la función al hacer clic en el marcador
+        marker.addListener("click", () => {
+          handleMarkerClick(location); // Llama a tu función personalizada
+        });
+      });
+    }
+
+    // Función para añadir un nuevo marcador y centrar el mapa en él
+    function addNewMarker() {
+      var latitude = $("#latitudeWebView").val();
+      var longitude = $("#longitudeWebView").val();
+      if (latitude && longitude) {
+        const newLocation = { lat: latitude, lng: longitude, title: "Yo" };
+        locations.push(newLocation); // Añadir nueva ubicación al array
+
+        const marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(newLocation.lat),
+            lng: parseFloat(newLocation.lng),
+          },
+          map: map,
+          title: newLocation.title,
+        });
+
+        // Centrar el mapa en el nuevo marcador
+        map.setCenter({
+          lat: parseFloat(newLocation.lat),
+          lng: parseFloat(newLocation.lng),
+        });
+
+        // Listener para el nuevo marcador
+        marker.addListener("click", () => {
+          handleMarkerClick(newLocation);
+        });
+      } else {
+        alert("Aún no cargan las coordenadas, intenta más tarde");
+      }
+    }
+
+    // Función que se ejecuta al hacer clic en un marcador
+    function handleMarkerClick(location) {
+      $(".card").hide();
+
+      $("#cardPedidoDeliveGoo" + location.title).show();
+      setTimeout(function () {
+        $("html, body").animate(
+          {
+            scrollTop: $(".btn-block").offset().top,
+          },
+          "slow"
+        );
+      }, 1000); // 1000 milisegundos = 1 segundo
+    }
+
+    // Cargar el mapa cuando la página esté lista
+    window.onload = initMap;
+
+    // Asociar el botón a la función para añadir un nuevo marcador
+    document
+      .getElementById("addMarkerBtn")
+      .addEventListener("click", addNewMarker);
+  }
+</script>

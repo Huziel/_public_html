@@ -1,0 +1,15 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.ruta.delaseda",
+        "sha256_cert_fingerprints": [
+          "0E:6E:9A:C7:53:72:EB:AF:5B:A1:04:1E:7E:23:30:48:59:0A:B8:0D:F8:BE:2B:E5:2A:BF:17:29:EA:BC:D0:76",
+          "A3:FC:F1:B2:EF:9D:E3:29:C7:A0:66:49:A7:AD:F3:A9:39:26:13:AF:09:5B:8B:C7:94:59:4F:17:A8:52:A2:C2"
+        ]
+      }
+    }
+  ]

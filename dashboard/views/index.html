@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <?=$head?>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <?=(isset($sidebar) ? $sidebar : null)?>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" style="height: 100vh;" class="d-flex flex-column">
+        <!-- Main Content -->
+        <?=$content?>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+      <!--   <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Rutadelaseda 2024</span>
+            </div>
+          </div>
+        </footer> -->
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              ¿Listo para salir?
+            </h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Seleccione "Cerrar sesión" a continuación si está listo para
+            finalizar su sesión actual.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <a class="btn btn-primary" href="logout.php">Salir</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    
+    <?=$footer?>
+    <!--   modal Product -->
+    <div
+      class="modal fade"
+      id="modalProd"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <i class="fas fa-edit"></i> Editar producto
+            </h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <center>
+              <div class="row justify-content-center ">
+                <div class="col-12 mb-5 mb-3">
+                  <center>
+                    <div class="col-md-6 col-12">
+                      <div id="imgPD"></div>
+                    </div>
+                  </center>
+                </div>
+
+                <div class="col-12">
+                  <center>
+                    <button
+                      type="button"
+                      class="btn btn-primary mb-3"
+                      onclick="buscarBarcodeEdI()"
+                    >
+                      Buscar imagenes relacionadas
+                    </button>
+                    <div id="CardResPRela"></div>
+                  </center>
+                </div>
+
+                <form
+                  action=""
+                  id="formularioProductoEditar"
+                  method="post"
+                  class="row justify-content-center container"
+                >
+                  <input type="hidden" name="fotoAuxED" id="fotoAuxED" />
+                  <input type="hidden" id="idPD" name="idPD" />
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="">Nombre</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="namePD"
+                        id="namePD"
+                        aria-describedby="helpId"
+                        placeholder="Nombre"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="">Descripción</label>
+
+                      <textarea
+                        class="form-control"
+                        name="descrPD"
+                        id="descrPD"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="">Variable</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="variablePD"
+                        id="variablePD"
+                        aria-describedby="helpId"
+                        placeholder="Variable o modelo"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="">Precio</label>
+                      <input
+                        type="number"
+                        min="1"
+                        pattern="^[0-9]+"
+                        class="form-control"
+                        name="precioPD"
+                        id="precioPD"
+                        aria-describedby="helpId"
+                        placeholder="Precio del producto"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12">
+                    <div class="form-group">
+                      <label for="">Stock</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="0" pattern="^[0-9]+"
+                        name="stockInp"
+                        id="stockInp"
+                        aria-describedby="helpId"
+                        placeholder="Stock del producto"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group mb-3">
+                      <label for="">Imagen del producto</label>
+                      <div class="custom-file">
+                        <input
+                          type="file"
+                          class="custom-file-input impd"
+                          id="imagePDSI"
+                          name="imagePDSI"
+                        />
+                        <label class="custom-file-label" for="inputGroupFile01"
+                          >Buscar imagen</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group mb-3">
+                      <label for="">Imagenes derivadas del producto</label>
+                      <div class="custom-file">
+                        <input
+                          type="file"
+                          class="custom-file-input"
+                          name="imagePDS[]"
+                          id="imagePDS"
+                          multiple
+                        />
+                        <label
+                          class="custom-file-label"
+                          id="labelPDS"
+                          for="inputGroupFile01"
+                          >Buscar imagenes</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <label for="" class="form-label">Activo</label>
+                      <select
+                        class="form-control"
+                        name="activeProduct"
+                        id="activeProduct"
+                      >
+                        <option value="">Seleccionar</option>
+                        <option value="1">SI</option>
+                        <option value="0">NO</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group mb-3">
+                      <label for="">Código de barras <i class="fas fa-barcode"></i></label>
+                      <input type="number"
+                        class="form-control" name="barcodeInput" id="barcodeInputID" aria-describedby="helpId" placeholder="Código de barras del producto">
+                      <small id="helpId" class="form-text text-muted">Se puede utilizar escáner externo</small>
+                    </div>
+                  </div>
+
+                  <div class="col-6 mb-3">
+                    <button type="submit" class="btn btn-success btn-block">
+                      <i class="fas fa-save"></i> Guardar
+                    </button>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <button
+                      type="button"
+                      onclick="borrarProduc()"
+                      class="btn btn-danger btn-block"
+                    >
+                      <i class="fas fa-backspace"></i> Borrar
+                    </button>
+                  </div>
+                </form>
+                <center>
+                  <div id="resultPD" class="col-6">
+                    <lottie-player
+                      src="https://assets2.lottiefiles.com/packages/lf20_p8bfn5to.json"
+                      background="transparent"
+                      speed="1"
+                      style="width: 100%"
+                      loop
+                      autoplay
+                    ></lottie-player>
+                  </div>
+                </center>
+
+                <div id="imgDetailsP" class="row container"></div>
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="./dashboard/views/vendor/jquery-easing/jquery.easing.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="./dashboard/views/js/sb-admin-2.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.1/accounting.min.js"
+      integrity="sha512-LLsvn7RXQa0J/E40ChF/6YAf2V9PJuLGG1VeuZhMlWp+2yAKj98A1Q1lsChkM9niWqY0gCkvHvpzqQOFEfpxIw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- dropzone -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <!-- google Maps -->
+    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs8c8PjH9-lLk3LXN7C0Lwsvap4QHWYps&callback=initAutocomplete&libraries=places&v=weekly"
+      defer
+    ></script>
+    <script src="./dashboard/views/js/scripts.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+    <script src="./dashboard/views/js/autoFillGoogle.js"></script>
+    <!-- Page level plugins -->
+   
+
+    <!-- Page level custom scripts -->
+   
+  </body>
+</html>

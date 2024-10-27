@@ -1,0 +1,1048 @@
+<div id="content" class="mt-5">
+  <!-- Topbar -->
+  <?=$nav?>
+  <!-- End of Topbar -->
+  <style>
+    .image-container {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .image-container img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .text-overlay {
+      position: absolute;
+      bottom: 10px;
+      /* Ajusta la posición según tu preferencia */
+      left: 10px;
+      /* Ajusta la posición según tu preferencia */
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Fondo semitransparente */
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+    @media (min-width: 300px) {
+      /* Tamaño de texto para pantallas medianas */
+      .tableCotiza {
+        font-size: 3vw;
+      }
+    }
+    @media (min-width: 600px) {
+      /* Tamaño de texto para pantallas medianas */
+      .tableCotiza {
+        font-size: 2vw;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      /* Tamaño de texto para pantallas grandes */
+      .tableCotiza {
+        font-size: 1vw;
+      }
+    }
+    .dataTables_info {
+      display: none;
+    }
+  </style>
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid h-80">
+    <!-- Page Heading -->
+
+    <div class="d-flex align-content-center justify-content-center">
+      <div class="row col-12 col-md-12 mb-5 justify-content-center">
+        <div class="card" style="width: 100%">
+          <div class="row justify-content-center">
+            <div class="col-12 display-PV-1" id="display-PV-1">
+              <div class="card border-light mb-3">
+                <div class="card-body">
+                  <div
+                    class="row justify-content-center mb-3"
+                    style="font-size: 20px"
+                  >
+                    <div class="col-12 row justify-content-center mb-3">
+                      Ordenes de venta
+                    </div>
+
+                    <div
+                      class="col-12 col-md-4 row justify-content-center"
+                      style="margin: 10px"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-block"
+                        id="miBoton"
+                        onclick="mostrarModalNuevoPv()"
+                      >
+                        Nuevo <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div
+                    id="table-container-ordenesCompra"
+                    class="mr-md-3 row justify-content-center col-12"
+                  ></div>
+                  <div class="container mt-4 table-responsive tablshistorico">
+                    <button
+                      type="button"
+                      class="btn btn-info mb-3"
+                      onclick="traerDeNuevo()"
+                    >
+                      <i class="fas fa-long-arrow-alt-left"></i>
+                    </button>
+                    <br />
+
+                    <table
+                      id="ordersTable"
+                      class="table table-striped table-bordered table-sm tableCotiza mt-3"
+                    >
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>No. Orden</th>
+                          <th>Nombre</th>
+                          <th>Fecha</th>
+
+                          <th>Total</th>
+                          <th>Extra</th>
+                          <th>Tipo de Pago</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Datos se insertarán aquí con JavaScript -->
+                      </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <table
+                      id="productsTable"
+                      class="table table-striped table-bordered table-sm tableCotiza mt-3 productsTable"
+                      style="margin-top: 20px"
+                    >
+                      <thead>
+                        <tr>
+                          <th>ID Producto</th>
+                          <th>Nombre Producto</th>
+                          <th>Cantidad</th>
+                          <th>Precio Precio unitario</th>
+                          <th>Precio precio completo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Datos se insertarán aquí con JavaScript -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="col-12 col-md-7 display-PV-2 row justify-content-center"
+            >
+              <div class="table-responsive mt-3 h-100">
+                <div id="table-container" class="mr-md-3 h-50"></div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-5 display-PV-2">
+              <div class="card border-light mb-3 mt-3 ml-md-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block mb-2"
+                  onclick="regresarAOrdenes()"
+                >
+                  <i class="fas fa-arrow-left"></i> Ordenes de venta
+                </button>
+                <div
+                  class="card-header row justify-content-center"
+                  id="etiquetaNameCuenta"
+                  onclick="cambiarNombreOrdenVe()"
+                >
+                  Nombre de la cuenta
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title mb-3">Tabla cotizadora</h5>
+                  <div
+                    id="tablaContainerPVCotizador"
+                    class="table-responsive"
+                  ></div>
+                  <div class="row justify-content-start">
+                    <div class="col-6 col-md-12 col-lg-6 mb-2">
+                      <button
+                        style="display: none"
+                        type="button"
+                        class="btn btn-outline-primary btn-block tableCotiza"
+                        onclick="showAlertMonto()"
+                      >
+                        Monto extra <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                    <div class="col-6 col-md-12 col-lg-6 mb-2">
+                      <button
+                        style="display: none"
+                        type="button"
+                        class="btn btn-outline-secondary btn-block tableCotiza"
+                        onclick="showAlertPorcentaje()"
+                      >
+                        Porcentaje extra <i class="fas fa-percentage"></i>
+                      </button>
+                    </div>
+                    <!-- <div class="col-12 col-md-12 mb-2">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-block tableCotiza"
+                          onclick=""
+                        >
+                          Imprimir ticket
+                        </button>
+                      </div> -->
+                    <div class="col-12 col-md-12 col-lg-12 mb-2">
+                      <button
+                        id="button1Action"
+                        type="button"
+                        class="btn btn-info btn-block tableCotiza"
+                        onclick="guardarOrderPV()"
+                      >
+                        Continuar <i class="fas fa-arrow-right"></i>
+                      </button>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 mb-2">
+                      <button
+                        id="button2Action"
+                        type="button"
+                        class="btn btn-success btn-block tableCotiza"
+                        onclick="procesarPago()"
+                      >
+                        PAGAR <i class="fas fa-shopping-cart"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" id="modalAgregarNuevoPv">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nueva orden de venta</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              name="ordenVentaNameInp"
+              id="ordenVentaNameInp"
+              aria-describedby="helpId"
+              placeholder="Nombre de la orden de venta"
+            />
+            <small id="helpId" class="form-text text-muted"
+              >Ingresa un nombre para que puedas identificar tu orden de
+              venta.</small
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="agergarNuevOrdenVentaPV()"
+          >
+            Agregar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="cerrarModalNuevoPv()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(".navbar").hide();
+
+    // Declarar el array fuera de la función para que persista
+    let idPVOrder = "";
+    let arrayPV = [];
+    let montoextra = 0;
+    let arrayActivados = [];
+    let noOrder = "";
+
+    function aparecerManualCodebar() {
+      $("#codigoInputPV").hide();
+      $("#codigoInputPV2").show();
+    }
+    function desaparecerManualCodebar() {
+      $("#codigoInputPV").show();
+      $("#codigoInputPV2").hide();
+    }
+    function desaparecerInputsSca() {
+      $("#codigoInputPV").hide();
+      $("#codigoInputPV2").hide();
+    }
+    function buscarProductoPVManual() {
+      var typingTimer;
+      var doneTypingInterval = 300; // Tiempo en milisegundos
+      var codeProd = $("#codigoInputPV2").val();
+      typingTimer = setTimeout(ejectOro, doneTypingInterval);
+      function ejectOro() {
+        if (codeProd.length > 0) {
+          $.ajax({
+            type: "POST",
+            url: "controllers/puntoVenta/buscarCodigoBarras.php",
+            data: { barcodePV: codeProd },
+            dataType: "json",
+            success: function (response) {
+              var firstItem = response.data[0];
+              console.log(response);
+
+              seleccionarProducto(
+                Number(firstItem.id),
+                firstItem.keyy,
+                firstItem.number,
+                firstItem.stock
+              );
+              $("#codigoInputPV2").val(""); // Limpiar el campo de entrada
+            },
+          });
+        }
+      }
+    }
+    function buscarProductoPV() {
+      var typingTimer;
+      var doneTypingInterval = 300; // Tiempo en milisegundos
+      var codeProd = $("#codigoInputPV").val();
+      typingTimer = setTimeout(ejectOr, doneTypingInterval);
+      $("#codigoInputPV").val("");
+      function ejectOr() {
+        if (codeProd.length > 0) {
+          $.ajax({
+            type: "POST",
+            url: "controllers/puntoVenta/buscarCodigoBarras.php",
+            data: { barcodePV: codeProd },
+            dataType: "json",
+            success: function (response) {
+              var firstItem = response.data[0];
+              console.log(response);
+
+              seleccionarProducto(
+                Number(firstItem.id),
+                firstItem.keyy,
+                firstItem.number,
+                firstItem.stock
+              );
+              $("#codigoInputPV").val(""); // Limpiar el campo de entrada
+            },
+          });
+        }
+      }
+    }
+    function borrarOrderVenPV(id) {
+      Swal.fire({
+        title: "¿Estas seguro de borrar esta orden",
+        showDenyButton: true,
+        confirmButtonText: "Borrar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "controllers/puntoVenta/borrarOrPV.php",
+            data: { id: id },
+            dataType: "html",
+            success: function (response) {
+              mostrarOrdenesPrin();
+            },
+          });
+        } else if (result.isDenied) {
+          Swal.fire("Cambios cancelados", "", "info");
+        }
+      });
+    }
+    function cambiarNombreOrdenVe() {
+      Swal.fire({
+        title: "Cambiar nombre",
+        input: "text",
+        inputPlaceholder: "Nuevo nombre de la orden de compra",
+        showCancelButton: true,
+        confirmButtonText: "Aplicar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "controllers/puntoVenta/cambiarNombreOrden.php",
+            data: { id: idPVOrder, value: result.value },
+            dataType: "html",
+            success: function (response) {
+              $("#etiquetaNameCuenta").text(response);
+            },
+          });
+        }
+      });
+    }
+    function cargarOrdenVenta() {
+      $.ajax({
+        type: "POST",
+        url: "controllers/puntoVenta/traerOrdenDetallesPV.php",
+        data: { id: idPVOrder },
+        dataType: "json",
+        success: function (response) {
+          const info = response.info;
+          let montoextra1 = 0;
+          info.forEach((item) => {
+            montoextra1 = Number(item.extra);
+          });
+          montoextra = montoextra1;
+
+          const data = response.data;
+
+          data.forEach((item) => {
+            var nuevaFila = [
+              Number(item.productoId),
+              item.nameProd,
+              Number(item.cantidad),
+              Number(item.precioBruto),
+              Number(item.precioNeto),
+            ];
+            arrayPV.push(nuevaFila);
+          });
+          imprimirTabla();
+        },
+      });
+    }
+    function guardarOrderPV() {
+      var total = sumarColumna(arrayPV, 4);
+      $.ajax({
+        type: "POST",
+        url: "controllers/puntoVenta/guardarOrderDeVenta.php",
+        data: {
+          total: total,
+          extra: montoextra,
+          id: idPVOrder,
+          array: arrayPV,
+        },
+        dataType: "json",
+        success: function (response) {
+          $("#button2Action").show();
+          console.log(response.info);
+          if (response.info === 1) {
+            $("#button1Action").hide();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Error al guardar la orden de venta",
+              icon: "error",
+            });
+          }
+        },
+      });
+    }
+    function borrarProdCuenta(idToRemove) {
+      console.log(idToRemove);
+      const updatedData = arrayPV.filter((item) => item[0] !== idToRemove);
+      arrayPV = updatedData;
+      imprimirTabla();
+    }
+    function modificarCantidadValorPv(id, valor, precio) {
+      Swal.fire({
+        title: "Cantidad",
+        input: "number",
+        inputPlaceholder: "Cantidad anterior: " + valor,
+        showCancelButton: true,
+        confirmButtonText: "Aplicar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let productoActivados = arrayActivados.find(
+            (proActiva) => proActiva[0] === id
+          );
+
+          if (result.value > 0) {
+            if (result.value <= productoActivados[2]) {
+              Swal.fire(`Nueva cantidad de ${result.value}`);
+              let productoExistente = arrayPV.find(
+                (producto) => producto[0] === id
+              );
+
+              if (productoExistente) {
+                productoExistente[2] = result.value;
+                productoExistente[4] = Number(precio) * Number(result.value);
+                imprimirTabla();
+                let productoActivao = arrayActivados.find(
+                  (producto) => producto[0] === productoExistente[0]
+                );
+
+                if (productoActivao) {
+                  /* actualizarPorValor(arrayActivados, productoActivao[0], productoActivao[1], result.value); */
+                  productoActivao[1] = result.value;
+                } else {
+                }
+                function actualizarPorValor(
+                  array,
+                  valorBusqueda,
+                  columna,
+                  nuevoValor
+                ) {
+                  for (let i = 0; i < array.length; i++) {
+                    if (array[i][0] === valorBusqueda) {
+                      array[i][columna] = nuevoValor;
+                    }
+                  }
+                }
+
+                $("#cardProdPV" + productoExistente[0]).css({
+                  "pointer-events": "",
+                  opacity: "1",
+                });
+              } else {
+              }
+            } else {
+              Swal.fire({
+                title: "Error",
+                text:
+                  "No se permite una cantidad arriba de " +
+                  productoActivados[2],
+                icon: "error",
+              });
+            }
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "No se permiten numeros negativos",
+              icon: "error",
+            });
+          }
+        }
+      });
+    }
+    function showAlertPorcentaje() {
+      Swal.fire({
+        title: "Ingresa un porcentaje a aplicar",
+        input: "number",
+        inputPlaceholder: "Porcentaje a aplicar",
+        showCancelButton: true,
+        confirmButtonText: "Aplicar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (result.value > 0 && result.value < 200) {
+            montoextra = 0;
+            var total = sumarColumna(arrayPV, 4);
+            var incremento = total * (result.value / 100);
+
+            Swal.fire(`Monto aplicado de $${incremento}`);
+            montoextra = incremento;
+            var total = sumarColumna(arrayPV, 4);
+            $("#MontoExtraOrdComp").text("$" + montoextra);
+            $("#totalOrdComp").text("$" + total);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Debe ser un rango mayor a 0 y menor a 200",
+              icon: "error",
+            });
+          }
+        }
+      });
+    }
+
+    function showAlertMonto() {
+      Swal.fire({
+        title: "Ingresa un monto extra",
+        input: "number",
+        inputPlaceholder: "Monto extra",
+        showCancelButton: true,
+        confirmButtonText: "Aplicar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (result.value > 0) {
+            Swal.fire(`Monto aplicado de $${result.value}`);
+            montoextra = result.value;
+            $("#MontoExtraOrdComp").text("$" + montoextra);
+            var total = sumarColumna(arrayPV, 4);
+            $("#totalOrdComp").text("$" + total);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "No se permiten numeros negativos",
+              icon: "error",
+            });
+          }
+        }
+      });
+    }
+    function sumarColumna(array, columna) {
+      var valor1 = array.reduce((acc, fila) => acc + fila[columna], 0);
+
+      var valor2 = Number(valor1) + Number(montoextra);
+      return valor2;
+    }
+    function seleccionarProducto(id, name, price, limit) {
+      var limit = Number(limit);
+
+      let productoActivao = arrayActivados.find(
+        (producto) => producto[0] === id
+      );
+
+      if (productoActivao) {
+        // Incrementar la cantidad si el producto ya existe
+        if (productoActivao[1] < limit - 1) {
+          productoActivao[1]++;
+        } else {
+          $("#cardProdPV" + id).css({
+            "pointer-events": "none",
+            opacity: "0.5",
+          });
+        }
+      } else {
+        // Agregar una nueva fila con cantidad 1 si el producto no existe
+        if (limit > 1) {
+          var nuevafilaActivao = [id, 1, limit];
+          arrayActivados.push(nuevafilaActivao);
+        } else {
+          $("#cardProdPV" + id).css({
+            "pointer-events": "none",
+            opacity: "0.5",
+          });
+        }
+      }
+
+      price = Number(price);
+      // Verificar si el producto ya existe en el array
+      let productoExistente = arrayPV.find((producto) => producto[0] === id);
+
+      if (productoExistente) {
+        // Incrementar la cantidad si el producto ya existe
+        if (productoExistente[2] < limit) {
+          productoExistente[2]++;
+          productoExistente[4] += price;
+        } else {
+          $("#cardProdPV" + id).css({
+            "pointer-events": "none",
+            opacity: "0.5",
+          });
+        }
+      } else {
+        // Agregar una nueva fila con cantidad 1 si el producto no existe
+        var nuevaFila = [id, name, 1, price, price];
+        arrayPV.push(nuevaFila);
+      }
+
+      var cardProd = $("#cardProdPV" + id);
+      cardProd.removeClass("animate__animated animate__flipInX");
+      cardProd.addClass("animate__animated animate__bounceIn");
+      cardProd.one("animationend", function () {
+        cardProd.removeClass("animate__animated animate__bounceIn");
+      });
+
+      // Imprimir la tabla cada vez que se agregue un nuevo producto
+      imprimirTabla();
+    }
+
+    function imprimirTabla() {
+      // Obtener el contenedor donde se imprimirá la tabla
+      var tablaContainer = $("#tablaContainerPVCotizador");
+
+      // Crear la tabla HTML
+      var tabla = $("<table class='table table-sm tableCotiza'></table>");
+      var encabezado = $(
+        "<tr class='thead-dark'><th></th><th>Nombre</th><th>Cantidad</th><th>Precio</th><th>Precio neto</th></tr>"
+      );
+      tabla.append(encabezado);
+
+      // Recorrer el array y agregar filas a la tabla
+      for (var i = 0; i < arrayPV.length; i++) {
+        var fila = $("<tr></tr>");
+        fila.append(
+          "<td><button type='button' class='btn btn-danger' onclick='borrarProdCuenta(" +
+            arrayPV[i][0] +
+            ")'><i class='fas fa-backspace'></i></button></td>"
+        );
+        fila.append("<td>" + arrayPV[i][1] + "</td>");
+        fila.append(
+          "<td onclick='modificarCantidadValorPv(" +
+            arrayPV[i][0] +
+            ", " +
+            arrayPV[i][2] +
+            ", " +
+            arrayPV[i][3] +
+            ")'>" +
+            arrayPV[i][2] +
+            "</td>"
+        );
+        fila.append("<td>$" + arrayPV[i][3] + "</td>");
+        fila.append("<td>$" + arrayPV[i][4] + "</td>");
+        tabla.append(fila);
+
+        var valorTabla = Number(arrayPV[i][2]);
+        $("#stockLabel" + arrayPV[i][0]).text(" Seleccionado:" + valorTabla);
+      }
+      var fila2 = $("<tr></tr>");
+      fila2.append("<td class='bg-warning' colspan='4'>Monto extra</td>");
+      fila2.append(
+        "<td class='' id='MontoExtraOrdComp'>$" + montoextra + "</td>"
+      );
+      tabla.append(fila2);
+      var fila3 = $("<tr></tr>");
+
+      fila3.append("<td class='bg-success text-light' colspan='4'>Total</td>");
+      fila3.append("<td class='bg-dark text-light' id='totalOrdComp'></td>");
+      tabla.append(fila3);
+
+      // Limpiar el contenedor y agregar la nueva tabla
+      tablaContainer.empty();
+      tablaContainer.append(tabla);
+
+      var total = sumarColumna(arrayPV, 4);
+      $("#totalOrdComp").text("$" + total);
+    }
+    function regresarAOrdenes() {
+      arrayPV.splice(0, arrayPV.length);
+      montoextra = 0;
+      $(".display-PV-1").show();
+      $(".display-PV-2").hide();
+      $("#display-PV-1").removeClass("animate__animated animate__backInDown");
+      mostrarOrdenesPrin();
+    }
+    function verDetalleDeOrden(id, name, order) {
+      $("#button2Action").hide();
+      noOrder = order;
+      traerProducts();
+      idPVOrder = id;
+      $("#cardOrder" + id).removeClass("animate__animated animate__flipInX");
+      $("#cardOrder" + id).addClass("animate__animated animate__bounceIn");
+      var cardContent = $("#cardOrder" + id);
+      cardContent.one("animationend", function () {
+        $("#etiquetaNameCuenta").text(name);
+        $(".display-PV-2").show();
+        $("#display-PV-1").addClass("animate__animated animate__backInDown");
+        $(".display-PV-1").hide();
+        cardContent.removeClass("animate__animated animate__bounceIn");
+      });
+      cargarOrdenVenta();
+    }
+    function mostrarOrdenesPrin() {
+      var name = $("#ordenVentaNameInp").val();
+      var name = name.replace(/\s+/g, "_");
+      $.ajax({
+        type: "POST",
+        url: "controllers/puntoVenta/nuevaOrdenDeVenta.php",
+        data: { name: name },
+        dataType: "html",
+        success: function (response) {
+          $("#table-container-ordenesCompra").html(response);
+          $("#ordenVentaNameInp").val("");
+          if (name) {
+            setTimeout(function () {
+              // Simula un clic en el botón con id 'miBoton'
+              $("#cardPanel" + name).click();
+              cerrarModalNuevoPv();
+            }, 3000);
+          }
+          $(".btn-danger").hide();
+        },
+      });
+    }
+    function agergarNuevOrdenVentaPV() {
+      Swal.fire({
+        title: "¿Estas seguro?",
+        showDenyButton: true,
+        confirmButtonText: "Si",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          mostrarOrdenesPrin();
+        } else if (result.isDenied) {
+          $("#ordenVentaNameInp").val("");
+          Swal.fire("Cancelado", "", "info");
+        }
+      });
+    }
+    function cerrarModalNuevoPv() {
+      $("#ordenVentaNameInp").val("");
+      var modalContent = $("#modalAgregarNuevoPv .modal-content");
+      modalContent.removeClass("animate__animated animate__fadeInDown");
+      modalContent.addClass("animate__animated animate__fadeOutUp");
+
+      // Detectar el final de la animación de salida
+      modalContent.one("animationend", function () {
+        console.log("La animación de salida ha terminado");
+        $("#modalAgregarNuevoPv").modal("hide");
+
+        // Eliminar la clase de animación de salida para evitar conflictos en el futuro
+        modalContent.removeClass("animate__animated animate__fadeOutUp");
+      });
+    }
+    function mostrarModalNuevoPv() {
+      $("#modalAgregarNuevoPv").modal({
+        backdrop: "static",
+        keyboard: false,
+      });
+      $("#modalAgregarNuevoPv").removeClass(
+        "animate__animated animate__fadeOutUp"
+      );
+      $("#modalAgregarNuevoPv").addClass(
+        "animate__animated animate__fadeInDown"
+      );
+    }
+
+    function hidenDisplay() {
+      $(".display-PV-2").hide();
+      $(".tablshistorico").hide();
+    }
+    function traerProducts() {
+      $.ajax({
+        type: "POST",
+        url: "controllers/puntoVenta/tarerTablaProd.php",
+        data: { created: "" },
+        dataType: "html",
+        success: function (response) {
+          $("#table-container").html(response);
+          if ($.fn.DataTable.isDataTable("#table_id")) {
+            oTable.destroy(); // Destruye la instancia existente
+          }
+          oTable = $("#table_id").DataTable({
+            dom: "ftip",
+            language: {
+              lengthMenu: "Display _MENU_ records per page",
+              zeroRecords: "Nothing found - sorry",
+              info: "Mostrando pagina _PAGE_ de _PAGES_",
+              infoEmpty: "No records available",
+              infoFiltered: "(filtered from _MAX_ total records)",
+              paginate: {
+                next: ">",
+                previous: "<",
+              },
+            },
+            pageLength: 5,
+          });
+          desaparecerInputsSca();
+        },
+      });
+    }
+    function procesarPago() {
+      function funcion1(tipopago) {
+        $.ajax({
+          type: "POST",
+          url: "controllers/puntoVenta/pagarOrder.php",
+          data: { idPVOrder: idPVOrder, arrayPV: arrayPV, tipopago: tipopago },
+          dataType: "json",
+          success: function (response) {
+            Swal.fire({
+              title: "Perfecto",
+              text: response.data,
+              icon: "success",
+            });
+            // Tiempo en milisegundos (5000 ms = 5 segundos)
+            var tiempo = 2000;
+
+            // Función para recargar la página
+
+            function recargarPagina() {
+              redirect();
+              location.reload();
+            }
+
+            // Establecer el temporizador
+            setTimeout(recargarPagina, tiempo);
+          },
+          error: function (xhr, status, error) {
+            if (xhr.status === 500) {
+              $("#result").html("<p>Ocurrió un error.</p>");
+            } else {
+              $("#result").html(
+                "<p>Error: " + xhr.status + " - " + error + "</p>"
+              );
+            }
+          },
+        });
+      }
+
+      Swal.fire({
+        title: "Elige una forma de pago",
+        input: "select",
+        inputOptions: {
+          5: "Panel digital",
+        },
+        inputPlaceholder: "Selecciona una opción",
+        showCancelButton: true,
+        confirmButtonText: "Seleccionar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          switch (result.value) {
+            case "1":
+              funcion1(1);
+              break;
+            case "2":
+              funcion1(2);
+              break;
+            case "3":
+              funcion1(3);
+              break;
+            case "4":
+              funcion1(4);
+              break;
+            case "5":
+              funcion1(5);
+              break;
+          }
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Operación cancelada",
+            icon: "error",
+          });
+        }
+      });
+    }
+    function traerHistorico() {
+      $("#table-container-ordenesCompra").hide();
+      $(".tablshistorico").show();
+
+      var creator = "<?=$user?>";
+      $.ajax({
+        type: "POST",
+        url: "controllers/puntoVenta/traerHistorico.php",
+        data: { creator: creator },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          // Insertar datos en la tabla de órdenes
+          if ($.fn.DataTable.isDataTable("#ordersTable")) {
+            ordersTable.destroy(); // Destruye la instancia existente
+          }
+          function evaluarTipo(variable) {
+            switch (variable) {
+              case "1":
+                return "Efectivo";
+                break;
+              case "2":
+                return "Transferencia";
+                break;
+              case "3":
+                return "Pago con tarjeta";
+                break;
+              case "3":
+                return "Código QR";
+                break;
+            }
+          }
+          var ordersTable = $("#ordersTable").DataTable({
+            data: response.order.map(function (order) {
+              return [
+                '<a href="#productsTable" class="btn btn-info btn-custom" onclick="buscarFila(\'' +
+                  order.id +
+                  "')\"><i class='fas fa-search'></i></a>",
+                order.noOrder,
+                order.nombre,
+                order.fecha,
+
+                order.total,
+                order.extra,
+                evaluarTipo(order.tipoPago),
+              ];
+            }),
+            columns: [
+              { title: "" },
+              { title: "No. Orden" },
+              { title: "Nombre" },
+              { title: "Fecha" },
+
+              { title: "Total" },
+              { title: "Extra" },
+              { title: "Tipo de Pago" },
+            ],
+
+            lengthChange: false,
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+            },
+          });
+          if ($.fn.DataTable.isDataTable("#productsTable")) {
+            productsTable.destroy(); // Destruye la instancia existente
+          }
+          // Insertar datos en la tabla de productos
+          var productsTable = $("#productsTable").DataTable({
+            data: response.products.map(function (product) {
+              return [
+                product.idPventaGeneral,
+                product.nameProd,
+                product.cantidad,
+                product.precioBruto,
+                product.precioNeto,
+              ];
+            }),
+            columns: [
+              { title: "ID de compra" },
+              { title: "Nombre Producto" },
+              { title: "Cantidad" },
+              { title: "Precio Bruto" },
+              { title: "Precio Neto" },
+            ],
+            paging: false, // Desactivar paginación
+            lengthChange: false,
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+            },
+          });
+        },
+      });
+    }
+    function buscarFila(id) {
+      var productsTable = $("#productsTable").DataTable();
+      productsTable.search(id).draw();
+    }
+    function traerDeNuevo() {
+      $(".tablshistorico").hide();
+      $("#table-container-ordenesCompra").show();
+    }
+
+    function redirect() {
+      window.open(
+        "https://rutadelaseda.xyz/app/themp/printTiket.php?order=" + noOrder,
+        "_blank"
+      );
+    }
+    function accionarBoton() {
+      setTimeout(function () {
+        // Simula un clic en el botón con id 'miBoton'
+        $("#miBoton").click();
+      }, 1000);
+    }
+    imprimirTabla();
+    hidenDisplay();
+    traerProducts();
+    mostrarOrdenesPrin();
+    accionarBoton();
+  </script>
+</div>

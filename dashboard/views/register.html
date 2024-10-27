@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>RutaDeLaSeda - Registro</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+      href="./dashboard/views/vendor/fontawesome-free/css/all.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template-->
+    <link href="./dashboard/views/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- jquery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.2/sketchy/bootstrap.min.css" integrity="sha512-8HIl1gmLSbt7dBuv4WKQQJCHKvOaW/BgHZcbQoj5wI0ZPmK9XBeolj8sZtFRd88rpuaoLjJemuj9GkPd4se7Iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+
+  <body class="bg-gradient-dark">
+    <div class="container">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Crear cuenta</h1>
+                </div>
+                <a href="controllers/callbackLogin.php" name="" id="" class="btn btn-danger text-bg-light btn-lg btn-block mb-3 mt-3" style="border-radius: 20px;">Acceder con Google <i class="fab fa-google"></i></a>
+                <form class="user">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="mail"
+                        required
+                        class="form-control form-control-user"
+                        id="nombre"
+                        placeholder="Correo"
+                      />
+                    </div>
+                    <div class="col-sm-6">
+                      <input
+                        required
+                        type="number"
+                        id="phone"
+                        class="form-control form-control-user"
+                        id="exampleLastName"
+                        placeholder="Numero WhatsAPP +52"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group input-group-lg">
+                      <select
+                        required
+                        style="border-radius: 25px; font-size: 12px"
+                        class="form-control"
+                        name="tipoUs"
+                        id="tipoUs"
+                        onchange="showSect()"
+                      >
+                        <option selected>
+                          ¿Eres cliente, repartidor o vendedor?
+                        </option>
+                        <option value="4">Cliente</option>
+                        <option value="3">Repartidor</option>
+                        <option value="1">Vendedor</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group input-group-lg">
+                      <select
+                        style="border-radius: 25px; font-size: 12px"
+                        class="form-control"
+                        name="categoria"
+                        id="categoria"
+                      >
+                        <option value="0" selected>
+                          Categoria de comercio
+                        </option>
+                        <option value="0">Seleccione uno</option>
+                        <option value="1">Alimentos</option>
+                        <option value="2">Moda</option>
+                        <option value="3">Moda infantil</option>
+                        <option value="4">Jugetes</option>
+                        <option value="5">Videojuegos</option>
+                        <option value="6">Electrónica</option>
+                        <option value="7">Informática</option>
+                        <option value="8">Electrodomésticos</option>
+                        <option value="9">Varios</option>
+                        <option value="10">Adultos</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="password"
+                        required
+                        class="form-control form-control-user"
+                        id="contra1"
+                        placeholder="Contraseña"
+                      />
+                    </div>
+                    <div class="col-sm-6">
+                      <input
+                        type="password"
+                        required
+                        class="form-control form-control-user"
+                        id="contra2"
+                        placeholder="Repetir contraseña"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onclick="register()"
+                    class="btn btn-primary btn-user btn-block"
+                  >
+                    Registrar cuenta
+                  </button>
+                </form>
+                <hr />
+
+                <div class="text-center">
+                  <a class="small" href="login2"
+                    >¿Tienes ya una cuenta? !Inicia sesión!</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+
+    <script src="./dashboard/views/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="./dashboard/views/vendor/jquery-easing/jquery.easing.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="./dashboard/views/js/sb-admin-2.js"></script>
+    <script>
+      function register() {
+        var nombre = $("#nombre").val();
+        var phone = $("#phone").val();
+        var categoria = $("#categoria").val();
+        var tipoUs = $("#tipoUs").val();
+        var contra1 = $("#contra1").val();
+        var contra2 = $("#contra2").val();
+        var nombre = $("#nombre").val();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(nombre)) {
+          Swal.fire({
+            title: "!Error!",
+            text: "Correo Invalido",
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        } else {
+          $.ajax({
+            type: "post",
+            url: "controllers/register.controller.php",
+            data: {
+              username: nombre,
+              pass: contra1,
+              pass2: contra2,
+              phone: phone,
+              cat: categoria,
+              tipoUs: tipoUs,
+            },
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+              if (response.ok == "false") {
+                Swal.fire({
+                  title: "!Error!",
+                  text: response.id,
+                  icon: "error",
+                  confirmButtonText: "Ok",
+                });
+              } else {
+                setTimeout(function () {
+                  window.location.href = "login2";
+                }, 3000);
+                Swal.fire({
+                  title: response.id,
+
+                  icon: "success",
+                  confirmButtonText: "Cool",
+                });
+              }
+            },
+          });
+        }
+      }
+      function login(mail, pass) {
+        $.ajax({
+          type: "post",
+          url: "controllers/login.controller.php",
+          data: { mail: mail, pass: pass },
+          dataType: "json",
+          success: function (response) {
+            /* console.log(response); */
+
+            if (response.ok == "false") {
+              Swal.fire({
+                title: "!Error!",
+                text: response.id,
+                icon: "error",
+                confirmButtonText: "Ok",
+              });
+            } else {
+              setTimeout(function () {
+                window.location.href = "home";
+              }, 3000);
+              Swal.fire({
+                title: "Inicio correcto",
+
+                icon: "success",
+                confirmButtonText: "Cool",
+              });
+            }
+          },
+        });
+      }
+      function showSect() {
+        var variable = $("#tipoUs").val();
+
+        if (variable == 3 || variable == 4) {
+          $("#categoria").hide();
+        } else {
+          $("#categoria").show();
+        }
+      }
+      function handleCredentialResponse(response) {
+        console.log(response); // Verifica que este objeto tenga el 'credential' con el token
+        const token = response.credential;
+
+        if (!token) {
+          console.error("El token de Google está vacío");
+          return;
+        }
+
+        // Enviar el token al servidor para el registro
+        fetch("controllers/register.controller.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: "id_token=" + token,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data.statusG == "1" || data.statusG == "2") {
+              login(data.nameG, data.idTokenG);
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id:
+            "794936788729-jf5jug4aut3caoa6kpilouiugt4h9o7h.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.prompt();
+      };
+    </script>
+  </body>
+</html>

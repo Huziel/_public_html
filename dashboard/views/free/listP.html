@@ -1,0 +1,752 @@
+<style>
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .profile-image2 {
+    width: 150px; /* ajusta el tamaño según tus necesidades */
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+  }
+
+  .custom-file-input:lang(es) ~ .custom-file-label::after {
+    content: "Buscar";
+  }
+
+  .custom-file {
+    margin-bottom: 15px;
+  }
+</style>
+<div id="content">
+  <!-- Topbar -->
+  <?=$nav?>
+  <!-- End of Topbar -->
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+
+    <div class="row">
+      <div
+        class="col-12 d-flex justify-content-center align-items-center mt-5 mb-3 full-height botonesAcciones"
+      >
+        <div
+          class="col-6 d-flex justify-content-center align-items-center botonesAcciones"
+        >
+          <button
+            type="button"
+            style="font-size: 12px"
+            class="btn btn-primary btn-block boton1 botonesAcciones"
+            onclick="mostrarTargetadeproductos()"
+          >
+            <i class="fas fa-plus"></i>
+            <br />
+            Agregar producto
+          </button>
+        </div>
+        <div class="col-6 d-flex justify-content-center align-items-center">
+          <button
+            type="button"
+            style="font-size: 12px"
+            class="btn btn-primary btn-block boton2 botonesAcciones"
+            onclick="mostrarTargetadeAgrgarproductos()"
+          >
+            <i class="fas fa-list"></i>
+            <br />
+            Ver lista de productos
+          </button>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 mb-5" id="contenedordelosproduct">
+        <div class="card mb-3" id="cardExcel">
+          <div class="card-header">
+            <i class="fas fa-plus-circle"></i> Subir lista de Excel
+          </div>
+          <div class="card-body">
+            <div class="custom-file mb-3">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="file-input"
+                name="file-input"
+                onchange="leerXLS(event)"
+                accept=".xls, .xlsx"
+              />
+              <label
+                class="custom-file-label"
+                id="labelPDEX"
+                for="inputGroupFile01"
+                >Buscar Excel</label
+              >
+            </div>
+            <div class="progress" id="chargeBarExcel">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                aria-valuenow="75"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: 100%"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card animate__animated animate__fadeIn"
+          id="targetaparaagregarnuevoProd"
+        >
+          <div class="card-header">
+            <i class="fas fa-plus-circle"></i> Producto nuevo
+          </div>
+          <div class="card-body">
+            <div class="row animate__animated animate__fadeIn" id="googlecard">
+              <div class="col-12">
+                <h5 class="card-title">Busqueda de productos</h5>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group mb-3">
+                  <p class="card-text">
+                    Ingrese nombre o código de barras del producto.
+                  </p>
+                  <input
+                    required
+                    type="text"
+                    class="form-control"
+                    name="barcodeInput"
+                    id="barcodeInput"
+                    aria-describedby="helpId"
+                    placeholder="Producto a buscar"
+                  />
+                </div>
+                <center>
+                  <img
+                    src="https://lh3.googleusercontent.com/py-IzDhfTqD3jCamN0eYrSy_OI6O1igRH3c81agEc04l8LZwJaufim9GS_4Mk0HOIeEPe1joyg8QQh_CjlwjhRC6QrUgXoOQn-Bcxcw"
+                    width="50%"
+                    class="img-fluid mb-3"
+                    alt=""
+                  />
+                </center>
+              </div>
+              <div class="col-12">
+                <button
+                  type="button"
+                  name=""
+                  id=""
+                  onclick="buscarBarcode()"
+                  class="btn btn-primary btn-block"
+                  style="font-size: 12px"
+                >
+                  <i class="fas fa-search"></i> Buscar producto
+                </button>
+
+                <button
+                  type="button"
+                  name=""
+                  id=""
+                  onclick="limpiar()"
+                  class="btn btn-warning btn-block mt-3"
+                  style="font-size: 12px"
+                >
+                  <i class="fas fa-trash"></i> Limpiar
+                </button>
+              </div>
+              <div class="col-12 mt-3">
+                <div class="progress" id="progressProductSearch">
+                  <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    style="width: 100%"
+                  ></div>
+                </div>
+                <div id="CardResP"></div>
+              </div>
+            </div>
+            <button
+              type="button"
+              style="font-size: 12px"
+              class="btn btn-primary btn-block"
+              id="botondelGoogle"
+              onclick="mostrarTargetaDelGoogles()"
+            >
+              <i class="fab fa-google"></i>
+              <br />
+              Buscar producto mediante Google
+            </button>
+            <button
+              type="button"
+              style="font-size: 12px"
+              class="btn btn-secondary btn-block"
+              id="botonParaRegresarBienCabron"
+              onclick="regresarAproductoAgregar()"
+            >
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <hr />
+            <div id="carddeAgregarPinchesProductosPendejos">
+              <h5 class="card-title">Registro de productos</h5>
+              <p class="card-text">Ingrese la información de sus productos.</p>
+              <form action="" method="post" id="formularioProductoNuevo">
+                <input
+                  type="hidden"
+                  value="<?=$user?>"
+                  name="session"
+                  id="createdby"
+                />
+                <div class="row">
+                  <div class="col-12 imagenesdelproductito">
+                    <center>
+                      <label for="">Imagen del producto</label>
+                    </center>
+
+                    <div
+                      class="profile-image-container"
+                      id="profile-image-container"
+                    >
+                      <label for="file-input" class="profile-image">
+                        <img
+                          src="https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png"
+                          class="profile-image2"
+                          id="profile-image2"
+                          onerror="this.onerror=null;this.src='https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png';"
+                        />
+                      </label>
+                      <input
+                        type="file"
+                        id="imageP"
+                        name="imageP"
+                        class="input-file"
+                        accept="image/*"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">Nombre</label>
+                      <input
+                        required
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        aria-describedby="helpId"
+                        placeholder="Nombre del producto"
+                      />
+                      <input type="hidden" name="fotoAux" id="fotoAux" />
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">Categoria</label>
+                      <br />
+                      <div class="autoComplete_wrapper">
+                        <input
+                          id="autoComplete"
+                          name="category"
+                          type="search"
+                          dir="ltr"
+                          style="width: 100% !important"
+                          spellcheck="false"
+                          autocorrect="off"
+                          autocomplete="off"
+                          autocapitalize="off"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="">Variable</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="variable"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder="¿Que variación del producto es? Color o forma"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="">Descripción</label>
+                      <textarea
+                        class="form-control"
+                        name="descr"
+                        id="descr"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="">Precio</label>
+                      <input
+                        required
+                        type="number"
+                        class="form-control"
+                        name="price"
+                        id="price"
+                        aria-describedby="helpId"
+                        placeholder="$10"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div id="previewImgProd"></div>
+                  </div>
+
+                  <div class="col-12 imagenesdelproductito">
+                    <div class="form-group mb-5">
+                      <label for="">Imagenes derivadas del producto</label>
+                      <div class="custom-file">
+                        <input
+                          type="file"
+                          class="custom-file-input"
+                          name="imagePD[]"
+                          id="imagePD"
+                          multiple
+                        />
+                        <label
+                          class="custom-file-label"
+                          id="labelPD"
+                          for="inputGroupFile01"
+                          >Buscar imagenes</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <center>
+                        <button type="submit" class="btn btn-primary">
+                          <i class="fas fa-plus"></i> Agregar
+                        </button>
+                        <br />
+                        <div id="result" class="col-6">
+                          <lottie-player
+                            src="https://assets2.lottiefiles.com/packages/lf20_p8bfn5to.json"
+                            background="transparent"
+                            speed="1"
+                            style="width: 100%"
+                            loop
+                            autoplay
+                          ></lottie-player>
+                        </div>
+                        <br />
+                        <div id="infoPicture"></div>
+                      </center>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-12 col-md-8 mb-5 animate__animated animate__fadeIn"
+        id="lalistadelosproductitos"
+      >
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-list"></i> Listado de productos
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Edite la información de sus productos</h5>
+
+            <div class="table-responsive rounded-lg">
+              <table class="table table-hover" id="pTable">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Precio</th>
+                    <th>Imagen</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyP"></tbody>
+              </table>
+            </div>
+            <br />
+            <center>
+              <div id="resultT" class="col-6">
+                <lottie-player
+                  src="https://assets2.lottiefiles.com/packages/lf20_p8bfn5to.json"
+                  background="transparent"
+                  speed="1"
+                  style="width: 100%"
+                  loop
+                  autoplay
+                ></lottie-player>
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#googlecard").hide();
+
+      $("#botonParaRegresarBienCabron").hide();
+      $("#price").on("change", function () {
+        // Obtiene el valor del input
+        var valor = $(this).val();
+        // Si el valor es menor que cero, lo establece como cero
+        if (valor < 0) {
+          $(this).val(0);
+        }
+      });
+      $("#progressProductSearch").hide();
+      $("#chargeBarExcel").hide();
+      showPr("<?=$user?>");
+      function toggleDiv2() {
+        if ($(window).width() < 768) {
+          $("#cardExcel").hide();
+        } else {
+          $(".botonesAcciones").hide();
+        }
+      }
+
+      // Llamar a la función al cargar la página y cuando se redimensione la ventana
+      toggleDiv2();
+      $(window).resize(toggleDiv2);
+    });
+    document
+      .getElementById("imageP")
+      .addEventListener("change", function (event) {
+        const input = event.target;
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const profileImageContainer = document.getElementById(
+            "profile-image-container"
+          );
+          profileImageContainer.style.backgroundImage = `url(${e.target.result})`;
+          profileImageContainer.style.backgroundSize = "cover";
+          profileImageContainer.style.backgroundPosition = "center";
+          $("#profile-image2").removeAttr("src");
+        };
+
+        if (input.files && input.files[0]) {
+          reader.readAsDataURL(input.files[0]);
+        }
+      });
+    const autoCompleteJS = new autoComplete({
+      placeHolder: "Comida",
+
+      data: {
+        src: async (query) => {
+          try {
+            // Fetch Data from external Source
+            const source = await fetch(`controllers/list.controller.php`);
+            // Data should be an array of `Objects` or `Strings`
+            const data = await source.json();
+
+            return data;
+          } catch (error) {
+            return error;
+          }
+        },
+        cache: true,
+        // Data source 'Object' key to be searched
+        keys: ["category"],
+      },
+      resultItem: {
+        highlight: true,
+      },
+      events: {
+        input: {
+          selection: (query) => {
+            const selection = query.detail.selection.value;
+
+            autoCompleteJS.input.value = selection[0];
+          },
+        },
+      },
+    });
+    function mostrarTargetadeproductos() {
+      $("#lalistadelosproductitos").hide();
+      $("#targetaparaagregarnuevoProd").show();
+      $("#miDiv").removeClass("claseOriginal").addClass("nuevaClase");
+      $(".boton2").removeClass("btn-primary").addClass("btn-light");
+      $(".boton1").removeClass("btn-light").addClass("btn-primary");
+      function toggleDiv() {
+        if ($(window).width() < 768) {
+          // Si es un dispositivo móvil (menos de 768px)
+          $("#cardExcel").hide(); // Oculta el div
+        } else {
+          // Si es un escritorio
+          $("#cardExcel").show(); // Muestra el div
+        }
+      }
+
+      // Llamar a la función al cargar la página y cuando se redimensione la ventana
+      toggleDiv();
+      $(window).resize(toggleDiv);
+    }
+    function mostrarTargetadeAgrgarproductos() {
+      $("#lalistadelosproductitos").show();
+      $("#targetaparaagregarnuevoProd").hide();
+      $(".boton2").removeClass("btn-light").addClass("btn-primary");
+      $(".boton1").removeClass("btn-primary").addClass("btn-light");
+    }
+    function mostrarTargetaDelGoogles() {
+      $("#botonParaRegresarBienCabron").show();
+      $("#googlecard").show();
+      $("#botondelGoogle").hide();
+      $("#carddeAgregarPinchesProductosPendejos").hide();
+    }
+    function regresarAproductoAgregar() {
+      $("#botonParaRegresarBienCabron").hide();
+      $("#googlecard").hide();
+      $("#botondelGoogle").show();
+      $("#carddeAgregarPinchesProductosPendejos").show();
+    }
+    function buscarBarcode() {
+      $("#progressProductSearch").show();
+      $("#CardResP").empty();
+      var inputCode = $("#barcodeInput").val();
+      $.ajax({
+        type: "POST",
+        url: "controllers/barcode/barcode.php",
+        data: { data: inputCode },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          $("#progressProductSearch").hide();
+          function limpiarString(texto) {
+            // Utilizamos una expresión regular para eliminar los caracteres no deseados
+            // \W representa cualquier carácter que no sea una letra, un número o un guion bajo
+            // \s representa cualquier espacio en blanco (incluidos tabuladores y saltos de línea)
+            // La 'g' al final indica que buscamos todas las coincidencias en el texto
+            let textoLimpio = texto.replace(/[^\w\s]/gi, " ");
+
+            // Devolvemos el texto limpio
+            return textoLimpio;
+          }
+          for (i = 0; i < response.length; i++) {
+            var card = `<div class="card mb-3">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="${
+                        response[i].url_imagen
+                      }" alt="..." style="width: 100%" />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title" style="font-size: 15px">${limpiarString(
+                          response[i].titulo
+                        )}</h5>
+                        <p class="card-text" style="font-size: 12px">
+                          ${limpiarString(response[i].descripcion)}
+                        </p>
+                        <p class="card-text">
+                          <small class="text-muted" style="font-size: 12px"
+                            >${response[i].url}</small
+                          >
+                        </p>
+                        <center>
+  <button
+  type="button"
+  class="btn btn-primary"
+  onclick="insertarValores('${response[i].url_imagen}','${limpiarString(
+              response[i].titulo
+            )}','${btoa("Ingrese Descripción")}')"
+>Agregar datos</button>
+</center>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
+            $("#CardResP").append(card);
+          }
+        },
+      });
+    }
+    function buscarBarcodeEdI() {
+      $("#progressProductSearch").show();
+
+      var inputCode = $("#namePD").val();
+      var inputCode2 = $("#variablePD").val();
+      var newVaria = inputCode + " " + inputCode2;
+      $.ajax({
+        type: "POST",
+        url: "controllers/barcode/barcode.php",
+        data: { data: newVaria },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          $("#progressProductSearch").hide();
+          function limpiarString(texto) {
+            // Utilizamos una expresión regular para eliminar los caracteres no deseados
+            // \W representa cualquier carácter que no sea una letra, un número o un guion bajo
+            // \s representa cualquier espacio en blanco (incluidos tabuladores y saltos de línea)
+            // La 'g' al final indica que buscamos todas las coincidencias en el texto
+            let textoLimpio = texto.replace(/[^\w\s]/gi, " ");
+
+            // Devolvemos el texto limpio
+            return textoLimpio;
+          }
+          for (i = 0; i < response.length; i++) {
+            var card = `<div class="card mb-3">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="${response[i].url_imagen}" alt="..." style="width: 100%" />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <center>
+  <button
+  type="button"
+  class="btn btn-primary"
+  onclick="insertarImagen('${response[i].url_imagen}')"
+>Agregar imagen</button>
+</center>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
+            $("#CardResPRela").append(card);
+          }
+        },
+      });
+    }
+    function insertarValores(img, titulo, descr) {
+      $("#botonParaRegresarBienCabron").hide();
+      $("#googlecard").hide();
+      $("#botondelGoogle").show();
+      $("#carddeAgregarPinchesProductosPendejos").show();
+      $(".imagenesdelproductito").hide();
+      var imagendelprod = `<div class="card mb-3">
+                  <div class="row no-gutters">
+                    <div class="col-12">
+                      <center><p>Imagen previa</p></center>
+                      
+                      </div>
+                    <div class="col-12 mt-2">
+                      <img src="${img}" alt="..." style="width: 100%" />
+                    </div>
+                  </div>
+                </div>`;
+      $("#previewImgProd").html(imagendelprod);
+      Swal.fire("Producto seleccionado");
+      $("#fotoAux").val(img);
+      $("#name").val(titulo);
+      $("#descr").val(atob(descr));
+      $("#CardResP").empty();
+    }
+    function insertarImagen(img) {
+      Swal.fire("Imagen seleccionada");
+      $("#fotoAuxED").val(img);
+      $("#CardResPRela").empty();
+    }
+    function limpiar() {
+      $("#CardResP").empty();
+    }
+    function leerXLS(e) {
+      // Obtener el archivo Excel
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        // Obtener la primera hoja del archivo
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        // Convertir el contenido de la hoja a formato JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        jsonData.forEach((row) => {
+          // Por ejemplo, si tienes una columna 'nombre', puedes acceder a ella como row.nombre
+          subirDatsXLS(
+            row.nombre,
+            row.modelo,
+            row.descripcion,
+            row.precio,
+            row.categoria,
+            row.link
+          );
+          // Y así sucesivamente para otras columnas
+        });
+        window.location.reload();
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+    function subirDatsXLS(name, varia, descr, price, cate, link) {
+      $("#chargeBarExcel").show();
+      var session = $("#createdby").val();
+      var fotoAux = "";
+      if (link) {
+        fotoAux = link;
+      } else {
+        var fotoAux =
+          "https://static.grainger.com/rp/s/is/image/Grainger/55NM42_AW01?$glgmain$";
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "controllers/products.controller.php",
+        data: {
+          session: session,
+          name: name,
+          variable: varia,
+          descr: descr,
+          price: price,
+          category: cate,
+          fotoAux: fotoAux,
+        },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          $("#chargeBarExcel").hide();
+        },
+      });
+    }
+  </script>
+  <!-- /.container-fluid -->
+</div>

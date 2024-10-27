@@ -1,0 +1,206 @@
+<div id="content">
+    <!-- Topbar -->
+    <?=$nav?>
+    <!-- End of Topbar -->
+  
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table" id="pTable">
+              <thead>
+                <tr>
+                  <th>Orden de compra</th>
+                  <th>Socio</th>
+                  <th>Número telefonico</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Ubicación</th>
+                  <th>Total compra</th>
+                  <th>Total envío</th>
+                  <th>Estatus</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyP"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-12">
+          <button class="btn text-dark" onclick="showGe()" id="returnBTN">
+            Regresar
+            <span class="badge badge-primary"
+              ><i class="fas fa-undo-alt"></i
+            ></span>
+          </button>
+          <div class="table-responsive">
+            <table class="table" id="pTableP">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Imagen</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyPP"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- /.container-fluid -->
+  </div>
+  <script>
+    $(document).ready(function () {
+      showGe();
+      $("#pTableP").hide();
+      $("#returnBTN").hide();
+    });
+    function showGe() {
+      $("#pTable").show();
+      $("#tbodyPP").empty();
+      $("#pTableP").hide();
+      $("#returnBTN").hide();
+      $.ajax({
+        type: "get",
+        url: "controllers/generalA.controller.php",
+        data: { created: "<?=$user?>" },
+        dataType: "json",
+        success: function (response) {
+          for (i = 0; i < response.data.length; i++) {
+            switch (response.data[i].status) {
+              case "3":
+                var statusText =
+                  "<div class='p-3 mb-2 bg-warning text-white rounded'><center>Solicitud de envio</center></div><br><button type='button' class='btn btn-success' target='_blank' onclick='changeStatus(" +
+                  response.data[i].order +
+                  ")'><i class='fas fa-check-double'></i> Confirmar envio</button>";
+                break;
+              case "4":
+                var statusText =
+                  "<div class='p-3 mb-2 bg-success text-white rounded'><center>Solicitud completada</center></div>";
+                break;
+  
+              default:
+                break;
+            }
+            var date = new Date("'" + response.data[i].date + "'");
+            var options = { year: "numeric", month: "long", day: "numeric" };
+            var precio = parseFloat(response.data[i].totEnvio);
+            var buttonPr =
+              "<center><p class='p-3 mb-2 bg-info text-white rounded'>" +
+              response.data[i].order +
+              "</p><br><button type='button' class='btn btn-dark' target='_blank' onclick='showProducts(" +
+              response.data[i].id +
+              ")'><i class='fas fa-box-open'></i> Ver pedido</button></center>";
+            var buttonWhats =
+              "<center><p class='p-3 mb-2 bg-light text-dark rounded'>" +
+              response.data[i].tel +
+              "</p><br><a href='https://wa.me/+52" +
+              response.data[i].tel +
+              "' class='btn btn-success' target='_blank'><i class='fab fa-whatsapp'></i></a></center>";
+            var buttonMap =
+              "<center><a href='https://www.google.com/maps/place/" +
+              response.data[i].lat +
+              "," +
+              response.data[i].long +
+              "' class='btn btn-info' target='_blank'><i class='fas fa-map-marker-alt'></i></a></center>";
+            var modelT =
+              "<tr id ='" +
+              response.data[i].id +
+              "'><td>" +
+              buttonPr +
+              "</td><td><center><p class='p-3 mb-2 bg-light text-dark rounded'>" +
+              response.data[i].createdby +
+              "</p></center></td>" +
+              "<td>" +
+              buttonWhats +
+              "</td>" +
+              "<td><center><p class='p-3 mb-2 bg-light text-dark rounded'>" +
+              response.data[i].nombre +
+              "</p></center></td>" +
+              "<td><br>" +
+              date.toLocaleDateString("es-ES", options) +
+              "</td>" +
+              "<td>" +
+              buttonMap +
+              "</td>" +
+              "<td><center><div class='p-3 mb-2 bg-light text-warning rounded'>$" +
+              (response.data[i].suma*(.2)).toFixed(2) +
+              "</div></center></td>" +
+              "<td><center><div class='p-3 mb-2 bg-light text-info rounded'>$" +
+              precio.toFixed(2) +
+              "</div></center></td>" +
+              "<td>" +
+              statusText +
+              "</td>" +
+              "</tr>";
+            $("#pTable tbody").append(modelT);
+          }
+          $("#pTable").DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+            },
+          });
+        },
+      });
+    }
+    function showProducts(id) {
+      var table = $("#pTable").DataTable();
+      table.destroy();
+      $("#tbodyP").empty();
+      $("#pTable").hide();
+      $("#pTableP").show();
+      $("#returnBTN").show();
+      $.ajax({
+        type: "get",
+        url: "controllers/generalPp.controller.php",
+        data: { id: id },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          for (i = 0; i < response.data.length; i++) {
+            var modelT =
+              "<tr>" +
+              "<td>" +
+              response.data[i].keyy +
+              " | " +
+              response.data[i].var +
+              "</td>" +
+              "<td>$" +
+              response.data[i].price +
+              "</td>" +
+              "<td>" +
+              response.data[i].cant +
+              "</td>" +
+              "<td>" +
+              "<img src='" +
+              response.data[i].link +
+              "' class='img-fluid' width='50px' alt='Responsive image'>" +
+              "</td>" +
+              "</tr>";
+            $("#pTableP tbody").append(modelT);
+          }
+        },
+      });
+    }
+    function changeStatus(id) {
+      var table = $("#pTable").DataTable();
+      table.destroy();
+      $("#tbodyP").empty();
+     
+      $.ajax({
+        type: "get",
+        url: "controllers/changeStatusA.controller.php",
+        data: { id: id },
+        dataType: "json",
+        success: function (response) {
+          console.log(response);
+          showGe();
+        },
+      });
+    }
+  </script>
+  

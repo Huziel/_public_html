@@ -1,0 +1,129 @@
+<div id="content">
+  <?=$nav?>
+  <div class="container">
+    <div
+      class="d-flex align-items-center justify-content-center"
+      style="min-height: 20vh"
+    >
+      <div class="col-12">
+        <h3>Tiendas</h3>
+        <br />
+        <label class="sr-only" for="campo">Ingresa tu valor aquí</label>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fas fa-store"></i></div>
+          </div>
+          <input
+            type="number"
+            class="form-control"
+            id="campo"
+            placeholder="Id tienda:"
+          />
+        </div>
+        <!-- Formulario con un solo campo -->
+        <div class="mb-5">
+          <button
+            type="button"
+            onclick="anex()"
+            class="btn btn-primary btn-block"
+          >
+            Agregar
+          </button>
+        </div>
+        <div class="mb-5">
+          <a href="https://rutadelaseda.xyz/@310" class="btn btn-secondary btn-block">
+            Buscar más tiendas
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="card mb-3" id="m1Card">
+        <div class="card-body">
+          <h5 class="card-title">Aún no hay tiendas agregadas.</h5>
+        </div>
+      </div>
+      <div class="mb-3" id="m2Card">
+        <h4>Tiendas agregadas</h4>
+      </div>
+      <div id="cardReel" class="card-group"></div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    showCard();
+  });
+  function showCard() {
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/verTiendas.php",
+      data: "data",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+        if (response && response.data) {
+          if (response.data == "Sin datos") {
+            $("#m1Card").show();
+            $("#m2Card").hide();
+          } else {
+            $("#m1Card").hide();
+            $("#m2Card").show();
+            var contenedor = $("#cardReel");
+            $.each(response.data, function (index, elemento) {
+              var nuevaTarjeta = $("<div>").addClass("card mb-3");
+              var contenidoTarjeta = `
+              
+              <div style="max-height: 100px; overflow: hidden; display: flex; justify-content: center; align-items: center;" class="mt-3">
+    <img class="card-img-top" onerror="this.onerror=null;this.src='https://rutadelaseda.xyz/app/themp/images/ECATALOG.png'" src="${elemento.logojpg}" alt="Card image cap" style="width: auto; height: 100px; border-radius: 100%" />
+</div>
+        <div class="card-body">
+            <h5 class="card-title" style="font-size: 12px;">${elemento.createdby}</h5>
+            <p class="card-text">
+              ${elemento.locales}
+            </p>
+            <button type="button" onclick="deleteAnex(${elemento.deliveryMan},${elemento.store})" class="btn btn-danger">
+              Eliminar enlace
+            </button>
+        </div>`;
+              // Agrega el contenido a la tarjeta
+              nuevaTarjeta.html(contenidoTarjeta);
+
+              // Agrega la tarjeta al contenedor
+              contenedor.append(nuevaTarjeta);
+            });
+          }
+        } else {
+          console.error("La respuesta no contiene datos válidos");
+        }
+      },
+    });
+  }
+  function anex() {
+    var idTienda = $("#campo").val();
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/anexarTienda.php",
+      data: { idTienda: idTienda },
+      dataType: "html",
+      success: function (response) {
+        Swal.fire("¡Aviso!", response, "info");
+        $("#cardReel").empty();
+        showCard();
+      },
+    });
+  }
+  function deleteAnex(deliveryMan, store) {
+    $.ajax({
+      type: "post",
+      url: "./controllers/delivery/borrarEnlaceTienda.php",
+      data: { deliveryMan: deliveryMan, store: store },
+      dataType: "html",
+      success: function (response) {
+        Swal.fire("¡Aviso!", response, "info");
+        $("#cardReel").empty();
+        showCard();
+      },
+    });
+  }
+</script>
