@@ -321,14 +321,14 @@ if ($id) {
             <div class="modal-dialog " role="document">
                 <div class="modal-content bg-light">
                     <div class="modal-header">
-                        <h5 class="modal-title">Para finalizar!</h5>
+                        <h5 class="modal-title text-primary">Para finalizar!</h5>
 
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
 
                             <div id="formulario" class="formulario">
-                                <label class="col-form-label text-dark" for="inputDefault"></label>
+                                <label class="col-form-label text-dark" for="inputDefault">Confirma tu número donde te podamos contactar</label>
                                 <input class="form-control" id="nombre" value="<?php if ($_SESSION['nameClienteUnique']) {
                                                                                     echo $_SESSION['nameClienteUnique'];
                                                                                 } else {

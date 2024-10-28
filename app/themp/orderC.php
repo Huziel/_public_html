@@ -91,10 +91,29 @@ try {
         <a name="" id="" class="btn btn-secondary btn-block mt-3" href="https://rutadelaseda.xyz/" role="button">Seguir explorando <i class="fas fa-binoculars"></i></a>
         <hr>
         <p class="mb-0">En un momento el vendedor se pondrá en contacto con usted o en su defecto puede avisarle con el boton <b> Enviar mensaje.</b></p>
-        
 
+    <center>
+    <h3 class="text-dark mt-3 mb-3">Redireccionando en <span id="countdown">5</span> segundos...</h3>
+    </center>
     </div>
 </div>
 <script>
-    enviarNotificac("<?=$token?>");
+    enviarNotificac("<?= $token ?>");
+    // Tiempo inicial en segundos
+    let countdown = 5;
+
+    // Seleccionar el elemento donde se mostrará el contador
+    const countdownElement = document.getElementById("countdown");
+
+    // Función que actualiza el contador cada segundo
+    const interval = setInterval(function() {
+        countdown--; // Reducir el contador en 1
+        countdownElement.textContent = countdown; // Actualizar el texto en pantalla
+
+        // Cuando el contador llegue a 0, redirigir y detener el intervalo
+        if (countdown <= 0) {
+            clearInterval(interval); // Detener el intervalo
+            window.location.href = "smarticket.php?order=<?= $order ?>"; // Redireccionar
+        }
+    }, 1000); // Ejecutar cada 1000 ms = 1 segundo
 </script>

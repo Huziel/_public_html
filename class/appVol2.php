@@ -483,7 +483,7 @@ class appvol2 extends app
         while ($array2 = mysqli_fetch_array($queryLog)) {
             $idLog = $array2[0];
         }
-        
+
         $insertWallet->setMoney($idLog, $_SESSION['totalCompraMercadopago']);
     }
     public function asociarDispositivo($data = [])
@@ -506,6 +506,34 @@ class appvol2 extends app
             }
         } else {
             $SQLInsert = "INSERT INTO `deviceId` (`id`, `idLog`, `token`) VALUES (NULL, '$idP', '$token');";
+            $queryInsert = mysqli_query($newCon, $SQLInsert);
+            if ($queryInsert) {
+                return json_encode(array('ok' => 'true', 'data' => 'Datos insertados correctamente'));
+            } else {
+                return json_encode(array('ok' => 'false', 'data' => 'Hubo un error al cargar los datos'));
+            }
+        }
+    }
+    public function formularioEnvio($data = [])
+    {
+        extract($data);
+        $newCon = $this->newCon;
+        $query_Tienda = "SELECT * FROM `formularioEnvios` WHERE `formularioEnvios`.`noOrder` = '$order'";
+        $query = mysqli_query($newCon, $query_Tienda);
+        while ($array = mysqli_fetch_array($query)) {
+            $dato = $array[0];
+        }
+        if ($dato) {
+
+            $SQLUpDate = "UPDATE `formularioEnvios` SET `nombre` = '$nombre', `direccion` = '$direccion', `ciudad` = '$ciudad', `pais` = '$pais', `codigoPostal` = '$codigoPostal', `tipoEnvio` = '$tipoEnvio' WHERE `formularioEnvios`.`noOrder` = '$order';";
+            $queryUpdate = mysqli_query($newCon, $SQLUpDate);
+            if ($queryUpdate) {
+                return json_encode(array('ok' => 'true', 'data' => 'Datos actualizados correctamente'));
+            } else {
+                return json_encode(array('ok' => 'false', 'data' => 'Hubo un error al actualizar los datos'));
+            }
+        } else {
+            $SQLInsert = "INSERT INTO `formularioEnvios` (`id`, `noOrder`, `nombre`, `direccion`, `ciudad`, `pais`, `codigoPostal`, `tipoEnvio`) VALUES (NULL, '$order', '$nombre', '$direccion', '$ciudad', '$pais', '$codigoPostal', '$tipoEnvio');";
             $queryInsert = mysqli_query($newCon, $SQLInsert);
             if ($queryInsert) {
                 return json_encode(array('ok' => 'true', 'data' => 'Datos insertados correctamente'));
