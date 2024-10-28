@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sketchy/bootstrap.min.css" integrity="sha512-y4F259NzBXkxhixXEuh574bj6TdXVeS6RX+2x9wezULTmAOSgWCm25a+6d0IQxAnbg+D4xIEJoll8piTADM5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <style>
         #map {
             height: 400px;
@@ -194,7 +194,7 @@ if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
                 </div>
                 <div class="col-12 col-md-6 mb-2">
                     <h6>
-                        <b>Total de envio </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio, 2, '.', ',') ?></span>
+                        <b>Total de envio Repartidor </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio, 2, '.', ',') ?></span>
                     </h6>
                 </div>
                 <div class="col-6 col-md-6 mb-2">
@@ -333,11 +333,18 @@ if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
                         <b>Apartado </b><span id="eta-value" class="badge bg-primary">$<?= number_format($apartado, 2, '.', ',') ?></span>
                     </h6>
                 </div>
-                <div class="col-12 col-md-6 mb-2">
-                    <h6>
-                        <b>Total de envio </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio, 2, '.', ',') ?></span>
-                    </h6>
-                </div>
+                <?php
+                if ($totEnvio > 1) {
+                ?>
+                    <div class="col-12 col-md-6 mb-2">
+                        <h6>
+                            <b>Total de envio Repartidor </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio, 2, '.', ',') ?></span>
+                        </h6>
+                    </div>
+                <?php
+                }
+                ?>
+
                 <div class="col-6 col-md-6 mb-2">
                     <h6>
                         <b>TOTAL </b><span id="eta-value" class="badge bg-success">$<?= number_format($totEnvio + $suma + $precioGastExt - $apartado, 2, '.', ',') ?></span>
@@ -394,6 +401,74 @@ if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
                 <strong>Pedido no liberado</strong>
             </div>
         </center>
+        <?php
+        if ($totEnvio < 1) {
+            if ($_SESSION['nombre'] == $nombre || $_SESSION['nombre'] == $createdby) {
+        ?>
+                <div class="container mt-5">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4>¿Quieres que te enviemos tu pedido?</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="row" id="formEnvio">
+                                <!-- Nombre -->
+                                <div class="form-group col-12 col-md-6">
+                                    <label for="nombre">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre completo" required>
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="form-group col-12 col-md-6"">
+                                <label for=" direccion">Dirección</label>
+                                    <input type="text" class="form-control" id="direccion" placeholder="Ingresa tu dirección" required>
+                                </div>
+
+                                <!-- Ciudad -->
+                                <div class="form-group col-12 col-md-6"">
+                                <label for=" ciudad">Ciudad</label>
+                                    <input type="text" class="form-control" id="ciudad" placeholder="Ingresa tu ciudad" required>
+                                </div>
+
+                                <!-- País -->
+                                <div class="form-group col-12 col-md-6"">
+                                <label for=" pais">País</label>
+                                    <select class="form-control" id="pais" required>
+                                        <option value="">Selecciona tu país</option>
+                                        <option value="México">México</option>
+                                        <option value="Estados Unidos">Estados Unidos</option>
+                                        <option value="Canadá">Canadá</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                </div>
+
+                                <!-- Código Postal -->
+                                <div class="form-group col-12 col-md-6"">
+                                <label for=" codigoPostal">Código Postal</label>
+                                    <input type="text" class="form-control" id="codigoPostal" placeholder="Ingresa tu código postal" required>
+                                </div>
+
+                                <!-- Tipo de Envío -->
+                                <div class="form-group col-12 col-md-6"">
+                                <label for=" tipoEnvio">Tipo de Envío</label>
+                                    <select class="form-control" id="tipoEnvio" required>
+                                        <option value="">Selecciona tipo de envío</option>
+                                        <option value="nacional">Nacional</option>
+                                        <option value="internacional">Internacional</option>
+                                    </select>
+                                </div>
+
+                                <!-- Botón de Enviar -->
+                                <button type="submit" class="btn btn-primary btn-block mt-3">Enviar</button>
+                            </form>
+                            <div id="resultado" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+        <?php
+            }
+        }
+        ?>
 
     <?php
     }
@@ -528,7 +603,7 @@ if ($status == 5 || $status == 6) {
                             </div>
                             <div class="col-12 col-md-6 mb-2">
                                 <h6>
-                                    <b>Total de envio </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio2, 2, '.', ',') ?></span>
+                                    <b>Total de envio Repartidor </b><span id="eta-value" class="badge bg-info">$<?= number_format($totEnvio2, 2, '.', ',') ?></span>
                                 </h6>
                             </div>
                             <div class="col-12 col-md-6 mb-2">
@@ -817,6 +892,63 @@ if ($status == 5 || $status == 6) {
     </script>
 </center>
 <script>
+    $(document).ready(function() {
+        // Capturar el evento de envío del formulario
+        $("#formEnvio").submit(function(event) {
+            event.preventDefault(); // Evitar el envío normal del formulario
+
+            // Validación de campos
+            let valido = true;
+            $(this).find('input, select').each(function() {
+                if (!$(this).val()) {
+                    $(this).addClass('is-invalid');
+                    valido = false;
+                } else {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+                }
+            });
+
+            if (!valido) {
+                $("#resultado").html('<div class="alert alert-danger">Por favor, completa todos los campos.</div>');
+                return;
+            }
+
+            // Obtener datos del formulario
+            let datos = $(this).serialize();
+            console.log(datos);
+            // Enviar los datos con AJAX
+
+            var nombre = $("#nombre").val();
+            var direccion = $("#direccion").val();
+            var ciudad = $("#ciudad").val();
+            var pais = $("#pais").val();
+            var codigoPostal = $("#codigoPostal").val();
+            var tipoEnvio = $("#tipoEnvio").val();
+            $.ajax({
+                url: "../../controllers/formularioEnvioController.php", // Reemplaza con tu URL
+                method: "POST",
+                data: {
+                    order: '<?= $order ?>',
+                    nombre: nombre,
+                    direccion: direccion,
+                    ciudad: ciudad,
+                    pais: pais,
+                    codigoPostal: codigoPostal,
+                    tipoEnvio: tipoEnvio,
+                },
+                success: function(response) {
+                    console.log(response);
+                    $("#resultado").html('<div class="alert alert-success">¡Envío exitoso!</div>');
+                    $("#formEnvio")[0].reset(); // Limpiar el formulario
+                    $(".form-control").removeClass("is-valid"); // Quitar clases de validación
+                },
+                error: function() {
+                    $("#resultado").html('<div class="alert alert-danger">Error en el envío. Inténtalo nuevamente.</div>');
+                }
+            });
+        });
+    });
+
     // Inicializa el SDK de MercadoPago con tu Public Key
     const mercadopago = new MercadoPago('APP_USR-554a0828-7b40-4977-a6ff-0d36943bd65a', {
         locale: 'es-MX', // Elige el idioma según tu país

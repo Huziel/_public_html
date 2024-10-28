@@ -42,7 +42,7 @@ $sql = mysqli_query($con, $query);
             <h5 class="text-primary">Sub total</h5>
         </td>
         <td>
-            <div class="countPrs" style="color: white; font-size: 25px;"></div>
+            <div class="countPrs text-secondary" style=" font-size: 25px;"></div>
         </td>
         <td></td>
     </tr>

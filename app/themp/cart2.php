@@ -83,6 +83,8 @@ if ($id) {
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="sweetalert2.all.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sketchy/bootstrap.min.css" integrity="sha512-y4F259NzBXkxhixXEuh574bj6TdXVeS6RX+2x9wezULTmAOSgWCm25a+6d0IQxAnbg+D4xIEJoll8piTADM5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
         <style>
             .abs-center {
                 display: flex;
@@ -360,14 +362,14 @@ if ($id) {
             <div class="modal-dialog " role="document">
                 <div class="modal-content bg-light">
                     <div class="modal-header">
-                        <h5 class="modal-title text-secondary">Para finalizar!</h5>
+                        <h5 class="modal-title text-primary">Para finalizar!</h5>
 
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
 
                             <div id="formulario" class="formulario">
-                                <label class="col-form-label text-dark" for="inputDefault"></label>
+                                <label class="col-form-label text-dark" for="inputDefault">Confirma tu número donde te podamos contactar</label>
                                 <input class="form-control" id="nombre" value="<?php if ($_SESSION['nameClienteUnique']) {
                                                                                     echo $_SESSION['nameClienteUnique'];
                                                                                 } else {

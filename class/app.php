@@ -289,7 +289,7 @@ class app
     public function generalP($data)
     {
         $newCon = $this->newCon;
-        $sql = "SELECT A.id,A.order,A.tel,A.serial,A.session,A.lat,A.long,A.total,A.totEnvio,A.nombre,A.date,B.createdby,SUM(C.price) AS suma,C.status,D.status AS estdoMercado FROM ordenCompra A INNER JOIN liks B ON A.serial = B.serial INNER JOIN cart C ON C.orderC = A.order LEFT JOIN mercadoPago D ON D.orderP = A.order  WHERE B.createdby = '$data' GROUP BY C.orderC ORDER BY A.date DESC;";
+        $sql = "SELECT A.id,A.order,A.tel,A.serial,A.session,A.lat,A.long,A.total,A.totEnvio,A.nombre,A.date,B.createdby,SUM(C.price) AS suma,C.status,D.status AS estdoMercado,E.nombre AS nombreCompleto, E.direccion, E.ciudad, E.pais, E.codigoPostal, E.tipoEnvio FROM ordenCompra A INNER JOIN liks B ON A.serial = B.serial INNER JOIN cart C ON C.orderC = A.order LEFT JOIN mercadoPago D ON D.orderP = A.order LEFT JOIN formularioEnvios E ON E.noOrder = A.order WHERE B.createdby = '$data'  GROUP BY C.orderC ORDER BY A.date DESC;";
         $query = mysqli_query($newCon, $sql);
         $Array = array();
         while ($array = mysqli_fetch_array($query)) {

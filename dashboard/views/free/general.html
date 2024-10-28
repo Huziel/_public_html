@@ -324,6 +324,7 @@
       data: { created: "<?=$user?>" },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         $("#pTable").DataTable().destroy();
         $("#pTable tbody").empty();
 
@@ -349,6 +350,16 @@
           if (precio !== 0) {
             buttonUbi = `<a href='https://www.google.com/maps/place/${response.data[i].lat},${response.data[i].long}' class='btn btn-info btn-lg btn-block' target='_blank'><i class='fas fa-map-marker-alt'></i></a>`;
           }
+          if (response.data[i].nombreCompleto) {
+            var formEnvio = `<br>Datos de envio:<br>Nombre Completo: ${response.data[i].nombreCompleto}<br>
+Dirección: ${response.data[i].direccion}<br>
+Ciudad: ${response.data[i].ciudad}<br>
+País: ${response.data[i].pais}<br>
+Código Postal: ${response.data[i].codigoPostal}<br>
+Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
+          } else {
+            var formEnvio = "";
+          }
 
           let card = `
                     <center><a href='https://rutadelaseda.xyz/app/themp/smarticket.php?order=${
@@ -372,6 +383,7 @@
                                   "es-MX",
                                   options
                                 )}
+                            ${formEnvio}
                                 <a href='https://api.whatsapp.com/send?phone=52${
                                   response.data[i].tel
                                 }' class='btn btn-success btn-lg btn-block mt-2 mb-2' target='_blank'><i class='fab fa-whatsapp'></i></a>
