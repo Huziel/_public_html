@@ -690,6 +690,7 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
     });
   }
   function emitirOrden(idCompra) {
+    console.log(idCompra);
     $(".btn").prop("disabled", true);
     $.ajax({
       type: "post",
@@ -698,9 +699,12 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
       dataType: "json",
       success: function (response) {
         console.log(response);
-        response.keys.forEach((key, index) => {
-          enviarNotificac(key);
-        });
+        if (response.data == "Se emitió una orden de envio") {
+          response.keys.forEach((key, index) => {
+            enviarNotificac(key);
+          });
+        }
+
         Swal.fire(response.data, "", "info");
         showGe();
       },
