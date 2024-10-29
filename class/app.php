@@ -511,13 +511,15 @@ class app
         $fecha_actual = date("Y-m-d H:i:s");
         $newCon = $this->newCon;
         $sql = "UPDATE `cart` SET `status` = '4' WHERE `cart`.`orderC` = '$id'";
-        $query = mysqli_query($newCon, $sql);
+
 
         $sql2 = "SELECT * FROM `liks` A INNER JOIN ordenCompra B ON A.serial = B.serial WHERE B.order = '$id';";
         $query2 = mysqli_query($newCon, $sql2);
         while ($array = mysqli_fetch_array($query2)) {
             $idTienda = $array[0];
             $idOrden = $array[16];
+            $lat = $array[21];
+            $long = $array[22];
         }
 
         $sql3 = "SELECT * FROM `ordenEnvio` WHERE tienda = '$idTienda' AND ordenCompra = '$idOrden'";
@@ -525,26 +527,34 @@ class app
         while ($array = mysqli_fetch_array($query3)) {
             $idEnvio = $array[0];
         }
-        if (empty($idEnvio)) {
-            $sql4 = "INSERT INTO `ordenEnvio` (`id`, `tienda`, `delivery`, `ordenCompra`, `fechaIn`, `status`) VALUES (NULL, '$idTienda', NULL, '$idOrden','$fecha_actual','0');";
-            $sql5 = "SELECT * FROM `anexosDeliver` A INNER JOIN log B ON A.deliveryMan = B.id LEFT JOIN deviceId C ON C.idLog = B.id WHERE A.store = '$idTienda';";
-            $query4 = mysqli_query($newCon, $sql4);
-            $query5 = mysqli_query($newCon, $sql5);
+        if ($lat && $long) {
+            if (empty($idEnvio)) {
+                $sql4 = "INSERT INTO `ordenEnvio` (`id`, `tienda`, `delivery`, `ordenCompra`, `fechaIn`, `status`) VALUES (NULL, '$idTienda', NULL, '$idOrden','$fecha_actual','0');";
+                $sql5 = "SELECT * FROM `anexosDeliver` A INNER JOIN log B ON A.deliveryMan = B.id LEFT JOIN deviceId C ON C.idLog = B.id WHERE A.store = '$idTienda';";
 
-            $Array = array();
+                $query5 = mysqli_query($newCon, $sql5);
 
-            while ($array = mysqli_fetch_array($query5)) {
-                $Array['data'][] = $array;
-            }
+                $Array = array();
 
-            if (!empty($Array)) {
-                return json_encode($Array);
+                while ($array = mysqli_fetch_array($query5)) {
+                    $Array['data'][] = $array;
+                }
+
+                if (count($Array) === 0) {
+
+                    $userData = array('data' => 'Sin datos');
+                    return json_encode($userData);
+                } else {
+                    $query = mysqli_query($newCon, $sql);
+                    $query4 = mysqli_query($newCon, $sql4);
+                    return json_encode($Array);
+                }
             } else {
-                $userData = array('data' => 'Sin datos');
+                $userData = array('data' => 'Ya hay una orden de envio');
                 return json_encode($userData);
             }
         } else {
-            $userData = array('data' => 'Ya hay una orden de envio');
+            $userData = array('data' => 'El envío no está disponible');
             return json_encode($userData);
         }
     }

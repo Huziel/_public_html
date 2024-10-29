@@ -178,8 +178,6 @@ if ($id) {
             /* 
  * Optional: Makes the sample page fill the window. 
  */
-
-
             #floating-panel {
 
                 display: none;
@@ -881,8 +879,8 @@ color: var(--light) !important;
                         order: orden,
                         serial: "<?= $serialC ?>",
                         session: "<?= $idSession ?>",
-                        lat: lat1,
-                        long: long1,
+                        lat: "",
+                        long: "",
                         tot: tot,
                         totEnv: totEn,
                         nameU: nameU,

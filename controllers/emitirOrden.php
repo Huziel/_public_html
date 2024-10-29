@@ -61,7 +61,7 @@ switch ($requestMethod) {
                 $userData = array('data' => $status, 'keys' => $arrayTokens);
                 echo json_encode($userData);
             } catch (Exception $e) {
-                $status =  'Error al enviar el correo: ' . $mail->ErrorInfo;
+                $status =  $jsonData['data'];
                 $userData = array('data' => $status);
                 echo json_encode($userData);
             }
