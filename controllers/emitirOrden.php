@@ -20,56 +20,52 @@ switch ($requestMethod) {
         $id = (isset($_POST['id']) ? $_POST['id'] : null);
         $costEnvi = $model->getDtCostEnv($id);
         $wallet = $model->getMoney($idStore);
-        if ($wallet >= $costEnvi) {
-            $model->susMoney($idStore, $costEnvi);
-            $correos = $model->emitirOrden($id);
-            $jsonData = json_decode($correos, true);
-            $mail = new PHPMailer(true);
-            try {
-                // Configuración del servidor SMTP
-                $mail->isSMTP();
-                $mail->Host = 'smtp.hostinger.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'notificaciones@rutadelaseda.xyz';
-                $mail->Password = 'Huzidrago666&';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
 
-                // Detalles del mensaje
-                $mail->setFrom('notificaciones@rutadelaseda.xyz', 'Orden de envio');
-                $mail->Subject = 'Orden de envio';
-                $mail->Body = "Hay nuevas ordenes de envio.";
+        /* $model->susMoney($idStore, $costEnvi); */
+        $correos = $model->emitirOrden($id);
+        $jsonData = json_decode($correos, true);
+        $mail = new PHPMailer(true);
+        try {
+            // Configuración del servidor SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.hostinger.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notificaciones@rutadelaseda.xyz';
+            $mail->Password = 'Huzidrago666&';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            // Detalles del mensaje
+            $mail->setFrom('notificaciones@rutadelaseda.xyz', 'Orden de envio');
+            $mail->Subject = 'Orden de envio';
+            $mail->Body = "Hay nuevas ordenes de envio.";
 
 
-                $arrayTokens = array();
-                if (isset($jsonData['data'])) {
-                    
-                    foreach ($jsonData['data'] as $objeto) {
-                        // Verificar si la clave 'name' existe en el objeto
-                        if (isset($objeto['name'])) {
-                            $mail->addAddress($objeto['name']);
+            $arrayTokens = array();
+            if (isset($jsonData['data'])) {
 
-                            if (isset($objeto['token'])) {
-                                $arrayTokens[] = $objeto['token'];
-                            }
+                foreach ($jsonData['data'] as $objeto) {
+                    // Verificar si la clave 'name' existe en el objeto
+                    if (isset($objeto['name'])) {
+                        $mail->addAddress($objeto['name']);
+
+                        if (isset($objeto['token'])) {
+                            $arrayTokens[] = $objeto['token'];
                         }
                     }
                 }
-                // Enviar el correo
-                $mail->send();
-                $status = 'Se emitió una orden de envio';
-                $userData = array('data' => $status, 'keys' => $arrayTokens);
-                echo json_encode($userData);
-            } catch (Exception $e) {
-                $status =  $jsonData['data'];
-                $userData = array('data' => $status);
-                echo json_encode($userData);
             }
-        } else {
-            $status = 'No cuentas con saldo suficiente';
+            // Enviar el correo
+            $mail->send();
+            $status = 'Se emitió una orden de envio';
+            $userData = array('data' => $status, 'keys' => $arrayTokens);
+            echo json_encode($userData);
+        } catch (Exception $e) {
+            $status =  $jsonData['data'];
             $userData = array('data' => $status);
             echo json_encode($userData);
         }
+
 
         break;
 
@@ -77,4 +73,3 @@ switch ($requestMethod) {
         # code...
         break;
 }
-

@@ -542,4 +542,65 @@ class appvol2 extends app
             }
         }
     }
+    public function crearAditivo($data = [])
+    {
+        extract($data);
+        $newCon = $this->newCon;
+        $query_Tienda = "SELECT * FROM `aditivos` A WHERE A.`id` = '$id'";
+        $query = mysqli_query($newCon, $query_Tienda);
+        while ($array = mysqli_fetch_array($query)) {
+            $dato = $array[0];
+        }
+        if ($dato) {
+
+            $SQLUpDate = "UPDATE `aditivos` SET `nombre` = '$nombre', `precio` = '$precio', `categoria` = '$categoria', `descripcion` = '$descripcion', `stock` = '$stock' WHERE `aditivos`.`id` = '$id';";
+            $queryUpdate = mysqli_query($newCon, $SQLUpDate);
+            if ($queryUpdate) {
+                return json_encode(array('ok' => 'true', 'data' => 'Datos actualizados correctamente'));
+            } else {
+                return json_encode(array('ok' => 'false', 'data' => 'Hubo un error al actualizar los datos'));
+            }
+        } else {
+            $SQLInsert = "INSERT INTO `aditivos` (`id`, `idProd`, `nombre`, `precio`, `categoria`, `descripcion`, `activo`, `stock`) VALUES (NULL, '$idProd', '$nombre', '$precio', '$categoria', '$descripcion', '1', '$stock');";
+            $queryInsert = mysqli_query($newCon, $SQLInsert);
+            if ($queryInsert) {
+                return json_encode(array('ok' => 'true', 'data' => 'Datos insertados correctamente'));
+            } else {
+                return json_encode(array('ok' => 'false', 'data' => 'Hubo un error al cargar los datos'));
+            }
+        }
+    }
+    public function borrarAditivo($id)
+    {
+        $newCon = $this->newCon;
+        $sql = "DELETE FROM aditivos WHERE `aditivos`.`id` = '$id'";
+        $query = mysqli_query($newCon, $sql);
+        if ($query) {
+            return json_encode(array('ok' => 'true', 'data' => 'Datos borrados correctamente'));
+        } else {
+            return json_encode(array('ok' => 'false', 'data' => 'Hubo un error al borrar los datos'));
+        }
+    }
+    public function traerAditivos($idProd)
+    {
+        $newCon = $this->newCon;
+        $query_Tienda = "SELECT * FROM aditivos A WHERE A.idProd = '$idProd'";
+        $query = mysqli_query($newCon, $query_Tienda);
+        $arrayRes = array();
+        while ($array = mysqli_fetch_array($query)) {
+            $arrayRes[] = $array;
+        }
+        return  json_encode(array("data" => $arrayRes));
+    }
+    public function traerCarritoAditivos($idCart)
+    {
+        $newCon = $this->newCon;
+        $query_Tienda = "SELECT * FROM aditivos A INNER JOIN cartAditivos B ON B.idAditivo = A.id WHERE B.noOrder = '$idCart'";
+        $query = mysqli_query($newCon, $query_Tienda);
+        $arrayRes = array();
+        while ($array = mysqli_fetch_array($query)) {
+            $arrayRes[] = $array;
+        }
+        return  json_encode(array("data" => $arrayRes));
+    }
 }

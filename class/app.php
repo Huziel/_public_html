@@ -962,8 +962,11 @@ class app
             $cant = $array[2];
         }
         $newVal = $cant - $money;
-        $sql3 = "UPDATE `wallet` SET `cant` = '$newVal', `time` = '$fechaHoraFormateada' WHERE `wallet`.`idLog` = '$idDel';";
+        $sql3 = "UPDATE `wallet` SET `cant` = '0', `time` = '$fechaHoraFormateada' WHERE `wallet`.`idLog` = '$idDel';";
         $query3 = mysqli_query($newCon, $sql3);
+        if ($query3) {
+            echo "Cambios actualizados";
+        }
     }
     public function setMoneyDeliver($idDel, $money)
     {
@@ -1299,7 +1302,7 @@ class app
     public function traerDatosTiendExtra($idTienda)
     {
         $newCon = $this->newCon;
-        $query_Tienda = "SELECT * FROM `masDatosdeTienda` WHERE `masDatosdeTienda`.`idTienda` = '$idTienda'";
+        $query_Tienda = "SELECT A.*, D.* FROM `masDatosdeTienda` A INNER JOIN liks B ON B.id = A.idTienda INNER JOIN log C ON C.name = B.createdby LEFT JOIN mercadopagoCuentas D ON D.idLog = C.id WHERE A.idTienda = '$idTienda'";
         $query = mysqli_query($newCon, $query_Tienda);
         $jsonArray = array();
         while ($arrayUsers = mysqli_fetch_array($query)) {
@@ -1310,7 +1313,7 @@ class app
     public function traerDatosDeliverParaTienda($created)
     {
         $newCon = $this->newCon;
-        $query_Tienda = "SELECT * FROM anexosDeliver A INNER JOIN datosPersonales B ON B.idLog = A.deliveryMan INNER JOIN liks C ON C.id = A.store INNER JOIN fotoPorfile E ON E.idUser = A.deliveryMan WHERE C.createdby = '$created' GROUP BY A.deliveryMan;";
+        $query_Tienda = "SELECT * FROM anexosDeliver A INNER JOIN datosPersonales B ON B.idLog = A.deliveryMan INNER JOIN liks C ON C.id = A.store INNER JOIN fotoPorfile E ON E.idUser = A.deliveryMan LEFT JOIN wallet F ON F.idLog = A.deliveryMan WHERE C.createdby = '$created' GROUP BY A.deliveryMan;";
         $query = mysqli_query($newCon, $query_Tienda);
         $jsonArray = array();
         while ($arrayUsers = mysqli_fetch_array($query)) {

@@ -105,6 +105,7 @@ function detPShow(theLink) {
     data: { id: theLink },
     dataType: "json",
     success: function (response) {
+      $(".formAditivos").hide();
       var imgP =
         "<img src='" +
         response.response.link +
@@ -544,8 +545,71 @@ function guardarKeyDis() {
     dataType: "html",
     success: function (response) {
       console.log(response);
-     
+    },
+  });
+}
+function aditivoForm() {
+  var idPD = $("#idPD").val();
+  var nombreAditivo = $("#nombreAditivo").val();
+  var precioAditivo = $("#precioAditivo").val();
+  var categoriaAditivo = $("#categoriaAditivo").val();
+  var descripcionAditivo = $("#descripcionAditivo").val();
+  var stockAditivo = $("#stockAditivo").val();
+  $.ajax({
+    type: "POST",
+    url: "controllers/crearAditivos.php",
+    data: {
+      type: "add",
+      idPD: idPD,
+      nombreAditivo: nombreAditivo,
+      precioAditivo: precioAditivo,
+      categoriaAditivo: categoriaAditivo,
+      descripcionAditivo: descripcionAditivo,
+      stockAditivo: stockAditivo,
+    },
+    dataType: "json",
+    success: function (response) {
+      traerAditivos();
+      Swal.fire({
+        title: response.data,
+        icon: "info",
+      });
     },
   });
 }
 guardarKeyDis();
+function traerAditivos() {
+  $('#jsonTableAditivos tbody').empty();
+  $(".formAditivos").show();
+  var idPD = $("#idPD").val();
+  $.ajax({
+    type: "GET",
+    url: "controllers/crearAditivos.php",
+    data: { idP: idPD },
+    dataType: "json",
+    success: function (response) {
+      $.each(response.data, function (index, item) {
+        var row = `<tr>
+            <td>${item.nombre}</td>
+            <td>$${item.precio}</td>
+            <td>${item.categoria}</td>
+            <td>${item.descripcion}</td>
+            <td>${item.stock}</td>
+            <td><button type="button" class="btn btn-danger" onclick='borrarAditivos(${item.id})'>Borrar</button></td>
+        </tr>`;
+        $("#jsonTableAditivos tbody").append(row);
+      });
+    },
+  });
+}
+function borrarAditivos(idAdi) {
+  $.ajax({
+    type: "POST",
+    url: "controllers/crearAditivos.php",
+    data: { type: "erase", idA: idAdi },
+    dataType: "html",
+    success: function (response) {
+      traerAditivos();
+    },
+  });
+}

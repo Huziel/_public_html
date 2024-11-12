@@ -3,18 +3,24 @@
 session_start();
 // Requiere el SDK de MercadoPago
 require __DIR__ . '/mercadopago/vendor/autoload.php'; // Ruta del autoload si usas Composer
-
+require_once('../../class/app.php');
+require_once('../../class/appVol2.php');
 // Habilitar la depuración de errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-// Configura las credenciales de MercadoPago
-MercadoPago\SDK::setAccessToken('APP_USR-4823388493667360-092823-cf70a494b06f098c4d37658f66a3ec5a-1236062875'); // Usa el token de producción o sandbox
-
-// Obtiene los datos enviados por el frontend
 $body = file_get_contents('php://input');
 $data = json_decode($body, true);
+$model = new appvol2;
+$jsonDatosExtr = $model->traerDatosTiendExtra($data['idStore']);
+$dataDatosExt = json_decode($jsonDatosExtr, true);
+$dataDatoExt = $dataDatosExt['data'][0];
+$secretKey = $dataDatoExt["secretKey"];
+// Configura las credenciales de MercadoPago
+MercadoPago\SDK::setAccessToken($secretKey); // Usa el token de producción o sandbox
+
+// Obtiene los datos enviados por el frontend
+
 
 // Verifica si el JSON está vacío o no válido
 if (is_null($data)) {
@@ -42,7 +48,7 @@ try {
 
   // Configura el comprador
   $payer = new MercadoPago\Payer();
-  if ($_SESSION['nombre']) {
+  if ((isset($_SESSION['nombre']) ? $_SESSION['nombre']  : null)) {
     $payer->email = $_SESSION['nombre'];
   } else {
     $payer->email = "contacto@rutadelaseda.xyz"; // Aquí puedes cambiar dinámicamente si lo prefieres
@@ -66,9 +72,8 @@ try {
   // Configura la cabecera para la respuesta JSON
   header('Content-Type: application/json');
   echo json_encode(['preference_id' => $preference->id]);
-  require_once('../../class/app.php');
-  require_once('../../class/appVol2.php');
-  $model = new appvol2;
+
+
   $model->guardarOrdenMercadoPago($idP, $preference->id);
 } catch (Exception $e) {
   // En caso de error, devolver el error en formato JSON

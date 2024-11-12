@@ -95,7 +95,7 @@
               name=""
               id=""
               onclick="traerDeliveriDats()"
-              class="btn btn-primary btn-lg btn-block"
+              class="btn btn-info btn-lg btn-block mt-3 mb-3"
               data-toggle="modal"
               data-target="#modalDelivery"
             >
@@ -130,6 +130,7 @@
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Imagen</th>
+                <th>Aditivos</th>
               </tr>
             </thead>
             <tbody id="tbodyPP"></tbody>
@@ -192,6 +193,7 @@
                 <th>Ap Paterno</th>
                 <th>Ap Materno</th>
                 <th>Placas</th>
+                <th>Le debes</th>
                 <th>Bloquear</th>
                 <!-- Añade más columnas según tus necesidades -->
               </tr>
@@ -616,7 +618,9 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
       dataType: "json",
       success: function (response) {
         console.log(response);
+        const firstColumnKey = Object.keys(response.data[0])[0];
         for (i = 0; i < response.data.length; i++) {
+          const firstColumnValue = response.data[i][firstColumnKey];
           var modelT =
             "<tr>" +
             "<td>" +
@@ -635,12 +639,65 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
             response.data[i].link +
             "' class='img-fluid' width='50px' alt='Responsive image'>" +
             "</td>" +
-            "</tr>";
+            "<td><button type='button' class='btn btn-primary' onclick = 'traerAditivossdad(" +
+            firstColumnValue +
+            ")'>Ver aditivos</button>";
+          "</td>" + "</tr>";
           $("#pTableP tbody").append(modelT);
         }
       },
     });
   }
+  function traerAditivossdad(id) {
+    $.ajax({
+      type: "get",
+      url: "controllers/traerCarritoAditivo.php",
+      data: { id: id },
+      dataType: "json", // Esperamos que el servidor devuelva JSON
+      success: function (response) {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          if (Array.isArray(response.data)) {
+            // Crear la tabla dinámica
+            let tableHTML =
+              '<table class="table table-bordered"><thead><tr><th>Nombre</th><th>Precio</th></tr></thead><tbody>';
+
+            // Recorremos los datos usando un bucle 'for'
+            for (let i = 0; i < response.data.length; i++) {
+              let item = response.data[i];
+
+              // Construir cada fila de la tabla
+              tableHTML += "<tr>";
+              tableHTML += `<td>${item.nombre}</td>`;
+              tableHTML += `<td>$${item.precio}</td>`;
+              tableHTML += "</tr>";
+            }
+
+            // Cerramos la tabla
+            tableHTML += "</tbody></table>";
+
+            // Insertamos la tabla en el DOM
+            Swal.fire({
+              title: "<strong>Aditivos</strong>",
+              icon: "info",
+              html: tableHTML,
+              showCloseButton: true,
+              showCancelButton: true,
+              focusConfirm: false,
+            });
+          } else {
+            console.log("La respuesta no contiene un array válido.");
+          }
+        } else {
+          Swal.fire("No hay aditivos");
+        }
+        // Verificamos que la respuesta contenga un array
+      },
+      error: function (error) {
+        console.error("Error en la solicitud AJAX:", error);
+      },
+    });
+  }
+
   function changeStatus(id) {
     var table = $("#pTable").DataTable();
     table.destroy();
@@ -986,6 +1043,20 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
             { data: "placas" },
             {
               data: null,
+              render: function (data) {
+                // Formatea el número a dos decimales y añade el botón
+                return `
+                      <div>
+                          <span>$${parseFloat(data.cant).toFixed(2)}</span>
+                          <button class="btn btn-primary btn-pagar" onclick="pagarRepartidor(${
+                            data.deliveryMan
+                          },${data.cant})">Pagar</button>
+                      </div>
+                  `;
+              },
+            },
+            {
+              data: null,
               render: function (data, type, row) {
                 // Aquí puedes devolver cualquier HTML que desees para esta columna
                 if (data.bloqueo == 0) {
@@ -1005,6 +1076,21 @@ Tipo de Envío: ${response.data[i].tipoEnvio}<br>`;
             },
             // Añade más columnas según tus necesidades
           ],
+        });
+      },
+    });
+  }
+
+  function pagarRepartidor(idDel, pago) {
+    $.ajax({
+      type: "post",
+      url: "controllers/pagarRepartidor.php",
+      data: { idStore: idDel, costEnvi: pago },
+      dataType: "html",
+      success: function (response) {
+        Swal.fire({
+          title: response,
+          icon: "success",
         });
       },
     });
