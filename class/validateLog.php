@@ -10,13 +10,14 @@ class validateLog extends app
         $searchString = " ";
         $replaceString = "";
         $username = str_replace($searchString, $replaceString, $username);
-        $query = "SELECT A.id,A.name,A.keyvalue,A.type,B.phone,B.id AS idStore FROM `log` A INNER JOIN liks B ON B.createdby = A.name WHERE A.name = '$username' OR B.phone='$username'";
+        $query = "SELECT A.id,A.name,A.keyvalue,A.type,B.phone,B.id AS idStore,C.secretKey FROM `log` A INNER JOIN liks B ON B.createdby = A.name LEFT JOIN mercadopagoCuentas C ON C.idLog = A.id WHERE A.name = '$username' OR B.phone='$username';";
         $newCon = $this->newCon;
         $sql = mysqli_query($newCon, $query);
 
 
         if ($f = mysqli_fetch_assoc($sql)) {
             if (password_verify($pass, $f['keyvalue'])) {
+                $_SESSION['secretKey'] = $f['secretKey'];
                 $_SESSION['id'] = $f['id'];
                 $_SESSION['nombre'] = $f['name'];
                 $_SESSION['types'] = $f['type'];

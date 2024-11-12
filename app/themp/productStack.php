@@ -9,8 +9,10 @@ $sessionN = (isset($_POST['session']) ? $_POST['session'] : null);
 $sessionX = (isset($_POST['sessionx']) ? $_POST['sessionx'] : null);
 $query_v = "SELECT * FROM `data` WHERE id = '$id' AND session = '$sessionN';";
 $query_p = "SELECT * FROM `img` WHERE product = '$id';";
+$query_A = "SELECT * FROM `aditivos` WHERE idProd = '$id'";
 $sql = mysqli_query($con, $query_v);
 $sql_p = mysqli_query($con, $query_p);
+$sql_A = mysqli_query($con, $query_A);
 $count = mysqli_num_rows($sql);
 if ($count > 0) {
     while ($array = mysqli_fetch_array($sql)) {
@@ -66,6 +68,22 @@ if ($count > 0) {
                     <input type="hidden" name="domSession" value="<?= $sessionX ?>">
                     <input type="hidden" name="session" value="<?= $session_id ?>">
                     <div class="row">
+                        <div class="col-12">
+                            <label for="">Añadidos</label>
+                            <?php
+                            while ($array_A = mysqli_fetch_array($sql_A)) {
+                                $value = $array_A['id'];
+                            ?>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" value="<?= $value ?>-<?= $array_A['precio'] ?>" id="checkbox_<?= $value ?>" onchange="actualizarArray(this)">
+                                    <label class="form-check-label" for="checkbox_<?= $value ?>">
+                                        <?= $array_A['nombre'] ?> <i class="fas fa-chevron-right"></i> <?= $array_A['descripcion'] ?> <i class="fas fa-chevron-right"></i> $<?= $array_A['precio'] ?>
+                                    </label>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <div class="input-group">
@@ -79,6 +97,7 @@ if ($count > 0) {
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6">
                             <button id="addForm" type="submit" class="btn btn-outline-dark btn-block boxshadowD animate__animated animate__infinite infinite animate__pulse">Agregar a carrito <i class="fas fa-cart-plus"></i></button>
                         </div>
@@ -93,7 +112,21 @@ if ($count > 0) {
                 </center>
 
                 <script>
-                    
+                    let arraySeleccionados = [];
+
+                    function actualizarArray(checkbox) {
+                        const value = checkbox.value;
+
+                        if (checkbox.checked) {
+                            // Si el checkbox se selecciona, añade el valor al array
+                            arraySeleccionados.push(value);
+                        } else {
+                            // Si el checkbox se deselecciona, remueve el valor del array
+                            arraySeleccionados = arraySeleccionados.filter(item => item !== value);
+                        }
+
+                        // Muestra el array actualizado en la consola para verificar
+                    }
 
                     function sumar() {
                         // Obtener el valor actual del input
@@ -145,7 +178,7 @@ if ($count > 0) {
                                 $.ajax({
                                     type: $(this).attr("method"),
                                     url: $(this).attr("action"),
-                                    data: $(this).serialize(),
+                                    data: $(this).serialize() + "&seleccionados=" + JSON.stringify(arraySeleccionados),
                                     beforeSend: function() {
                                         /*
                                          * Esta función se ejecuta durante el envió de la petición al
@@ -163,6 +196,7 @@ if ($count > 0) {
                                         btnEnviar.removeAttr("disabled");
                                     },
                                     success: function(data) {
+                                        arraySeleccionados = [];
                                         /*
                                          * Se ejecuta cuando termina la petición y esta ha sido
                                          * correcta

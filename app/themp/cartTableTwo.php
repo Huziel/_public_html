@@ -5,6 +5,8 @@ $serial = (isset($_POST['serial']) ? $_POST['serial'] : null);
 $query = "SELECT * FROM cart A JOIN data B ON A.product = B.id JOIN liks C ON C.serial = A.variation WHERE A.user = '$id' AND C.serial = '$serial' AND A.status = '0';";
 $queryEs = "SELECT * FROM cart A JOIN data B ON A.product = B.id JOIN liks C ON C.serial = A.variation WHERE A.user = '$id' AND C.serial = '$serial' LIMIT 1;";
 $query_v = "SELECT * FROM `liks` WHERE createdby = '$id';";
+
+
 $sql = mysqli_query($con, $query);
 
 ?>
@@ -16,13 +18,16 @@ $sql = mysqli_query($con, $query);
                 <th></th>
                 <th>Nombre</th>
                 <th>Cantidad</th>
-                <th>Precio</th>
+                <th>Precio neto</th>
+                <th>Aditivos</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             <?php
             while ($arreglo = mysqli_fetch_array($sql)) {
+                $query_Ad = "SELECT * FROM cartAditivos A INNER JOIN aditivos B ON B.id = A.idAditivo WHERE A.noOrder = '$arreglo[0]'";
+                $sqlAd = mysqli_query($con, $query_Ad);
             ?>
                 <tr>
                     <td>
@@ -31,6 +36,14 @@ $sql = mysqli_query($con, $query);
         <td scope="row"><?= $arreglo['keyy'] ?> <?= $arreglo['var'] ?></td>
         <td><?= $arreglo['cant'] ?></td>
         <td>$<?= $arreglo['price'] ?> MXN</td>
+        <td><?php
+                while ($arregloAdi = mysqli_fetch_array($sqlAd)) {
+            ?>
+                <p><?= $arregloAdi[6] ?> - $<?= $arregloAdi[7] ?></p>
+            <?php
+                }
+            ?>
+        </td>
         <td><button type="button" onclick="deleteAjax('<?= $arreglo[0] ?>');" class="btn btn-danger"><i class="fas fa-backspace"></i></button></td>
         </tr>
 

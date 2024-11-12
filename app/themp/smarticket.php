@@ -96,6 +96,7 @@ $nameBanc1 = $dataDatoExt["nameBanc1"];
 $nameBanc2 = $dataDatoExt["nameBanc2"];
 $namePrope1 = $dataDatoExt["namePrope1"];
 $namePrope2 = $dataDatoExt["namePrope2"];
+$publicKey = $dataDatoExt["publicKey"];
 
 switch ($status) {
     case '2':
@@ -950,7 +951,7 @@ if ($status == 5 || $status == 6) {
     });
 
     // Inicializa el SDK de MercadoPago con tu Public Key
-    const mercadopago = new MercadoPago('APP_USR-554a0828-7b40-4977-a6ff-0d36943bd65a', {
+    const mercadopago = new MercadoPago('<?= $publicKey ?>', {
         locale: 'es-MX', // Elige el idioma según tu país
     });
 
@@ -965,7 +966,8 @@ if ($status == 5 || $status == 6) {
                 body: JSON.stringify({
                     product: 'No. Orden:' + <?= $order1 ?>,
                     amount: <?= number_format($totEnvio + $suma + $precioGastExt - $apartado, 2, '.', ',') ?>, // Monto del producto
-                    idP: <?= $order1 ?>
+                    idP: <?= $order1 ?>,
+                    idStore: <?= $idStore ?>
                 }),
             });
 
@@ -988,6 +990,7 @@ if ($status == 5 || $status == 6) {
 
         } catch (error) {
             console.error('Error al crear el pago:', error);
+            console.log(response);
             alert('Hubo un problema al crear el pago. Por favor, inténtalo de nuevo.');
         }
     });
