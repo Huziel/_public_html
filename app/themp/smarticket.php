@@ -404,70 +404,71 @@ if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
         </center>
         <?php
         if ($totEnvio < 1) {
-            if ($_SESSION['nombre'] == $nombre || $_SESSION['nombre'] == $createdby) {
+
         ?>
-                <div class="container mt-5">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h4>¿Quieres que te enviemos tu pedido?</h4>
-                        </div>
-                        <div class="card-body">
-                            <form class="row" id="formEnvio">
-                                <!-- Nombre -->
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="nombre">Nombre Completo</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre completo" required>
-                                </div>
+            <div class="container mt-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>¿Quieres que te enviemos tu pedido?</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="row" id="formEnvio">
+                            <!-- Nombre -->
+                            <div class="form-group col-12 col-md-6">
+                                <label for="nombre">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre completo" required>
+                            </div>
 
-                                <!-- Dirección -->
-                                <div class="form-group col-12 col-md-6"">
+                            <!-- Dirección -->
+                            <div class="form-group col-12 col-md-6"">
                                 <label for=" direccion">Dirección</label>
-                                    <input type="text" class="form-control" id="direccion" placeholder="Ingresa tu dirección" required>
-                                </div>
+                                <input type="text" class="form-control" id="direccion" placeholder="Ingresa tu dirección" required>
+                            </div>
 
-                                <!-- Ciudad -->
-                                <div class="form-group col-12 col-md-6"">
-                                <label for=" ciudad">Ciudad</label>
-                                    <input type="text" class="form-control" id="ciudad" placeholder="Ingresa tu ciudad" required>
-                                </div>
+                            <!-- Ciudad -->
+                            <div class="form-group col-12 col-md-6"">
+                                <label for=" ciudad">Colonia</label>
+                                <input type="text" class="form-control" id="ciudad" placeholder="Ingresa tu ciudad" required>
+                            </div>
 
-                                <!-- País -->
-                                <div class="form-group col-12 col-md-6"">
-                                <label for=" pais">País</label>
-                                    <select class="form-control" id="pais" required>
-                                        <option value="">Selecciona tu país</option>
-                                        <option value="México">México</option>
-                                        <option value="Estados Unidos">Estados Unidos</option>
-                                        <option value="Canadá">Canadá</option>
-                                        <option value="Otro">Otro</option>
-                                    </select>
-                                </div>
+                            <!-- País -->
+                            <div class="form-group col-12 col-md-6"">
+                                <label for=" pais">País(Opcional)</label>
+                                <select class="form-control" id="pais" >
+                                    <option value="">Selecciona tu país</option>
+                                    <option value="México">México</option>
+                                    <option value="Estados Unidos">Estados Unidos</option>
+                                    <option value="Canadá">Canadá</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
 
-                                <!-- Código Postal -->
-                                <div class="form-group col-12 col-md-6"">
-                                <label for=" codigoPostal">Código Postal</label>
-                                    <input type="text" class="form-control" id="codigoPostal" placeholder="Ingresa tu código postal" required>
-                                </div>
+                            <!-- Código Postal -->
+                            <div class="form-group col-12 col-md-6"">
+                                <label for=" codigoPostal">Código Postal(Opcional)</label>
+                                <input type="text" class="form-control" id="codigoPostal" placeholder="Ingresa tu código postal" >
+                            </div>
 
-                                <!-- Tipo de Envío -->
-                                <div class="form-group col-12 col-md-6"">
+                            <!-- Tipo de Envío -->
+                            <div class="form-group col-12 col-md-6"">
                                 <label for=" tipoEnvio">Tipo de Envío</label>
-                                    <select class="form-control" id="tipoEnvio" required>
-                                        <option value="">Selecciona tipo de envío</option>
-                                        <option value="nacional">Nacional</option>
-                                        <option value="internacional">Internacional</option>
-                                    </select>
-                                </div>
+                                <select class="form-control" id="tipoEnvio" required>
+                                    <option value="">Selecciona tipo de envío</option>
+                                    <option value="local">Local</option>
+                                    <option value="nacional">Nacional</option>
+                                    <option value="internacional">Internacional</option>
+                                </select>
+                            </div>
 
-                                <!-- Botón de Enviar -->
-                                <button type="submit" class="btn btn-primary btn-block mt-3">Enviar</button>
-                            </form>
-                            <div id="resultado" class="mt-3"></div>
-                        </div>
+                            <!-- Botón de Enviar -->
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Enviar</button>
+                        </form>
+                        <div id="resultado" class="mt-3"></div>
                     </div>
                 </div>
+            </div>
         <?php
-            }
+
         }
         ?>
 
@@ -896,6 +897,10 @@ if ($status == 5 || $status == 6) {
     $(document).ready(function() {
         // Capturar el evento de envío del formulario
         $("#formEnvio").submit(function(event) {
+            var pais = $("#pais").val();
+            var codigoPostal = $("#codigoPostal").val();
+
+
             event.preventDefault(); // Evitar el envío normal del formulario
 
             // Validación de campos
@@ -910,8 +915,12 @@ if ($status == 5 || $status == 6) {
             });
 
             if (!valido) {
-                $("#resultado").html('<div class="alert alert-danger">Por favor, completa todos los campos.</div>');
-                return;
+                if (!pais) {
+                    pais = 'sin datos';
+                }
+                if (!codigoPostal) {
+                    codigoPostal = 'sin datos';
+                }
             }
 
             // Obtener datos del formulario
@@ -922,8 +931,7 @@ if ($status == 5 || $status == 6) {
             var nombre = $("#nombre").val();
             var direccion = $("#direccion").val();
             var ciudad = $("#ciudad").val();
-            var pais = $("#pais").val();
-            var codigoPostal = $("#codigoPostal").val();
+
             var tipoEnvio = $("#tipoEnvio").val();
             $.ajax({
                 url: "../../controllers/formularioEnvioController.php", // Reemplaza con tu URL

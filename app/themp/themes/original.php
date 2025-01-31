@@ -338,10 +338,10 @@ if ($_SESSION['types']) {
 <?php
 } else {
 ?>
-    <footer class="text-center fixed-bottom cristal">
-        <!-- Grid container -->
+    <!-- <footer class="text-center fixed-bottom cristal">
+
         <div class="container p-4 pb-0 ">
-            <!-- Section: CTA -->
+
             <section class="">
                 <p class="d-flex justify-content-center align-items-center">
 
@@ -354,18 +354,105 @@ if ($_SESSION['types']) {
 
                 </p>
             </section>
-            <!-- Section: CTA -->
-        </div>
-        <!-- Grid container -->
 
-        <!-- Copyright -->
+        </div>
+
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); font-size: 9px;">
             © 2024 Copyright:
             <a class="text-white">rutadelaseda.xyz</a>
         </div>
 
-        <!-- Copyright -->
+
+    </footer> -->
+    <footer class="py-3 cristal fixed-bottom">
+        <center>
+            <div class="container row text-primary">
+                <div class="col-3">
+                    <center><a href="https://rutadelaseda.xyz/" class="botonF1 text-primary"> <i class="fas fa-store fa-2x"></i></a></center>
+                </div>
+                <div class="col-3">
+                    <center> <a href="https://wa.me/+52<?= $wha ?>" class="botonF1 text-primary" target="_blank"> <i class="fab fa-whatsapp fa-2x"></i></a></center>
+                </div>
+                <div class="col-3">
+                    <center> <a href="https://www.google.com/maps/place/<?= $lat ?>,<?= $long ?>" class="botonF1 text-primary" target="_blank"> <i class="fas fa-map-marker-alt fa-2x"></i></a></center>
+                </div>
+                <div class="col-3">
+                    <center>
+
+
+                        <form>
+                            <button type="button" id="botonCanasta" data-bs-toggle="modal" onclick="viewTable()" data-bs-target="#exampleModal2" class="botonF1 text-primary animate__animated animate__heartBeat animate__infinite infinite">
+                                <span>
+                                    <i class="fa fa-shopping-basket fa-2x"></i>
+                                </span>
+                        </form>
+
+                        </button>
+                        <span class="badge badge-secondary" id="contadorCanasta">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;" class="text-light">
+                                    <div class="countPrs"></div>
+
+                                </font>
+                            </font>
+                        </span>
+                    </center>
+                </div>
+
+            </div>
+        </center>
+
     </footer>
+    <script>
+        function viewTable() {
+            $("#exampleModal2").modal('show');
+            $(".responsessTable").empty();
+            $.ajax({
+                type: 'POST',
+                url: 'cartTableTwo.php',
+                data: {
+                    id: "<?= $idSession ?>",
+                    serial: "<?= $serialC ?>"
+                },
+                dataType: "html",
+                asycn: false,
+                beforeSend: function() {
+
+                },
+                complete: function(data) {
+
+                },
+                success: function(data) {
+                    function cerrarModal(selector) {
+                        var modal = $(selector);
+                        if (modal.hasClass('show')) {
+                            modal.modal('hide');
+                        }
+                    }
+
+                    // Agrega un evento al gesto de ir atrás en Android
+                    window.addEventListener('popstate', function() {
+                        cerrarModal('.modal'); // Cierra cualquier modal con clase 'modal'
+                    });
+
+                    // Modifica el historial para que se active el evento popstate al ir atrás
+                    history.pushState({}, '');
+
+                    // Cierra el modal cuando se hace clic en el botón de cerrar del modal
+                    /* $('.modal').on('hidden.bs.modal', function() {
+                        history.back(); // Simula el gesto de ir atrás para que se active el evento popstate
+                    }); */
+                    $(".responsessTable").html(data);
+                    counPrs();
+                },
+                error: function(data) {
+
+                    alert("Problemas al tratar de enviar el formulario");
+                },
+            });
+        }
+    </script>
+
 <?php
 }
 ?>

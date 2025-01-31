@@ -168,7 +168,7 @@ if ($count > 0) {
                                             </div>
                                         </a>
                                         <div class="card-body">
-                                            <b style="font-size: 12px;">MX$<?php echo $arreglo[1]; ?></b>
+                                            <b style="font-size: 12px;">$<?php echo $arreglo[1]; ?> MXN.</b>
                                             <p class="card-text"><?php echo $arreglo[2]; ?> <?php echo $arreglo['var']; ?></p>
                                             <div id="respuestaTab<?php echo $arreglo[0] ?>"></div>
                                         </div>

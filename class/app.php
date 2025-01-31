@@ -1541,4 +1541,210 @@ class app
         }
         return json_encode(array("data" => $jsonArray));
     }
+    public function traerProductoUnicoWebSer($id)
+    {
+        $newCon = $this->newCon;
+        $sql_v = "SELECT * FROM `data` WHERE id = '$id'";
+        $sql_p = "SELECT * FROM `img` WHERE product = '$id';";
+        $sql_A = "SELECT * FROM `aditivos` WHERE idProd = '$id'";
+        $query_v = mysqli_query($newCon, $sql_v);
+        $query_p = mysqli_query($newCon, $sql_p);
+        $query_A = mysqli_query($newCon, $sql_A);
+        $jsonArray_V = array();
+        $jsonArray_P = array();
+        $jsonArray_A = array();
+        while ($array_V = mysqli_fetch_array($query_v)) {
+            $jsonArray_V[] = $array_V;
+        }
+        while ($array_p = mysqli_fetch_array($query_p)) {
+            $jsonArray_P[] = $array_p;
+        }
+        while ($array_A = mysqli_fetch_array($query_A)) {
+            $jsonArray_A[] = $array_A;
+        }
+        return json_encode(array("product" => $jsonArray_V, "img" => $jsonArray_P, "extras" => $jsonArray_A));
+    }
+    public function trearCarrito($id, $serial)
+    {
+        $newCon = $this->newCon;
+        $sql = "SELECT * FROM cart A JOIN data B ON A.product = B.id JOIN liks C ON C.serial = A.variation WHERE A.user = '$id' AND C.serial = '$serial' AND A.status = '0';";
+        $sqlSuma = "SELECT SUM(price) as total FROM cart WHERE user = '$id' AND variation = '$serial' AND status ='0';";
+        $query = mysqli_query($newCon, $sql);
+        $querySuma = mysqli_query($newCon, $sqlSuma);
+        $jsonArray = array();
+        $jsonArrayAd = array();
+        while ($array = mysqli_fetch_array($query)) {
+            $query_Ad = "SELECT * FROM cartAditivos A INNER JOIN aditivos B ON B.id = A.idAditivo WHERE A.noOrder = '$array[0]'";
+            $sqlAd = mysqli_query($newCon, $query_Ad);
+            while ($arregloAdi = mysqli_fetch_array($sqlAd)) {
+                $jsonArrayAd[] = $arregloAdi;
+            }
+            $array["añadidos"] = $jsonArrayAd;
+            $jsonArray[] = $array;
+        }
+        while ($arreglo = mysqli_fetch_array($querySuma)) {
+            $number = $arreglo[0];
+        }
+        return json_encode(array("data" => $jsonArray, "total" => number_format($number, 2)));
+    }
+    public function añadircarritoWeb($name, $price, $dom, $domSession, $session, $value, $seleccionados)
+    {
+        $newCon = $this->newCon;
+        $seleccionados = json_decode($seleccionados);
+        $realValue = $price * $value;
+        $query1 = "SELECT * FROM cart A LEFT JOIN cartAditivos B ON B.noOrder = A.id WHERE A.product = '$name' AND A.dom = '$dom' AND A.user = '$session' AND A.status = '0' AND B.id IS null";
+        $sqlSele1 = mysqli_query($newCon, $query1);
+        while ($array = mysqli_fetch_array($sqlSele1)) {
+            $dato = $array[0];
+            $cantidad = $array['cant'];
+            $precio = $array['price'];
+        }
+        if ($dato && empty($seleccionados)) {
+            $nuevaCantidad = $cantidad + $value;
+            $nuevoPrecio = $precio + $price;
+            $query2 = "UPDATE `cart` SET `cant` = '$nuevaCantidad', `price` = '$nuevoPrecio' WHERE `cart`.`id` = '$dato';";
+            $sqlSele2 = mysqli_query($newCon, $query2);
+        } else {
+            if (!empty($seleccionados)) {
+                $suma = 0;
+                foreach ($seleccionados as $valor) {
+                    $cadena = $valor;
+                    $partes = explode("-", $cadena);
+
+                    // Acceder a las partes
+                    $primeraParte = $partes[0]; // "objeto"
+                    $segundaParte = $partes[1];
+
+                    $suma += $segundaParte;
+                    // Aquí puedes trabajar con cada valor del array
+
+
+                }
+                $realsuma = $suma * $value;
+                $valorRealIn = $realValue + $realsuma;
+            } else {
+                $valorRealIn = $realValue;
+            }
+            $query = "INSERT INTO `cart` (`id`, `product`, `price`, `dom`, `user`, `variation`, `cant`, `orderC`, `status`) VALUES (NULL, '$name', '$valorRealIn', '$dom', '$session', '$domSession', '$value', NULL, '0');";
+            $sqlSele = mysqli_query($newCon, $query);
+            $queryS = "SELECT * FROM `cart` WHERE product = '$name' AND dom = '$dom' AND user = '$session' AND status = '0'";
+            $sqlSeleS = mysqli_query($newCon, $queryS);
+            while ($array2 = mysqli_fetch_array($sqlSeleS)) {
+                $dato2 = $array2[0];
+            }
+            if (!empty($seleccionados)) {
+
+                foreach ($seleccionados as $valor) {
+                    $cadena = $valor;
+                    $partes = explode("-", $cadena);
+
+                    // Acceder a las partes
+                    $primeraParte = $partes[0]; // "objeto"
+                    $segundaParte = $partes[1];
+
+
+                    // Aquí puedes trabajar con cada valor del array
+
+                    $query = "INSERT INTO `cartAditivos` (`id`, `noOrder`, `idAditivo`, `session`) VALUES (NULL, '$dato2', '$primeraParte', '$session');";
+                    $sqlSele = mysqli_query($newCon, $query);
+                }
+            } else {
+            }
+        }
+        return json_encode(array("data" => "ok"));
+    }
+    public function metadatosTienda($id)
+    {
+        $newCon = $this->newCon;
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $idSession = session_id();
+        $idparts = explode('&', $id); /* la dividimos  */
+        $id = $idparts[0];
+        $sessionN = base64_decode($idparts[1]);
+        $query_v = "SELECT * FROM `liks` A INNER JOIN masDatosdeTienda B ON B.idTienda = A.id WHERE A.serial = '$id';";
+        $sql = mysqli_query($newCon, $query_v);
+        while ($arreglo = mysqli_fetch_array($sql)) {
+            $idTienda = $arreglo[0];
+            $serialC = $arreglo[1];
+            $number = $arreglo[3];
+            $session = $arreglo[4];
+            $nota = $arreglo[10];
+            $logo = $arreglo[12];
+            $wha = $arreglo[3];
+            $costos = $arreglo['color'];
+            $nameP = $arreglo[5];
+            $tipoDeCatalogo = $arreglo[6];
+            $colorBack = $arreglo[9];
+            $lat = $arreglo[14];
+            $long = $arreglo[15];
+            $banner = $arreglo['banner'];
+            $nombreT = $arreglo['nombreTienda'];
+            $text1 = $arreglo['texto1'];
+            $horario = $arreglo['horario'];
+            $face = $arreglo['facebook'];
+            $insta = $arreglo['instagram'];
+            $youtu = $arreglo['youtube'];
+            $mercada = $arreglo['mercadoLibre'];
+        }
+        $queryColors = "SELECT * FROM `colores` WHERE idStore = '$idTienda'";
+        $sqlColor = mysqli_query($newCon, $queryColors);
+        while ($arregloColor = mysqli_fetch_array($sqlColor)) {
+            $coloruno = $arregloColor[2];
+            $colordos = $arregloColor[3];
+            $colortres = $arregloColor[4];
+            $colorcuatro = $arregloColor[5];
+            $colorcinco = $arregloColor[6];
+        }
+        $taxes  = $costos;
+        $part = explode("|", $taxes);
+        $precioBase = $part[0];
+        $precioMedio = $part[1];
+        $precioLargo = $part[2];
+        $tiempoComi = $part[3];
+
+        $query_Cat = "SELECT category FROM `data` WHERE category != 'null' AND session = '$nameP' GROUP BY category";
+        $sqlCat = mysqli_query($newCon, $query_Cat);
+        $categoriaArray = array();
+
+        while ($categoriasArray = mysqli_fetch_array($sqlCat)) {
+            $categoriaArray[] = $categoriasArray;
+        }
+
+        $jsonArray = [
+            "userId" => $idSession,
+            "sessionN" => $sessionN,
+            "idTienda" => $idTienda,
+            "serialC" => $serialC,
+            "number" => $number,
+            "session" => $session,
+            "nota" => $nota,
+            "logo" => $logo,
+            "wha" => $wha,
+            "nameP" => $nameP,
+            "tipoDeCatalogo" => $tipoDeCatalogo,
+            "colorBack" => $colorBack,
+            "lat" => $lat,
+            "long" => $long,
+            "banner" => $banner,
+            "nombreT" => $nombreT,
+            "text1" => $text1,
+            "horario" => $horario,
+            "face" => $face,
+            "insta" => $insta,
+            "youtu" => $youtu,
+            "mercada" => $mercada,
+            "coloruno" => $coloruno,
+            "colordos" => $colordos,
+            "colortres" => $colortres,
+            "colorcuatro" => $colorcuatro,
+            "colorcinco" => $colorcinco,
+            "precioBase" => $precioBase,
+            "precioMedio" => $precioMedio,
+            "precioLargo" => $precioLargo,
+            "tiempoComi" => $tiempoComi
+        ];
+        return json_encode(array("data" => $jsonArray, "categorias" => $categoriaArray));
+    }
 }
