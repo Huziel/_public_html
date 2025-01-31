@@ -16,7 +16,7 @@ switch ($requestMethod) {
 ?>
         
 
-        <table id="table_id" class=" justify-content-center col-6">
+        <table id="table_id" class=" justify-content-center col-12">
             <thead>
                 <tr>
                     <th></th>

@@ -84,7 +84,7 @@ if ($id) {
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="sweetalert2.all.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sketchy/bootstrap.min.css" integrity="sha512-y4F259NzBXkxhixXEuh574bj6TdXVeS6RX+2x9wezULTmAOSgWCm25a+6d0IQxAnbg+D4xIEJoll8piTADM5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
         <style>
             .abs-center {
                 display: flex;
@@ -367,12 +367,12 @@ if ($id) {
                         <div class="form-group">
 
                             <div id="formulario" class="formulario">
-                                <label class="col-form-label text-dark" for="inputDefault">Confirma tu número donde te podamos contactar</label>
+                                <label class="col-form-label text-dark" for="inputDefault">Confirma tu número y nombre para poder contactarte</label>
                                 <input class="form-control" id="nombre" value="<?php if ($_SESSION['nameClienteUnique']) {
                                                                                     echo $_SESSION['nameClienteUnique'];
                                                                                 } else {
                                                                                     echo $_SESSION['nombre'];
-                                                                                }  ?>" placeholder="Nombre" type="hidden" name="Nombre">
+                                                                                }  ?>" placeholder="Nombre" name="Nombre">
                                 <br>
                                 <input class="form-control" id="numeroTelUser" placeholder="WhatsApp" type="number" value="<?= $_SESSION['phone'] ?>" name="">
                                 <br>
@@ -412,7 +412,7 @@ if ($id) {
 
                             <br>
 
-                          
+
 
 
 
@@ -856,7 +856,7 @@ color: var(--light) !important;
         }
 
         function OrderCProduct() {
-            
+
             var orden = document.querySelector('#orden').value
             var lat1 = document.querySelector('#lat1').value
             var long1 = document.querySelector('#long1').value
@@ -867,49 +867,53 @@ color: var(--light) !important;
             // Ejemplo de uso:
             const numeroTelefono = tels;
             const digitos = 10;
+            if (nameU != '') {
+                if (validarTelefono(numeroTelefono, digitos)) {
+                    $("#numeroTelUser").hide();
+                    $("#btnOrder").hide();
+                    $('#idCompraProgress').show();
+                    $.ajax({
+                        type: "POST",
+                        url: "orderC.php",
+                        data: {
+                            order: orden,
+                            serial: "<?= $serialC ?>",
+                            session: "<?= $idSession ?>",
+                            lat: "",
+                            long: "",
+                            tot: tot,
+                            totEnv: totEn,
+                            nameU: nameU,
+                            tel: tels
+                        },
+                        dataType: "html",
+                        success: function(response) {
+                            $('.textoRancio').show();
+                            $('#idCompraProgress').hide();
+                            $("#buttonWhats").html(response);
 
-            if (validarTelefono(numeroTelefono, digitos)) {
-                $("#numeroTelUser").hide();
-            $("#btnOrder").hide();
-            $('#idCompraProgress').show();
-                $.ajax({
-                    type: "POST",
-                    url: "orderC.php",
-                    data: {
-                        order: orden,
-                        serial: "<?= $serialC ?>",
-                        session: "<?= $idSession ?>",
-                        lat: "",
-                        long: "",
-                        tot: tot,
-                        totEnv: totEn,
-                        nameU: nameU,
-                        tel: tels
-                    },
-                    dataType: "html",
-                    success: function(response) {
-                        $('.textoRancio').show();
-                        $('#idCompraProgress').hide();
-                        $("#buttonWhats").html(response);
+                            $("#smart-button-container").css("display", "block");
 
-                        $("#smart-button-container").css("display", "block");
+                            $("#submit").css("display", "block");
+                            $("#numeroTelUser").css("display", "none");
+                            $("#nameU").css("display", "none");
+                            var inputSelector = '#orderInputCopy';
 
-                        $("#submit").css("display", "block");
-                        $("#numeroTelUser").css("display", "none");
-                        $("#nameU").css("display", "none");
-                        var inputSelector = '#orderInputCopy';
-
-                        // Seleccionar el input y copiar su valor al portapapeles
-                        var inputElement = $(inputSelector);
-                        inputElement.select(); // Seleccionar el texto en el input
-                        document.execCommand('copy');
-                        sendApartadoOrder(orden);
+                            // Seleccionar el input y copiar su valor al portapapeles
+                            var inputElement = $(inputSelector);
+                            inputElement.select(); // Seleccionar el texto en el input
+                            document.execCommand('copy');
+                            sendApartadoOrder(orden);
 
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    alert("El número de teléfono no es válido.");
+                }
+
             } else {
-                alert("El número de teléfono no es válido.");
+                alert("El nombre está vacío");
             }
 
         }

@@ -1352,7 +1352,7 @@ if ($lat && $long) {
             <footer class="bg-body-tertiary text-center fixed-bottom cristal">
                 <center>
                     <div class="container row text-primary mt-3 mb-3">
-                        <div class="col-4">
+                        <div class="col-6">
                             <center>
                                 <a href="https://rutadelaseda.xyz/home" class="botonF1 text-primary">
                                     <i class="fas fa-shopping-cart fa-2x"></i>
@@ -1360,14 +1360,14 @@ if ($lat && $long) {
                             </center>
                         </div>
 
-                        <div class="col-4">
+                       <!--  <div class="col-4">
                             <center>
                                 <a href="https://rutadelaseda.xyz/historial" class="botonF1 text-primary">
                                     <i class="fas fa-history fa-2x"></i></a>
 
                             </center>
-                        </div>
-                        <div class="col-4">
+                        </div> -->
+                        <div class="col-6">
                             <center>
                                 <a href="../../controllers/sessiondestroy.php" class="botonF1 text-primary">
 
