@@ -9,7 +9,54 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
   <!-- End of Topbar -->
+  <style>
+    .theme-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; /* Centra los elementos horizontalmente */
+      gap: 15px;
+      max-width: 600px; /* Controla el ancho para que no se expanda demasiado */
+      margin: 0 auto; /* Asegura que todo el bloque esté centrado */
+    }
 
+    .theme-box {
+      border: 2px solid transparent;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-box img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .theme-box input {
+      display: none;
+    }
+
+    .theme-box span {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    .theme-box:hover {
+      border-color: #007bff;
+    }
+
+    .theme-box input:checked + img {
+      border: 3px solid #007bff;
+      border-radius: 5px;
+    }
+  </style>
   <!-- Begin Page Content -->
   <div class="container-fluid justify-content-center">
     <!-- Page Heading -->
@@ -17,10 +64,37 @@
       <br />
       <div class="container-fluid">
         <div class="row">
-          <b>Fecha de vencimiento:</b>
-          <p class="ml-3 text-info" id="fVen"></p>
+          <div class="col-md-4 col-12 my-3">
+            <center>
+              <b>Fecha de vencimiento:</b>
+              <p class="ml-3 text-info" id="fVen"></p>
+            </center>
+          </div>
+          <div class="col-md-4 col-12 my-3">
+            <center>
+              <a
+                name=""
+                id=""
+                class="btn btn-success"
+                href="https://wa.me/525550998161?text=Hola,%20me%20gustaría%20renovar%20mi%20cuenta."
+                role="button"
+                >Renovar cuenta</a
+              >
+            </center>
+          </div>
+          <div class="col-md-4 col-12 my-3">
+            <center>
+              <a
+                name=""
+                id=""
+                class="btn btn-info"
+                href="https://mandarinostudio.tech/"
+                role="button"
+                >Más servicios</a
+              >
+            </center>
+          </div>
         </div>
-        
       </div>
       <br />
       <div class="card justify-content-center">
@@ -402,23 +476,88 @@
             <div class="col-12">
               <hr class="hr" />
             </div>
-            <!-- <div class="col-12 mt-3">
-              <div class="form-group">
-                <label for=""
+            <div class="col-12 mt-3 d-flex justify-content-center">
+              <div class="form-group text-center">
+                <label class="d-block mb-3"
                   ><i class="fas fa-palette"></i> Escoge tu tema</label
                 >
-                <select class="form-control" name="themesSelect" onchange="changeTheme()" id="themesSelect">
-                <option value="0">Selecciona</option>
-                <option value="0">Original claro</option>
-                <option value="1">Obscuro</option>
-                <option value="2">Antro</option>
-                <option value="3">Pizzeria</option>
-                <option value="6">WebFlyer</option>
-              </select>
-                <br />
-                <p>¡Próximamente!</p>
+                <div
+                  class="theme-options d-flex flex-wrap justify-content-center"
+                >
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="1"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/sketchy/thumbnail.png" alt="Claro" />
+                    <span>Sketchy</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="2"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/cyborg/thumbnail.png" alt="Obscuro" />
+                    <span>Cyborg</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="3"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/litera/thumbnail.png" alt="Litera" />
+                    <span>Litera</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="5"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/lux/thumbnail.png" alt="Lux" />
+                    <span>Lux</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="6"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/morph/thumbnail.png" alt="Morph" />
+                    <span>Morph</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="7"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/vapor/thumbnail.png" alt="Vapor" />
+                    <span>Vapor</span>
+                  </label>
+                  <label class="theme-box">
+                    <input
+                      type="checkbox"
+                      name="theme"
+                      value="8"
+                      onchange="changeTheme(this)"
+                    />
+                    <img src="https://bootswatch.com/slate/thumbnail.png" alt="Slate" />
+                    <span>Slate</span>
+                  </label>
+                </div>
               </div>
-            </div> -->
+            </div>
+
             <div class="col-12 mt-2 mb-2">
               <h4>Identidad</h4>
             </div>
@@ -1177,13 +1316,17 @@
       },
     });
   }
-  function changeTheme() {
-    var selectTheme = $("#themesSelect").val();
+  function changeTheme(element) {
+    // Desmarcar otros checkboxes para que solo uno esté seleccionado
+    $("input[name='theme']").not(element).prop("checked", false);
+
+    var selectedTheme = $(element).val();
     var idTienda = $("#idIn").val();
+
     $.ajax({
       type: "POST",
       url: "controllers/addTheme.php",
-      data: { idTienda: idTienda, theme: selectTheme },
+      data: { idTienda: idTienda, theme: selectedTheme },
       dataType: "html",
       success: function (response) {
         var datos = $.parseJSON(response);

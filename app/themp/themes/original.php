@@ -26,56 +26,13 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="css/particles.css">
     <link rel="stylesheet" href="css/page.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sketchy/bootstrap.min.css" integrity="sha512-y4F259NzBXkxhixXEuh574bj6TdXVeS6RX+2x9wezULTmAOSgWCm25a+6d0IQxAnbg+D4xIEJoll8piTADM5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .icon {
-            font-size: 18px;
-            /* Cambiar el tamaño de la tipografia */
-            text-transform: uppercase;
-            /* Texto en mayusculas */
-            font-weight: bold;
-            /* Fuente en negrita o bold */
-            color: #ffffff;
-            /* Color del texto */
-            border-radius: 5px;
-            /* Borde del boton */
-            letter-spacing: 2px;
-            /* Espacio entre letras */
+    <?= $cdn ?>
 
-            /* Color de fondo */
-            padding: 24px 24px;
-            /* Relleno del boton */
-            position: fixed;
-            bottom: 50vh;
-            right: 40px;
-            transition: all 300ms ease 0ms;
-
-            z-index: 99;
-
-            /* From https://css.glass */
-            background: rgba(255, 255, 255, 0.19);
-            border-radius: 100%;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(6.4px);
-            -webkit-backdrop-filter: blur(6.4px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-        }
-
-        .left {
-            left: 10px;
-            right: auto;
-        }
-
-        .right {
-            right: 10px;
-            left: auto;
-        }
-    </style>
 </head>
-<div id="particles-js" class="loader"></div>
+<!-- <div id="particles-js" class="loader"></div> -->
 <!-- <div id="icon" class="icon animate__animated animate__pulse" style="display: none;">⬅️</div>
 <div id="icon2" class="icon animate__animated animate__pulse" style="display: none;">⬅️</div> -->
-<nav class="navbar bg-light navbar-light fixed-top ">
+<nav class="navbar bg-success fixed-top ">
     <a class="navbar-brand d-flex align-items-center" href="https://rutadelaseda.xyz/" id="nvarImg">
         <i class="fas fa-arrow-left"></i>
         <div class="imagenCircular">
@@ -104,7 +61,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
     <?php
     }
     ?>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler text-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars fa-lg"></i>
     </button>
 
@@ -131,11 +88,11 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
 <br>
 <br>
 <div class="container mt-5" id="colorContainer">
-    <button type="button" name="" id="showCOLORSiNP" class="btn btn-light btn-lg btn-block" onclick="showColorsPer()"><i class="far fa-eye"></i> Mostrar Personalización</button>
+    <button type="button" name="" id="showCOLORSiNP" class="btn btn-secondary btn-lg btn-block" onclick="showColorsPer()"><i class="far fa-eye"></i> Mostrar Personalización</button>
     <div class="color-input-container row mt-3">
         <div class="pantone-card col-6 col-md-6 mb-3">
             <input name="coloruno" id="coloruno" type="color" onchange="changeBootstrapColors()" value="<?= $coloruno ?>" oninput="colorhex1.value=value">
-            <label for="" class="mt-2"><b>Color primario</b></label>
+            <label for="" class="mt-2"><b>Color iconos</b></label>
             <output id="colorhex1"><?= $coloruno ?></output>
         </div>
 
@@ -147,18 +104,18 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
 
         <div class="pantone-card col-6 col-md-6 mb-3">
             <input name="colortres" id="colortres" type="color" onchange="changeBootstrapColors()" value="<?= $colortres ?>" oninput="colorhex3.value=value">
-            <label for="" class="mt-2"><b>Color afirmativo</b></label>
+            <label for="" class="mt-2"><b>Color barra de herramientas</b></label>
             <output id="colorhex3"><?= $colortres ?></output>
         </div>
 
         <div class="pantone-card col-6 col-md-6 mb-3">
             <input name="colorcuatro" id="colorcuatro" type="color" onchange="changeBootstrapColors()" value="<?= $colorcuatro ?>" oninput="colorhex4.value=value">
-            <label for="" class="mt-2"><b>Color obscuro</b></label>
+            <label for="" class="mt-2"><b>Color texto</b></label>
             <output id="colorhex4"><?= $colorcuatro ?></output>
         </div>
         <div class="pantone-card col-6 col-md-6 mb-3">
             <input name="colorcinco" id="colorcinco" type="color" onchange="changeBootstrapColors()" value="<?= $colorcinco ?>" oninput="colorhex5.value=value">
-            <label for="" class="mt-2"><b>Color claro</b></label>
+            <label for="" class="mt-2"><b>Color fondo</b></label>
             <output id="colorhex5"><?= $colorcinco ?></output>
         </div>
     </div>
@@ -247,7 +204,7 @@ if ($nota) {
         <!-- Utilizo fa-teamspeak en lugar de fa-mercado-libre porque no existe un icono específico para Mercado Libre -->
     </div>
 </div>
-<center><button type="button" class="btn btn-dark mt-5 mb-3 text-light" style="border-radius: 20px;" onclick="viewPList()">Mostrar todos los productos</button></center>
+<center><button type="button" class="btn btn-primary mt-5 mb-3 text-dark" style="border-radius: 20px;" onclick="viewPList()">Mostrar todos los productos</button></center>
 <div class="viewPList container" style="margin-bottom: 40px;"></div>
 
 
@@ -283,6 +240,17 @@ if ($_SESSION['types']) {
             <div class="col-12">
                 <h3>Comentarios</h3>
                 <div id="comentariosContainer" class="mt-3" style="margin-bottom: 200px;"></div>
+            </div>
+        </div>
+    </div>
+<?php
+} else {
+?>
+    <div class="container p-5" style="height: 80vh;">
+        <div class="row justify-content-center">
+            <div class="col-6">
+
+                <a href="https://rutadelaseda.xyz/controllers/callbackLogin.php" name="" id="" class="btn btn-danger text-bg-light btn-lg btn-block mb-3 mt-3" style="border-radius: 20px;">Acceder con Google para comentar <i class="fab fa-google"></i></a>
             </div>
         </div>
     </div>
@@ -474,7 +442,7 @@ if ($_SESSION['types']) {
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary text-light" onclick="closemodal()" data-dismiss="modal">Seguir viendo</button>
+                <button type="button" class="btn btn-primary text-light" onclick="closemodal()" data-dismiss="modal">Seguir viendo</button>
             </div>
         </div>
     </div>
@@ -543,7 +511,7 @@ if ($_SESSION['types']) {
             <div class="modal-footer">
 
 
-                <a name="" id="" class="btn btn-success  btn-block text-light" href="smarticket.php" role="button">¿Ya tiene una orden en proceso?</a>
+                <a name="" id="" class="btn btn-primary  btn-block text-light" href="smarticket.php" role="button">¿Ya tiene una orden en proceso?</a>
 
                 <button type="button" class="btn btn-secondary text-light" onclick="closemodal2()" data-dismiss="modal">Cerrar</button>
             </div>
@@ -689,103 +657,200 @@ if ($_SESSION['types']) {
     }
 
     function changeBootstrapColors() {
+        // Eliminar estilos previos si existen
+        const existingStyle = document.getElementById('dynamic-bootstrap-theme');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
 
+        // Crear un nuevo style
         const style = document.createElement('style');
+        style.id = 'dynamic-bootstrap-theme';
 
-        var primo = $("#coloruno").val();
-        var secon = $("#colordos").val();
-        var lights = $("#colorcinco").val();
-        var darks = $("#colorcuatro").val();
-        var cuccessI = $("#colortres").val();
-        guardarColorcitos(primo,
-            secon,
-            lights,
-            darks,
-            cuccessI, )
+        // Obtener colores de los inputs
+        const primo = $("#coloruno").val();
+        const secon = $("#colordos").val();
+        const lights = $("#colorcinco").val();
+        const darks = $("#colorcuatro").val();
+        const cuccessI = $("#colortres").val();
+
+        // Guardar colores en localStorage o en base de datos si es necesario
+        guardarColorcitos(primo, secon, lights, darks, cuccessI);
+
+        // Agregar estilos personalizados con ajustes mejorados
         style.innerHTML = `
-:root {
---primary: ${primo};
---secondary: ${secon};
---light: ${lights};
---dark: ${darks};
---success: ${cuccessI};
-}
-.text-primary {
-color: var(--primary) !important;
-}
-.text-secondary {
-color: var(--secondary) !important;
-}
-a {
-color: var(--success) !important; 
-}
-a:hover {
-color: var(--success) !important; 
-}
-.btn-primary {
-background-color: var(--primary) !important;
-border-color: var(--primary) !important;
-color: var(--light) !important; 
-}
-.btn-primary:hover {
-background-color: lighten(var(--primary), 10%) !important;
-border-color: lighten(var(--primary), 10%) !important;
-color: var(--dark) !important
-}
-.btn-success {
-background-color: var(--success) !important;
-border-color: var(--success) !important;
-color: var(--light) !important; 
-}
-.btn-success:hover {
-background-color: var(--light) !important;
-color: var(--success) !important
-}
-.btn-secondary {
-background-color: var(--secondary) !important;
-border-color: var(--secondary) !important;
-}
-.btn-secondary:hover {
-background-color: lighten(var(--secondary), 10%) !important;
-border-color: lighten(var(--secondary), 10%) !important;
-}
-.btn-outline-primary {
-color: var(--primary) !important;
-border-color: var(--primary) !important;
-}
-.btn-outline-primary:hover {
-background-color: var(--primary) !important;
-color: #fff !important;
-}
-.page-link {
-background-color: var(--secondary) !important;
-border: 1px solid var(--secondary) !important;
-color: var(--light) !important;
-}
-.badge-secondary {
-background-color: var(--secondary) !important;
-color: var(--light) !important;
-}
-.navbar {
-background-color: var(--light) !important;
-}
-.navbar-light .navbar-brand {
-color: var(--secondary) !important;
-}
-.nav-link {
-color: var(--dark) !important;
-}
-.nav-link:hover {
-color: var(--primary) !important;
-}
-.bg-success {
-background-color: var(--success) !important;
-color: var(--light) !important;
-}
-`;
+        :root {
+            --primary: ${primo};
+            --secondary: ${secon};
+            --light: ${lights};
+            --dark: ${darks};
+            --success: ${cuccessI};
+        }
+        
+        /* TEXTOS */
+        .text-primary { color: var(--primary) !important; }
+        .text-secondary { color: var(--secondary) !important; }
+        .text-success { color: var(--success) !important; }
+        .text-dark { color: var(--dark) !important; }
+        .text-light { color: var(--light) !important; }
 
+        /* ENLACES */
+        a { color: var(--primary) !important; }
+        a:hover { color: var(--success) !important; text-decoration: underline; }
+
+        /* BOTONES */
+        .btn {
+            color: var(--light) !important;
+            border-radius: 6px; /* Bordes redondeados para mejor diseño */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+        .btn-primary:hover {
+            background-color: var(--dark) !important;
+            border-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+
+        .btn-success {
+            background-color: var(--success) !important;
+            border-color: var(--success) !important;
+        }
+        .btn-success:hover {
+            background-color: var(--light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary) !important;
+            border-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .btn-secondary:hover {
+            background-color: var(--dark) !important;
+            border-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* PAGINACIÓN */
+        .page-link {
+            background-color: var(--secondary) !important;
+            border: 1px solid var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .page-link:hover {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* BADGES */
+        .badge-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .badge-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: var(--light) !important;
+            border-bottom: 2px solid var(--primary) !important;
+        }
+        .navbar-light .navbar-brand {
+            color: var(--primary) !important;
+        }
+        .nav-link {
+            color: var(--dark) !important;
+        }
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* ALERTAS */
+        .alert-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+            border-color: var(--primary) !important;
+        }
+        .alert-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+            border-color: var(--secondary) !important;
+        }
+        .alert-success {
+            background-color: var(--success) !important;
+            color: var(--light) !important;
+            border-color: var(--success) !important;
+        }
+
+        /* TARJETAS */
+        .card {
+            border-color: var(--primary) !important;
+        }
+        .card-header {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+
+        /* MODALES */
+        .modal-header {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+        .modal-content {
+            background-color: var(--light) !important;
+        }
+        .modal-footer {
+            background-color: var(--secondary) !important;
+        }
+
+        /* BARRA DE PROGRESO */
+        .progress-bar {
+            background-color: var(--primary) !important;
+        }
+
+        /* BACKGROUNDS */
+        .bg-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+        .bg-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .bg-success {
+            background-color: var(--success) !important;
+            color: var(--light) !important;
+        }
+        .bg-dark {
+            background-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+        .bg-light {
+            background-color: var(--light) !important;
+            color: var(--dark) !important;
+        }
+    `;
+
+        // Agregar los estilos al head
         document.head.appendChild(style);
     }
+
 
     function guardarColorcitos(primo,
         secon,

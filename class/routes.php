@@ -6,8 +6,12 @@ class routes
     {
         require_once('templates.php');
         require_once('validateLog.php');
+        require_once('app.php');
         $vali = new validateLog;
         $validar = $vali->validateSession();
+
+
+        $app = new app;
 
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -23,7 +27,8 @@ class routes
                 switch ($types) {
                     case '1':
                         $paidModule = $vali->validateModulePaid($path, $id);
-                        $this->user($path, $user, $id, $types, $paidModule);
+                        $moreDats = $app->traerNombreTiendaUnique($user);
+                        $this->user($path, $user, $id, $types, $paidModule, $moreDats);
                         break;
                     case '3':
                         $this->deliver($path, $user, $id, $types);
@@ -204,7 +209,7 @@ class routes
                 break;
         }
     }
-    public function user($path, $user, $idUser, $types, $paidModule)
+    public function user($path, $user, $idUser, $types, $paidModule, $moreDats)
     {
         switch ($path) {
             case 'tiendas':
@@ -360,7 +365,8 @@ class routes
                 ]);
                 $content = new Template("./dashboard/views/free/general.html", $data = [
                     "nav" => $nav,
-                    "user" => $user
+                    "user" => $user,
+                    "nombreTienda" => $moreDats
 
                 ]);
                 $template = new Template("./dashboard/views/index.html", $data = [
@@ -467,7 +473,8 @@ class routes
                 ]);
                 $content = new Template("./dashboard/views/free/general.html", $data = [
                     "nav" => $nav,
-                    "user" => $user
+                    "user" => $user,
+                    "nombreTienda" => $moreDats
 
                 ]);
                 $template = new Template("./dashboard/views/index.html", $data = [
