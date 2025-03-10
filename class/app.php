@@ -246,7 +246,7 @@ class app
         } else {
             $queryInsert = "INSERT INTO `log` (`id`, `name`, `keyvalue`, `type`) VALUES (NULL, '$username', '$hash','$tipoUs')";
             $sqlInsert = mysqli_query($newCon, $queryInsert);
-            $fechaFormated->modify('+3 month');
+            $fechaFormated->modify('+1 week+');
             $FInicioFormat = $fechaFormated->format('d-m-Y H:i:s');
             $rand = rand(1, 999);
             $sessionID = session_id();
@@ -1310,6 +1310,14 @@ class app
         }
         return json_encode(array("data" => $jsonArray));
     }
+    public function traerNombreTiendaUnique($name){
+        $newCon = $this->newCon;
+        $query_Tienda = "SELECT A.nombreTienda FROM `masDatosdeTienda` A INNER JOIN liks B ON B.id = A.idTienda INNER JOIN log C ON C.name = B.createdby WHERE B.createdby = '$name'";
+        $query = mysqli_query($newCon, $query_Tienda);
+        while ($array = mysqli_fetch_array($query)) {
+           return $dato = $array[0];
+        }
+    }
     public function traerDatosDeliverParaTienda($created)
     {
         $newCon = $this->newCon;
@@ -1746,5 +1754,32 @@ class app
             "tiempoComi" => $tiempoComi
         ];
         return json_encode(array("data" => $jsonArray, "categorias" => $categoriaArray));
+    }
+    public function preventa($order, $serial, $session, $lat, $long, $tot, $totEnv, $nameU, $tel)
+    {
+
+        $newCon = $this->newCon;
+        $query = "UPDATE `cart` SET `orderC` = '$order', `status` = '2' WHERE `cart`.`user` = '$session' AND `cart`.`variation` = '$serial' AND `cart`.`status` = '0';";
+        $sqlSele = mysqli_query($newCon, $query);
+        $fecha = strftime("%Y-%m-%d");
+        $fecha_actual = new DateTime();
+        $fecha_formateada = $fecha_actual->format($fecha);
+        $queryOrd = "INSERT INTO `ordenCompra` (`id`, `order`, `tel`, `serial`, `session`, `lat`, `long`, `total`, `totEnvio`, `nombre`, `date`) VALUES (NULL, '$order', '$tel', '$serial', '$session', '$lat', '$long', '$tot', '$totEnv', '$nameU','$fecha_formateada');";
+        $sqlOrd = mysqli_query($newCon, $queryOrd);
+        $sqlMailDom = "SELECT name FROM `cart` A INNER JOIN log B ON A.dom = B.name WHERE A.variation = '$serial'";
+        $queryMailDom = mysqli_query($newCon, $sqlMailDom);
+        while ($array = mysqli_fetch_array($queryMailDom)) {
+            $mailDom = $array[0];
+        }
+
+        if ($sqlOrd) {
+            $res1 = 1;
+            
+        }
+        if ($sqlSele) {
+            $res2 = 1;
+        }
+        $arrayRes = ["mailDom" => $mailDom, "res1" => $res1, "res2" => $res2];
+        return $arrayRes;
     }
 }

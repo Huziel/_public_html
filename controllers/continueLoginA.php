@@ -172,7 +172,7 @@ $idToken = (isset($_GET['idToken']) ? $_GET['idToken'] : null);
 
 
         function login2(mail, pass) {
-            
+
             $.ajax({
                 type: "post",
                 url: "login.controller.php",
@@ -193,7 +193,18 @@ $idToken = (isset($_GET['idToken']) ? $_GET['idToken'] : null);
                         });
                     } else {
                         setTimeout(function() {
-                            window.location.href = "home";
+                            <?php
+                            if ($_SESSION['recoveredPage']) {
+                            ?>
+                                window.location.href = "https://rutadelaseda.xyz/app/themp/page.php?id=<?= $_SESSION['recoveredPage'] ?>";
+                            <?php
+                            } else {
+                            ?>
+                                window.location.href = "home";
+                            <?php
+                            }
+                            ?>
+
                         }, 3000);
                         Swal.fire({
                             title: "Inicio correcto",
@@ -205,7 +216,6 @@ $idToken = (isset($_GET['idToken']) ? $_GET['idToken'] : null);
                 },
             });
         }
-        
     </script>
 </body>
 

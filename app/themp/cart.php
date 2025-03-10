@@ -87,8 +87,7 @@ if ($id) {
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="sweetalert2.all.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sketchy/bootstrap.min.css" integrity="sha512-y4F259NzBXkxhixXEuh574bj6TdXVeS6RX+2x9wezULTmAOSgWCm25a+6d0IQxAnbg+D4xIEJoll8piTADM5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <?= $_SESSION['themeCDN'] ?>
         <style>
             .abs-center {
                 display: flex;
@@ -218,7 +217,7 @@ if ($id) {
                 }
                 ?>
                 <br>
-                <center><button type="button" class="btn btn-success btn-lg btn-block text-light animate__animated animate__pulse animate__infinite" data-bs-toggle="modal" data-bs-target="#pedido_modal" onclick="funcionModal()">
+                <center><button type="button" class="btn btn-secondary btn-lg btn-block text-light animate__animated animate__pulse animate__infinite" data-bs-toggle="modal" data-bs-target="#pedido_modal" onclick="funcionModal()">
 
                         <i class="fas fa-check"></i> Finalizar pedido
 
@@ -420,105 +419,195 @@ if ($id) {
         }
 
         function changeBootstrapColors() {
+            // Eliminar estilos previos si existen
+            const existingStyle = document.getElementById('dynamic-bootstrap-theme');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
 
-
-
-
+            // Crear un nuevo style
             const style = document.createElement('style');
+            style.id = 'dynamic-bootstrap-theme';
 
+            // Obtener colores de los inputs
             var primo = "<?= $coloruno ?>";
             var secon = "<?= $colordos ?>";
             var lights = "<?= $colortres ?>";
             var darks = "<?= $colorcuatro ?>";
             var cuccessI = "<?= $colorcinco ?>";
+            
 
+            // Agregar estilos personalizados con ajustes mejorados
             style.innerHTML = `
-:root {
---primary: ${primo};
---secondary: ${secon};
---light: ${lights};
---dark: ${darks};
---success: ${cuccessI};
-}
-.text-primary {
-color: var(--primary) !important;
-}
-.text-secondary {
-color: var(--secondary) !important;
-}
-a {
-color: var(--success) !important; 
-}
-a:hover {
-color: var(--success) !important; 
-}
-.btn-primary {
-background-color: var(--primary) !important;
-border-color: var(--primary) !important;
-color: var(--light) !important; 
-}
-.btn-primary:hover {
-background-color: lighten(var(--primary), 10%) !important;
-border-color: lighten(var(--primary), 10%) !important;
-color: var(--dark) !important
-}
-.btn-success {
-background-color: var(--success) !important;
-border-color: var(--success) !important;
-color: var(--light) !important; 
-}
-.btn-success:hover {
-background-color: var(--light) !important;
-color: var(--success) !important
-}
-.btn-secondary {
-background-color: var(--secondary) !important;
-border-color: var(--secondary) !important;
-}
-.btn-secondary:hover {
-background-color: lighten(var(--secondary), 10%) !important;
-border-color: lighten(var(--secondary), 10%) !important;
-}
-.btn-outline-primary {
-color: var(--primary) !important;
-border-color: var(--primary) !important;
-}
-.btn-outline-primary:hover {
-background-color: var(--primary) !important;
-color: #fff !important;
-}
-.page-link {
-background-color: var(--secondary) !important;
-border: 1px solid var(--secondary) !important;
-color: var(--light) !important;
-}
-.badge-secondary {
-background-color: var(--secondary) !important;
-color: var(--light) !important;
-}
-.navbar {
-background-color: var(--light) !important;
-}
-.navbar-light .navbar-brand {
-color: var(--secondary) !important;
-}
-.nav-link {
-color: var(--dark) !important;
-}
-.nav-link:hover {
-color: var(--primary) !important;
-}
-.bg-success {
-background-color: var(--success) !important;
-color: var(--light) !important;
-}
-.alert-success {
-    color: var(--dark) !important;
-    background-color: var(--colorcinco) !important;
-    border-color: var(--primary) !important;
-}
-`;
+        :root {
+            --primary: ${primo};
+            --secondary: ${secon};
+            --light: ${lights};
+            --dark: ${darks};
+            --success: ${cuccessI};
+        }
+        
+        /* TEXTOS */
+        .text-primary { color: var(--primary) !important; }
+        .text-secondary { color: var(--secondary) !important; }
+        .text-success { color: var(--success) !important; }
+        .text-dark { color: var(--dark) !important; }
+        .text-light { color: var(--light) !important; }
 
+        /* ENLACES */
+        a { color: var(--primary) !important; }
+        a:hover { color: var(--success) !important; text-decoration: underline; }
+
+        /* BOTONES */
+        .btn {
+            color: var(--light) !important;
+            border-radius: 6px; /* Bordes redondeados para mejor diseño */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+        .btn-primary:hover {
+            background-color: var(--dark) !important;
+            border-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+
+        .btn-success {
+            background-color: var(--success) !important;
+            border-color: var(--success) !important;
+        }
+        .btn-success:hover {
+            background-color: var(--light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary) !important;
+            border-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .btn-secondary:hover {
+            background-color: var(--dark) !important;
+            border-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* PAGINACIÓN */
+        .page-link {
+            background-color: var(--secondary) !important;
+            border: 1px solid var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .page-link:hover {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* BADGES */
+        .badge-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .badge-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: var(--light) !important;
+            border-bottom: 2px solid var(--primary) !important;
+        }
+        .navbar-light .navbar-brand {
+            color: var(--primary) !important;
+        }
+        .nav-link {
+            color: var(--dark) !important;
+        }
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* ALERTAS */
+        .alert-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+            border-color: var(--primary) !important;
+        }
+        .alert-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+            border-color: var(--secondary) !important;
+        }
+        .alert-success {
+            background-color: var(--success) !important;
+            color: var(--light) !important;
+            border-color: var(--success) !important;
+        }
+
+        /* TARJETAS */
+        .card {
+            border-color: var(--primary) !important;
+        }
+        .card-header {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+
+        /* MODALES */
+        .modal-header {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+        .modal-content {
+            background-color: var(--light) !important;
+        }
+        .modal-footer {
+            background-color: var(--secondary) !important;
+        }
+
+        /* BARRA DE PROGRESO */
+        .progress-bar {
+            background-color: var(--primary) !important;
+        }
+
+        /* BACKGROUNDS */
+        .bg-primary {
+            background-color: var(--primary) !important;
+            color: var(--light) !important;
+        }
+        .bg-secondary {
+            background-color: var(--secondary) !important;
+            color: var(--light) !important;
+        }
+        .bg-success {
+            background-color: var(--success) !important;
+            color: var(--light) !important;
+        }
+        .bg-dark {
+            background-color: var(--dark) !important;
+            color: var(--light) !important;
+        }
+        .bg-light {
+            background-color: var(--light) !important;
+            color: var(--dark) !important;
+        }
+    `;
+
+            // Agregar los estilos al head
             document.head.appendChild(style);
         }
         funcionModal();

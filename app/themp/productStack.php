@@ -99,7 +99,7 @@ if ($count > 0) {
                         </div>
 
                         <div class="col-6">
-                            <button id="addForm" type="submit" class="btn btn-outline-dark btn-block boxshadowD animate__animated animate__infinite infinite animate__pulse">Agregar a carrito <i class="fas fa-cart-plus"></i></button>
+                            <button id="addForm" type="submit" class="btn btn-primary btn-outline-dark btn-block boxshadowD animate__animated animate__infinite infinite animate__pulse">Agregar a carrito <i class="fas fa-cart-plus"></i></button>
                         </div>
                     </div>
 
@@ -107,7 +107,7 @@ if ($count > 0) {
                 </form>
 
                 <center>
-                    <button type="button" name="" id="" onclick="shareProduct('<?= $id ?>')" class="btn btn-secondary btn-lg btn-block mt-3 mb-3 text-bg-primary">Compartir producto <i class="fas fa-share-alt"></i></button>
+                    <button type="button" name="" id="" onclick="shareProduct('<?= $id ?>')" class="btn btn-primary btn-lg btn-block mt-3 mb-3 text-bg-primary">Compartir producto <i class="fas fa-share-alt"></i></button>
                     <div class="resP"></div>
                 </center>
 

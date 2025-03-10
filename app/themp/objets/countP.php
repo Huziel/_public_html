@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('core.php');
+header('Set-Cookie: PHPSESSID=' . session_id() . '; Path=/; Secure; HttpOnly; SameSite=None');
 $idSession = session_id();
 $serial = (isset($_POST['serial']) ? $_POST['serial'] : null);
 $querySe = "SELECT SUM(price) as total FROM cart WHERE user = '$idSession' AND variation = '$serial' AND status ='0';";

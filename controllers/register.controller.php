@@ -38,7 +38,7 @@ switch ($requestMethod) {
                     "pass" => $userid,
                     "phone" => $numeroRandom,
                     "cat" => "0",
-                    "tipoUs" => "4",
+                    "tipoUs" => "1",
                 ]);
             } else {
                 // Token inválido

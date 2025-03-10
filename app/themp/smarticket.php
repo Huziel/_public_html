@@ -25,9 +25,9 @@
     </style>
 </head>
 <div class="container mt-3">
-    <a href="https://rutadelaseda.xyz/" class="btn btn-light">
+   <!--  <a href="https://rutadelaseda.xyz/" class="btn btn-light">
         <i class="fas fa-arrow-left"></i>
-    </a>
+    </a> -->
     <form action="" method="get">
         <div class="mb-3">
             <label for="" class="form-label">¿No es su orden de compra?</label>

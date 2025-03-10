@@ -2,6 +2,7 @@
 $id = (isset($_GET['id']) ? $_GET['id'] : null);
 $prelat = (isset($_GET['prelat']) ? $_GET['prelat'] : null);
 $prelong = (isset($_GET['prelong']) ? $_GET['prelong'] : null);
+session_start();
 ?>
 <!doctype html>
 <!--
@@ -23,8 +24,7 @@ $prelong = (isset($_GET['prelong']) ? $_GET['prelong'] : null);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.2/sketchy/bootstrap.min.css" integrity="sha512-8HIl1gmLSbt7dBuv4WKQQJCHKvOaW/BgHZcbQoj5wI0ZPmK9XBeolj8sZtFRd88rpuaoLjJemuj9GkPd4se7Iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+    <?=$_SESSION['themeCDN']?>
 </head>
 <style>
     /**
@@ -159,8 +159,8 @@ $prelong = (isset($_GET['prelong']) ? $_GET['prelong'] : null);
             </div>
         </div>
         <div id="pac-container">
-            <div class="input-group mb-3">
-                <input class="form-control" id="pac-input" type="text" placeholder="¿A dónde quieres que llegue?" />
+            <div class="input-group mb-3 text-dark">
+                <input class="form-control text-dark" id="pac-input" type="text" placeholder="¿A dónde quieres que llegue?" />
             </div>
             <br>
             <center>
