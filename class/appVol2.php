@@ -137,27 +137,36 @@ class appvol2 extends app
                             while ($arrays = mysqli_fetch_array($queryUser)) {
                                 $arrayCart[] = $arrays;
                             }
-                            $arrayobjets = $this->mostrarDescuentosCupon($idCupon);
-                            if (empty($arrayobjets)) {
 
+                            $arrayobjets = $this->mostrarDescuentosCupon($idCupon);
+
+                            if (empty($arrayobjets)) {
                                 return json_encode(array('ok' => 'false', 'data' => "No hay productos con descuento"));
                             } else {
+                                $arrayRespuestas = [];
                                 foreach ($arrayCart as $productoCart) {
+                                    $found = false; // Bandera para validar si se encontró un descuento
+
                                     foreach ($arrayobjets as $producto) {
                                         if ($productoCart[1] == $producto[2]) {
                                             $cotizarPorcent = ($productoCart[2] * $producto[3]) / 100;
                                             $respCup = $this->actualizarCart($newCon, $cotizarPorcent, $productoCart[0], $idCupon, $usosDelCupon);
                                             $arrayRespuestas[] = $respCup;
-                                        } else {
-
-                                            return json_encode(array('ok' => 'false', 'data' => "No se puede hacer descuento"));
+                                            $found = true;
+                                            break; // Salimos del segundo foreach al encontrar coincidencia
                                         }
                                     }
+
+                                    if (!$found) {
+                                        return json_encode(array('ok' => 'false', 'data' => "No se puede hacer descuento Solo productos en promoción"));
+                                    }
                                 }
+
                                 return json_encode(array('ok' => 'info', 'data' => $arrayRespuestas));
                             }
 
                             break;
+
                         case '3':
 
                             /* Productos del carrito, se guarda el id y el precio en 2 arrays */

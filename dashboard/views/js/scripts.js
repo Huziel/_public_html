@@ -190,12 +190,13 @@ $("#formularioProductoNuevo").submit(function (e) {
       console.log(answ);
       if (answ.ok == "true") {
         for (i = 0; i < answ.array.data.length; i++) {
-          var mens =
+         /*  var mens =
             "<div class='alert alert-dismissible alert-light'><center><p class='mb-0'>" +
             answ.array.data[i] +
-            "</p></center></div>";
+            "</p></center></div>"; */
 
-          $("#infoPicture").append(mens);
+          /* $("#infoPicture").append(mens); */
+          console.log(answ.array.data[i]);
         }
         Swal.fire({
           title: "!Producto agregado!",

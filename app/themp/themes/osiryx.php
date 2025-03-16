@@ -32,102 +32,132 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
 <!-- <div id="particles-js" class="loader"></div> -->
 <!-- <div id="icon" class="icon animate__animated animate__pulse" style="display: none;">⬅️</div>
 <div id="icon2" class="icon animate__animated animate__pulse" style="display: none;">⬅️</div> -->
-<nav class="navbar bg-success fixed-top ">
-    <a class="navbar-brand d-flex align-items-center" href="https://rutadelaseda.xyz/" id="nvarImg">
-        <i class="fas fa-arrow-left"></i>
-        <div class="imagenCircular">
-            <img src="<?= $logo ?>" class="d-inline-block align-top" id="" alt="" crossorigin="anonymous">
-
-        </div>
-    </a>
-
-    <center id="buscarInputo">
-        <div class="form-inline my-2 my-lg-0">
-            <input type="text" id="myInputTextField" class="" style=" font-size: 20px; background-color: transparent; text-align: center;border: 0; outline: none;" placeholder="Buscar">
-
-
-        </div>
-    </center>
-    <a class="navbar-toggler" onclick="mostarSearch()" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-
-        <i class="fas fa-search fa-lg"></i>
-    </a>
-    <a id="shareButton" class="navbar-toggler"><i class="fas fa-share-alt fa-lg"></i></a>
-    <a href="https://wa.me/+52<?= $wha ?>?text=Me%20gustaría%20saber%20más%20informes%20de%20<?= $nombreT ?>" class="navbar-toggler"><i class="fab fa-whatsapp fa-lg"></i></a>
-    <?php
-    if ($_SESSION['types'] == 3) {
-    ?>
-        <button type="button" class="navbar-toggler" onclick="anex()"><i class="fas fa-user-plus fa-lg"></i></button>
-    <?php
+<style>
+    body {
+        background-image: url('https://f4.bcbits.com/img/a3125294137_10.jpg');
+        /* Ruta de la imagen */
+        background-size: cover;
+        /* Ajusta la imagen para cubrir toda la pantalla */
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
+        background-attachment: fixed;
+        /* Fija la imagen de fondo */
+        background-position: center center;
+        /* Centra la imagen */
+        margin: 0;
+        padding: 0;
+        height: 100vh;
     }
+
+    #productsPageLoader {
+        background: rgba(255, 255, 255, 0) !important;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+
+<body>
+
+
+    <nav class="navbar bg-success fixed-top ">
+        <a class="navbar-brand d-flex align-items-center" href="https://rutadelaseda.xyz/" id="nvarImg">
+            <i class="fas fa-arrow-left"></i>
+            <div class="imagenCircular">
+                <img src="<?= $logo ?>" class="d-inline-block align-top" id="" alt="" crossorigin="anonymous">
+
+            </div>
+        </a>
+
+        <center id="buscarInputo">
+            <div class="form-inline my-2 my-lg-0">
+                <input type="text" id="myInputTextField" class="" style=" font-size: 20px; background-color: transparent; text-align: center;border: 0; outline: none;" placeholder="Buscar">
+
+
+            </div>
+        </center>
+        <a class="navbar-toggler" onclick="mostarSearch()" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <i class="fas fa-search fa-lg"></i>
+        </a>
+        <a id="shareButton" class="navbar-toggler"><i class="fas fa-share-alt fa-lg"></i></a>
+        <a href="https://wa.me/+52<?= $wha ?>?text=Me%20gustaría%20saber%20más%20informes%20de%20<?= $nombreT ?>" class="navbar-toggler"><i class="fab fa-whatsapp fa-lg"></i></a>
+        <?php
+        if ($_SESSION['types'] == 3) {
+        ?>
+            <button type="button" class="navbar-toggler" onclick="anex()"><i class="fas fa-user-plus fa-lg"></i></button>
+        <?php
+        }
+        ?>
+        <button class="navbar-toggler text-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars fa-lg"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto" style="overflow-y: auto; max-height: 200px;">
+
+                <?php
+                while ($arreglo = mysqli_fetch_array($sqlCat)) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#table_id" onclick="viewPList('<?= $arreglo[0] ?>')"><b><?= $arreglo[0] ?></b></a>
+                    </li>
+
+                <?php
+                }
+                ?>
+            </ul>
+
+        </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container mt-5" id="colorContainer">
+        <button type="button" name="" id="showCOLORSiNP" class="btn btn-secondary btn-lg btn-block" onclick="showColorsPer()"><i class="far fa-eye"></i> Mostrar Personalización</button>
+        <div class="color-input-container row mt-3">
+            <div class="pantone-card col-6 col-md-6 mb-3">
+                <input name="coloruno" id="coloruno" type="color" onchange="changeBootstrapColors()" value="<?= $coloruno ?>" oninput="colorhex1.value=value">
+                <label for="" class="mt-2"><b>Color iconos</b></label>
+                <output id="colorhex1"><?= $coloruno ?></output>
+            </div>
+
+            <div class="pantone-card col-6 col-md-6 mb-3">
+                <input name="colordos" id="colordos" type="color" onchange="changeBootstrapColors()" value="<?= $colordos ?>" oninput="colorhex2.value=value">
+                <label for="" class="mt-2"><b>Color secundario</b></label>
+                <output id="colorhex2"><?= $colordos ?></output>
+            </div>
+
+            <div class="pantone-card col-6 col-md-6 mb-3">
+                <input name="colortres" id="colortres" type="color" onchange="changeBootstrapColors()" value="<?= $colortres ?>" oninput="colorhex3.value=value">
+                <label for="" class="mt-2"><b>Color barra de herramientas</b></label>
+                <output id="colorhex3"><?= $colortres ?></output>
+            </div>
+
+            <div class="pantone-card col-6 col-md-6 mb-3">
+                <input name="colorcuatro" id="colorcuatro" type="color" onchange="changeBootstrapColors()" value="<?= $colorcuatro ?>" oninput="colorhex4.value=value">
+                <label for="" class="mt-2"><b>Color texto</b></label>
+                <output id="colorhex4"><?= $colorcuatro ?></output>
+            </div>
+            <div class="pantone-card col-6 col-md-6 mb-3">
+                <input name="colorcinco" id="colorcinco" type="color" onchange="changeBootstrapColors()" value="<?= $colorcinco ?>" oninput="colorhex5.value=value">
+                <label for="" class="mt-2"><b>Color fondo</b></label>
+                <output id="colorhex5"><?= $colorcinco ?></output>
+            </div>
+        </div>
+    </div>
+    <?php
+    $horarioArray = explode(",", trim($horario, "()"));
+    $NhorarioArray = array_slice($horarioArray, 2);
+    $Zarray = implode(", ", $NhorarioArray);
+
+    if ($banner) {
     ?>
-    <button class="navbar-toggler text-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars fa-lg"></i>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto" style="overflow-y: auto; max-height: 200px;">
-
-            <?php
-            while ($arreglo = mysqli_fetch_array($sqlCat)) {
-            ?>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#table_id" onclick="viewPList('<?= $arreglo[0] ?>')"><b><?= $arreglo[0] ?></b></a>
-                </li>
-
-            <?php
-            }
-            ?>
-        </ul>
-
-    </div>
-</nav>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="container mt-5" id="colorContainer">
-    <button type="button" name="" id="showCOLORSiNP" class="btn btn-secondary btn-lg btn-block" onclick="showColorsPer()"><i class="far fa-eye"></i> Mostrar Personalización</button>
-    <div class="color-input-container row mt-3">
-        <div class="pantone-card col-6 col-md-6 mb-3">
-            <input name="coloruno" id="coloruno" type="color" onchange="changeBootstrapColors()" value="<?= $coloruno ?>" oninput="colorhex1.value=value">
-            <label for="" class="mt-2"><b>Color iconos</b></label>
-            <output id="colorhex1"><?= $coloruno ?></output>
-        </div>
-
-        <div class="pantone-card col-6 col-md-6 mb-3">
-            <input name="colordos" id="colordos" type="color" onchange="changeBootstrapColors()" value="<?= $colordos ?>" oninput="colorhex2.value=value">
-            <label for="" class="mt-2"><b>Color secundario</b></label>
-            <output id="colorhex2"><?= $colordos ?></output>
-        </div>
-
-        <div class="pantone-card col-6 col-md-6 mb-3">
-            <input name="colortres" id="colortres" type="color" onchange="changeBootstrapColors()" value="<?= $colortres ?>" oninput="colorhex3.value=value">
-            <label for="" class="mt-2"><b>Color barra de herramientas</b></label>
-            <output id="colorhex3"><?= $colortres ?></output>
-        </div>
-
-        <div class="pantone-card col-6 col-md-6 mb-3">
-            <input name="colorcuatro" id="colorcuatro" type="color" onchange="changeBootstrapColors()" value="<?= $colorcuatro ?>" oninput="colorhex4.value=value">
-            <label for="" class="mt-2"><b>Color texto</b></label>
-            <output id="colorhex4"><?= $colorcuatro ?></output>
-        </div>
-        <div class="pantone-card col-6 col-md-6 mb-3">
-            <input name="colorcinco" id="colorcinco" type="color" onchange="changeBootstrapColors()" value="<?= $colorcinco ?>" oninput="colorhex5.value=value">
-            <label for="" class="mt-2"><b>Color fondo</b></label>
-            <output id="colorhex5"><?= $colorcinco ?></output>
-        </div>
-    </div>
-</div>
-<?php
-$horarioArray = explode(",", trim($horario, "()"));
-$NhorarioArray = array_slice($horarioArray, 2);
-$Zarray = implode(", ", $NhorarioArray);
-
-if ($banner) {
-?>
-    <div class="text-center bg-image d-flex justify-content-center align-items-center container mt-5" style="
+        <div class="text-center bg-image d-flex justify-content-center align-items-center container mt-5" style="
     background-image: url('<?= $banner ?>');
     height: 50vh;
     background-repeat: no-repeat; background-size: cover;
@@ -135,178 +165,178 @@ if ($banner) {
     border-radius: 16px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   ">
-        <img id="imageLogon" src="<?= $banner ?>" alt="Imagen" crossorigin="anonymous" style="display: none;">
-        <canvas id="canvas" style="display: none;"></canvas>
-        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); border-radius: 16px;">
-            <div class="d-flex justify-content-center p-5 align-items-center h-100">
-                <div >
-                    <h1 class="text-light"><?= $nombreT ?></h1>
-                    <center>
-                        <p class="mb-3 text-light col-12 col-md-8"><?= $text1 ?></p>
-                    </center>
+            <img id="imageLogon" src="<?= $banner ?>" alt="Imagen" crossorigin="anonymous" style="display: none;">
+            <canvas id="canvas" style="display: none;"></canvas>
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); border-radius: 16px;">
+                <div class="d-flex justify-content-center p-5 align-items-center h-100">
+                    <div class="text-white">
+                        <h1 class="text-dark"><?= $nombreT ?></h1>
+                        <center>
+                            <p class="mb-3 col-12 col-md-8"><?= $text1 ?></p>
+                        </center>
 
-                    <br>
-                    <a class="btn btn-secondary btn-lg text-light animate__animated animate__pulse animate__infinite" href="#table_id">Bienvenido</a>
-                    <br>
-                    <h5 class="text-light mt-3">Horario: de <?= $horarioArray[0] ?> a <?= $horarioArray[1] ?> horas. <br>Dias de cierre: <?= $Zarray ?></h5>
+                        <br>
+                        <a class="btn btn-secondary btn-lg text-dark animate__animated animate__pulse animate__infinite" href="#table_id">Bienvenido</a>
+                        <br>
+                        <h5 class="text-dark mt-3">Horario: de <?= $horarioArray[0] ?> a <?= $horarioArray[1] ?> horas. <br>Dias de cierre: <?= $Zarray ?></h5>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-<?php
-}
-if ($nota) {
-?>
-    <center>
-        <div class="text-center col-12 col-md-9 mb-3 h-100" style="margin-top: 100px;">
-
-            <div class="embed-responsive">
-                <?= $nota ?>
-            </div>
-
-        </div>
-    </center>
-<?php
-}
-?>
-
-<div class="container mt-3 mb-3">
-    <div class="redes-sociales">
-        <?php
-        if ($face) {
-        ?>
-            <a class="text-primary" href="<?= $face ?>"><i class="fab fa-facebook"></i></a>
-
-        <?php
-        }
-        if ($insta) {
-        ?>
-            <a class="text-primary" href="<?= $insta ?>"><i class="fab fa-instagram"></i></a>
-
-        <?php
-        }
-        if ($youtu) {
-        ?>
-            <a class="text-primary" href="<?= $youtu ?>"><i class="fab fa-youtube"></i></a>
-
-        <?php
-        }
-        if ($mercada) {
-        ?>
-            <a class="text-primary" href="<?= $mercada ?>"><i class="fas fa-handshake"></i></a>
-
-        <?php
-        }
-        ?>
-
-
-
-        <!-- Utilizo fa-teamspeak en lugar de fa-mercado-libre porque no existe un icono específico para Mercado Libre -->
-    </div>
-</div>
-<center><button type="button" class="btn btn-primary mt-5 mb-3 text-dark" style="border-radius: 20px;" onclick="viewPList()">Mostrar todos los productos</button></center>
-<div class="viewPList container" style="margin-bottom: 40px;"></div>
-
-
-<?php
-if ($_SESSION['types']) {
-?>
-    <div class="container p-5" style="height: 80vh;">
-        <div class="row">
-            <div class="col-12">
-                <h3>Deja un comentario</h3>
-                <div class="mb-3">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control" id="username" name="username">
-                    </div>
-                    <label for="comment">Calificación:</label>
-                    <br>
-                    <div class="rating">
-
-                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excelente"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Muy bueno"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bueno"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Regular"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Malo"><i class="fas fa-star"></i></label>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="commentInput">Comentario:</label>
-                        <textarea class="form-control" id="commentInput" name="commentInput" rows="3"></textarea>
-                    </div>
-
-                    <button type="button" onclick="guardarComentario()" class="btn btn-primary text-light">Enviar comentario</button>
-                </div>
-            </div>
-            <div class="col-12">
-                <h3>Comentarios</h3>
-                <div id="comentariosContainer" class="mt-3" style="margin-bottom: 200px;"></div>
-            </div>
-        </div>
-    </div>
-<?php
-} else {
-?>
-    <div class="container p-5" style="height: 80vh;">
-        <div class="row justify-content-center">
-            <div class="col-6">
-
-                <a href="https://rutadelaseda.xyz/controllers/callbackLogin.php" name="" id="" class="btn btn-danger text-primary btn-lg btn-block mb-3 mt-3" style="border-radius: 20px;">Acceder con Google para comentar <i class="fab fa-google"></i></a>
-            </div>
-        </div>
-    </div>
-<?php
-}
-?>
-
-<br>
-<br>
-
-<?php
-if ($_SESSION['types']) {
-?>
-    <footer class="py-3 cristal fixed-bottom">
+    <?php
+    }
+    if ($nota) {
+    ?>
         <center>
-            <div class="container row text-primary">
-                <div class="col-3">
-                    <center><a href="https://rutadelaseda.xyz/" class="botonF1 text-primary"> <i class="fas fa-store fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center> <a href="https://wa.me/+52<?= $wha ?>" class="botonF1 text-primary" target="_blank"> <i class="fab fa-whatsapp fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center> <a href="https://www.google.com/maps/place/<?= $lat ?>,<?= $long ?>" class="botonF1 text-primary" target="_blank"> <i class="fas fa-map-marker-alt fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center>
+            <div class="text-center col-12 col-md-9 mb-3 h-100" style="margin-top: 100px;">
 
-
-                        <form>
-                            <button type="button" id="botonCanasta" data-bs-toggle="modal" onclick="viewTable()" data-bs-target="#exampleModal2" class="botonF1 text-primary animate__animated animate__heartBeat animate__infinite infinite">
-                                <span>
-                                    <i class="fa fa-shopping-basket fa-2x"></i>
-                                </span>
-                        </form>
-
-                        </button>
-                        <span class="badge badge-secondary" id="contadorCanasta">
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;" class="text-light">
-                                    <div class="countPrs"></div>
-
-                                </font>
-                            </font>
-                        </span>
-                    </center>
+                <div class="embed-responsive">
+                    <?= $nota ?>
                 </div>
 
             </div>
         </center>
+    <?php
+    }
+    ?>
 
-    </footer>
-<?php
-} else {
-?>
-    <!-- <footer class="text-center fixed-bottom cristal">
+    <div class="container mt-3 mb-3">
+        <div class="redes-sociales">
+            <?php
+            if ($face) {
+            ?>
+                <a class="text-primary" href="<?= $face ?>"><i class="fab fa-facebook"></i></a>
+
+            <?php
+            }
+            if ($insta) {
+            ?>
+                <a class="text-primary" href="<?= $insta ?>"><i class="fab fa-instagram"></i></a>
+
+            <?php
+            }
+            if ($youtu) {
+            ?>
+                <a class="text-primary" href="<?= $youtu ?>"><i class="fab fa-youtube"></i></a>
+
+            <?php
+            }
+            if ($mercada) {
+            ?>
+                <a class="text-primary" href="<?= $mercada ?>"><i class="fas fa-handshake"></i></a>
+
+            <?php
+            }
+            ?>
+
+
+
+            <!-- Utilizo fa-teamspeak en lugar de fa-mercado-libre porque no existe un icono específico para Mercado Libre -->
+        </div>
+    </div>
+    <center><button type="button" class="btn btn-primary mt-5 mb-3 text-dark" style="border-radius: 20px;" onclick="viewPList()">Mostrar todos los productos</button></center>
+    <div class="viewPList container" style="margin-bottom: 40px;"></div>
+
+
+    <?php
+    if ($_SESSION['types']) {
+    ?>
+        <div class="container p-5" style="height: 80vh;">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Deja un comentario</h3>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="username" name="username">
+                        </div>
+                        <label for="comment">Calificación:</label>
+                        <br>
+                        <div class="rating">
+
+                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excelente"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Muy bueno"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bueno"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Regular"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Malo"><i class="fas fa-star"></i></label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="commentInput">Comentario:</label>
+                            <textarea class="form-control" id="commentInput" name="commentInput" rows="3"></textarea>
+                        </div>
+
+                        <button type="button" onclick="guardarComentario()" class="btn btn-primary text-light">Enviar comentario</button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h3>Comentarios</h3>
+                    <div id="comentariosContainer" class="mt-3" style="margin-bottom: 200px;"></div>
+                </div>
+            </div>
+        </div>
+    <?php
+    } else {
+    ?>
+        <div class="container p-5" style="height: 80vh;">
+            <div class="row justify-content-center">
+                <div class="col-6">
+
+                    <a href="https://rutadelaseda.xyz/controllers/callbackLogin.php" name="" id="" class="btn btn-danger text-bg-light btn-lg btn-block mb-3 mt-3" style="border-radius: 20px;">Acceder con Google para comentar <i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
+
+    <br>
+    <br>
+
+    <?php
+    if ($_SESSION['types']) {
+    ?>
+        <footer class="py-3 cristal fixed-bottom">
+            <center>
+                <div class="container row text-primary">
+                    <div class="col-3">
+                        <center><a href="https://rutadelaseda.xyz/" class="botonF1 text-primary"> <i class="fas fa-store fa-2x"></i></a></center>
+                    </div>
+                    <div class="col-3">
+                        <center> <a href="https://wa.me/+52<?= $wha ?>" class="botonF1 text-primary" target="_blank"> <i class="fab fa-whatsapp fa-2x"></i></a></center>
+                    </div>
+                    <div class="col-3">
+                        <center> <a href="https://www.google.com/maps/place/<?= $lat ?>,<?= $long ?>" class="botonF1 text-primary" target="_blank"> <i class="fas fa-map-marker-alt fa-2x"></i></a></center>
+                    </div>
+                    <div class="col-3">
+                        <center>
+
+
+                            <form>
+                                <button type="button" id="botonCanasta" data-bs-toggle="modal" onclick="viewTable()" data-bs-target="#exampleModal2" class="botonF1 text-primary animate__animated animate__heartBeat animate__infinite infinite">
+                                    <span>
+                                        <i class="fa fa-shopping-basket fa-2x"></i>
+                                    </span>
+                            </form>
+
+                            </button>
+                            <span class="badge badge-secondary" id="contadorCanasta">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;" class="text-light">
+                                        <div class="countPrs"></div>
+
+                                    </font>
+                                </font>
+                            </span>
+                        </center>
+                    </div>
+
+                </div>
+            </center>
+
+        </footer>
+    <?php
+    } else {
+    ?>
+        <!-- <footer class="text-center fixed-bottom cristal">
 
         <div class="container p-4 pb-0 ">
 
@@ -332,156 +362,169 @@ if ($_SESSION['types']) {
 
 
     </footer> -->
-    <footer class="py-3 cristal fixed-bottom">
-        <center>
-            <div class="container row text-primary">
-                <div class="col-3">
-                    <center><a href="https://rutadelaseda.xyz/" class="botonF1 text-primary"> <i class="fas fa-store fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center> <a href="https://wa.me/+52<?= $wha ?>" class="botonF1 text-primary" target="_blank"> <i class="fab fa-whatsapp fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center> <a href="https://www.google.com/maps/place/<?= $lat ?>,<?= $long ?>" class="botonF1 text-primary" target="_blank"> <i class="fas fa-map-marker-alt fa-2x"></i></a></center>
-                </div>
-                <div class="col-3">
-                    <center>
-
-
-                        <form>
-                            <button type="button" id="botonCanasta" data-bs-toggle="modal" onclick="viewTable()" data-bs-target="#exampleModal2" class="botonF1 text-primary animate__animated animate__heartBeat animate__infinite infinite">
-                                <span>
-                                    <i class="fa fa-shopping-basket fa-2x"></i>
-                                </span>
-                        </form>
-
-                        </button>
-                        <span class="badge badge-secondary" id="contadorCanasta">
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;" class="text-light">
-                                    <div class="countPrs"></div>
-
-                                </font>
-                            </font>
-                        </span>
-                    </center>
-                </div>
-
-            </div>
-        </center>
-
-    </footer>
-    <script>
-        function viewTable() {
-            $("#exampleModal2").modal('show');
-            $(".responsessTable").empty();
-            $.ajax({
-                type: 'POST',
-                url: 'cartTableTwo.php',
-                data: {
-                    id: "<?= $idSession ?>",
-                    serial: "<?= $serialC ?>"
-                },
-                dataType: "html",
-                asycn: false,
-                beforeSend: function() {
-
-                },
-                complete: function(data) {
-
-                },
-                success: function(data) {
-                    function cerrarModal(selector) {
-                        var modal = $(selector);
-                        if (modal.hasClass('show')) {
-                            modal.modal('hide');
-                        }
-                    }
-
-                    // Agrega un evento al gesto de ir atrás en Android
-                    window.addEventListener('popstate', function() {
-                        cerrarModal('.modal'); // Cierra cualquier modal con clase 'modal'
-                    });
-
-                    // Modifica el historial para que se active el evento popstate al ir atrás
-                    history.pushState({}, '');
-
-                    // Cierra el modal cuando se hace clic en el botón de cerrar del modal
-                    /* $('.modal').on('hidden.bs.modal', function() {
-                        history.back(); // Simula el gesto de ir atrás para que se active el evento popstate
-                    }); */
-                    $(".responsessTable").html(data);
-                    counPrs();
-                },
-                error: function(data) {
-
-                    alert("Problemas al tratar de enviar el formulario");
-                },
-            });
-        }
-    </script>
-
-<?php
-}
-?>
-
-
-
-<div class="modal " id="exampleModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detalles del producto</h5>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closemodal()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="responsess"></div>
-
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-primary text-light" onclick="closemodal()" data-dismiss="modal">Seguir viendo</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal " id="exampleModal2" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detalles del pedido</h5>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closemodal2()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="responsessTable mb-2"></div>
-                <div class="row justify-content-center">
-                    <div class="form-group">
-                        <label for="">¿Tienes un cupón?</label>
-                        <input type="text" onchange="aplicarCupons()" class="form-control" name="" id="cuponsitoCupon" aria-describedby="helpId" placeholder="Código de cupón">
-                        <small id="helpId" class="form-text text-muted">Por favor ingrese su código para aplicar su descuento</small>
+        <footer class="py-3 cristal fixed-bottom">
+            <center>
+                <div class="container row text-primary">
+                    <div class="col-3">
+                        <center><a href="https://rutadelaseda.xyz/" class="botonF1 text-primary"> <i class="fas fa-store fa-2x"></i></a></center>
                     </div>
-                </div>
-                <?php
-                if ($precioBase >= 1) {
-                    if ($_SESSION['nameClienteUnique']) {
-                ?>
-                        <form action="localizador.php" method="get">
-                            <input type="hidden" value="<?= $nameP ?>" name="id">
-                            <button type="submit" class="btn btn-primary btn-block text-light animate__animated animate__pulse animate__infinite infinite">
-                                <span>
-                                    Realizar compra <i class="fa fa-shopping-basket "></i>
-                                </span>
+                    <div class="col-3">
+                        <center> <a href="https://wa.me/+52<?= $wha ?>" class="botonF1 text-primary" target="_blank"> <i class="fab fa-whatsapp fa-2x"></i></a></center>
+                    </div>
+                    <div class="col-3">
+                        <center> <a href="https://www.google.com/maps/place/<?= $lat ?>,<?= $long ?>" class="botonF1 text-primary" target="_blank"> <i class="fas fa-map-marker-alt fa-2x"></i></a></center>
+                    </div>
+                    <div class="col-3">
+                        <center>
+
+
+                            <form>
+                                <button type="button" id="botonCanasta" data-bs-toggle="modal" onclick="viewTable()" data-bs-target="#exampleModal2" class="botonF1 text-primary animate__animated animate__heartBeat animate__infinite infinite">
+                                    <span>
+                                        <i class="fa fa-shopping-basket fa-2x"></i>
+                                    </span>
+                            </form>
 
                             </button>
-                        </form>
+                            <span class="badge badge-secondary" id="contadorCanasta">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;" class="text-light">
+                                        <div class="countPrs"></div>
+
+                                    </font>
+                                </font>
+                            </span>
+                        </center>
+                    </div>
+
+                </div>
+            </center>
+
+        </footer>
+        <script>
+            function viewTable() {
+                $("#exampleModal2").modal('show');
+                $(".responsessTable").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: 'cartTableTwo.php',
+                    data: {
+                        id: "<?= $idSession ?>",
+                        serial: "<?= $serialC ?>"
+                    },
+                    dataType: "html",
+                    asycn: false,
+                    beforeSend: function() {
+
+                    },
+                    complete: function(data) {
+
+                    },
+                    success: function(data) {
+                        function cerrarModal(selector) {
+                            var modal = $(selector);
+                            if (modal.hasClass('show')) {
+                                modal.modal('hide');
+                            }
+                        }
+
+                        // Agrega un evento al gesto de ir atrás en Android
+                        window.addEventListener('popstate', function() {
+                            cerrarModal('.modal'); // Cierra cualquier modal con clase 'modal'
+                        });
+
+                        // Modifica el historial para que se active el evento popstate al ir atrás
+                        history.pushState({}, '');
+
+                        // Cierra el modal cuando se hace clic en el botón de cerrar del modal
+                        /* $('.modal').on('hidden.bs.modal', function() {
+                            history.back(); // Simula el gesto de ir atrás para que se active el evento popstate
+                        }); */
+                        $(".responsessTable").html(data);
+                        counPrs();
+                    },
+                    error: function(data) {
+
+                        alert("Problemas al tratar de enviar el formulario");
+                    },
+                });
+            }
+        </script>
+
+    <?php
+    }
+    ?>
+
+
+
+    <div class="modal " id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles del producto</h5>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closemodal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="responsess"></div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary text-light" onclick="closemodal()" data-dismiss="modal">Seguir viendo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal " id="exampleModal2" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles del pedido</h5>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closemodal2()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="responsessTable mb-2"></div>
+                    <div class="row justify-content-center">
+                        <div class="form-group">
+                            <label for="">¿Tienes un cupón?</label>
+                            <input type="text" onchange="aplicarCupons()" class="form-control" name="" id="cuponsitoCupon" aria-describedby="helpId" placeholder="Código de cupón">
+                            <small id="helpId" class="form-text text-muted">Por favor ingrese su código para aplicar su descuento</small>
+                        </div>
+                    </div>
                     <?php
-                    } else {
+                    if ($precioBase >= 1) {
+                        if ($_SESSION['nameClienteUnique']) {
                     ?>
-                        <form action="localizador.php" method="get">
+                            <form action="localizador.php" method="get">
+                                <input type="hidden" value="<?= $nameP ?>" name="id">
+                                <button type="submit" class="btn btn-primary btn-block text-light animate__animated animate__pulse animate__infinite infinite">
+                                    <span>
+                                        Realizar compra <i class="fa fa-shopping-basket "></i>
+                                    </span>
+
+                                </button>
+                            </form>
+                        <?php
+                        } else {
+                        ?>
+                            <form action="localizador.php" method="get">
+                                <input type="hidden" value="<?= $nameP ?>" name="id">
+                                <button type="submit" class="btn btn-primary btn-block text-light animate__animated animate__pulse animate__infinite infinite">
+                                    <span>
+                                        Realizar compra <i class="fa fa-shopping-basket "></i>
+                                    </span>
+
+                                </button>
+                            </form>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <form action="cart2.php" method="get">
                             <input type="hidden" value="<?= $nameP ?>" name="id">
                             <button type="submit" class="btn btn-primary btn-block text-light animate__animated animate__pulse animate__infinite infinite">
                                 <span>
@@ -492,32 +535,20 @@ if ($_SESSION['types']) {
                         </form>
                     <?php
                     }
-                } else {
                     ?>
-                    <form action="cart2.php" method="get">
-                        <input type="hidden" value="<?= $nameP ?>" name="id">
-                        <button type="submit" class="btn btn-primary btn-block text-light animate__animated animate__pulse animate__infinite infinite">
-                            <span>
-                                Realizar compra <i class="fa fa-shopping-basket "></i>
-                            </span>
 
-                        </button>
-                    </form>
-                <?php
-                }
-                ?>
-
-            </div>
-            <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
 
 
-                <a name="" id="" class="btn btn-primary  btn-block text-light" href="smarticket.php" role="button">¿Ya tiene una orden en proceso?</a>
+                    <a name="" id="" class="btn btn-primary  btn-block text-light" href="smarticket.php" role="button">¿Ya tiene una orden en proceso?</a>
 
-                <button type="button" class="btn btn-secondary text-light" onclick="closemodal2()" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary text-light" onclick="closemodal2()" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</body>
 
 </html>
 <script>

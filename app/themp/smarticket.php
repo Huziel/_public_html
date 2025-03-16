@@ -165,7 +165,7 @@ if ($order == null) {
     </center>
     <?php
 }
-if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
+if ($status == 2 || $status == 3 || $status == 4  || $status == 8 || $status == 9) {
     if (isset($precioGastExt)) {
         $_SESSION['totalCompraMercadopago'] = $totEnvio + $suma + $precioGastExt - $apartado;
     ?>
@@ -245,7 +245,7 @@ if ($status == 2 || $status == 3 || $status == 4  || $status == 9) {
                     </div>
                     <br>
                     <?php
-                    if ($status == 2 || $status == 8) {
+                    if ($status == 2 || $status == 9) {
                     ?>
                         <center>
 
